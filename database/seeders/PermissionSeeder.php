@@ -27,8 +27,11 @@ class PermissionSeeder extends Seeder
             [
                 'name' => 'View Permissions',
                 'route_name' => 'permission.index',
+            ],
+            [
                 'name' => 'Create Permissions',
                 'route_name' => 'permission.create',
+            ],
                 'name' => 'Store Permissions',
                 'route_name' => 'permission.store',
             ],
