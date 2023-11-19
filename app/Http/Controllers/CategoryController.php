@@ -41,8 +41,7 @@ class CategoryController extends Controller
         try {
             $c = New Category();
             $c->category_name = $request->category_name;
-            $companyData = company();
-            $c->company_id=$companyData['company_id'];
+            $c->company_id=company()['company_id'];
             $c->created_by=currentUserId();
             if($c->save()){
                 \LogActivity::addToLog('Add Category',$request->getContent(),'Category');

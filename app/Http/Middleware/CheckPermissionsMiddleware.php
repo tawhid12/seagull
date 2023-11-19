@@ -29,27 +29,25 @@ class CheckPermissionsMiddleware
         $requiredPermission = $request->route()->getName();
 
         /* Get Permission type */
-        /*if ($user->permission_type == 1) {
-            if ($user->permissions->contains('name', $requiredPermission)) {
+        if ($user->permission_type == 1) {
+            if ($user->permissions->contains('route_name', $requiredPermission)) {
                 return $next($request);
-            }*/
+            }
             // User doesn't have the required permission, handle accordingly
             //return redirect()->route('access.denied');
-            /*abort(403, 'Unauthorized');
-        } else {*/
-            
+            abort(403, 'Unauthorized');
+        } else {
             /*=== For Role Wise Permission=== */
-            /*$roles = $user->roles;
-            $routeName = $request->route()->getName();*/
+            $roles = $user->roles;
+            $routeName = $request->route()->getName();
 
-            /*foreach ($roles as $role) {
-                if ($role->permissions->contains('name', $routeName)) {*/
+            foreach ($roles as $role) {
+                if ($role->permissions->contains('route_name', $routeName)) {
                     return $next($request);
-                /*}else{
+                } else {
                     abort(403, 'Unauthorized');
                 }
-            }*/
-            
+            }
         }
-    //}
+    }
 }

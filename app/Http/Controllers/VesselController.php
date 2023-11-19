@@ -42,8 +42,7 @@ class VesselController extends Controller
             $v = New Vessel();
             $v->vessel_name = $request->vessel_name;
             $v->vessel_number = $request->vessel_number;
-            $companyData = company();
-            $v->company_id=$companyData['company_id'];
+            $v->company_id=company()['company_id'];
             $v->created_by=currentUserId();
             if($v->save()){
                 \LogActivity::addToLog('Add Vessel',$request->getContent(),'Vessel');
@@ -74,9 +73,10 @@ class VesselController extends Controller
      * @param  \App\Models\Vessel  $vessel
      * @return \Illuminate\Http\Response
      */
-    public function edit(Vessel $vessel)
+    public function edit($id)
     {
-        //
+        $v=Vessel::findOrFail(encryptor('decrypt',$id));
+        return view('vessel.edit',compact('v'));
     }
 
     /**

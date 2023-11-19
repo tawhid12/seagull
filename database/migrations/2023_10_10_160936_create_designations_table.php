@@ -22,6 +22,9 @@ return new class extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
+        DB::table('designations')->insert(
+            array('designation_name' =>   'Executive','created_by' =>1)
+        );
     }
 
     /**

@@ -19,7 +19,7 @@
                             <tr>
                                 <th scope="col">{{__('#SL')}}</th>
                                 <th scope="col">{{__('Name')}}</th>
-                                <th scope="col">{{__('Status')}}</th>
+                                <th scope="col">{{__('Number')}}</th>
                                 <th class="white-space-nowrap">{{__('ACTION')}}</th>
                             </tr>
                         </thead>
@@ -28,7 +28,7 @@
                             <tr>
                                 <th scope="row">{{ ++$loop->index }}</th>
                                 <td>{{$v->vessel_name}}</td>
-                                <td>@if($v->status == 1) {{__('Active') }} @else {{__('Inactive') }} @endif</td>
+                                <td>{{$v->vessel_number}}</td>
                                 <td class="white-space-nowrap">
                                     <a href="{{route('vessel.edit',encryptor('encrypt',$v->id))}}">
                                         <i class="bi bi-pencil-square"></i>

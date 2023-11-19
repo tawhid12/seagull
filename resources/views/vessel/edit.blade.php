@@ -1,7 +1,7 @@
 @extends('layout.app')
 
-@section('pageTitle','Edit Designation')
-@section('pageSubTitle','Edit Designation')
+@section('pageTitle','Edit Vessel')
+@section('pageSubTitle','Edit Vessel')
 
 @section('content')
 
@@ -11,16 +11,28 @@
             <div class="card">
                 <div class="card-content">
                     <div class="card-body">
-                        <form class="form" method="post" enctype="multipart/form-data" action="{{route('designation.update',encryptor('encrypt',$d->id), ['role' =>currentUser()])}}">
+                        <form class="form" method="post" enctype="multipart/form-data" action="{{route('vessel.update',encryptor('encrypt',$v->id))}}">
                             @csrf
                             @method('patch')
-                            <input type="hidden" name="uptoken" value="{{encryptor('encrypt',$d->id)}}">
+                            <input type="hidden" name="uptoken" value="{{encryptor('encrypt',$v->id)}}">
                             <div class="row">
                                 <div class="col-md-4 col-12">
                                     <div class="form-group">
                                         <label for="name">Name</label>
-                                        <input type="text" id="name" value="{{ $d->designation_name }}" class="form-control" placeholder="Designation Name" name="designation_name">
+                                        <input type="text" id="vessel_name" class="form-control" value="{{old('vessel_name',$v->vessel_name)}}" placeholder="Vessel Name" name="vessel_name">
                                     </div>
+                                    @if($errors->has('vessel_name'))
+                                    <span class="text-danger"> {{ $errors->first('vessel_name') }}</span>
+                                    @endif
+                                </div>
+                                <div class="col-md-4 col-12">
+                                    <div class="form-group">
+                                        <label for="tax">Vessel Number</label>
+                                        <input type="text" id="vessel_number" class="form-control" value="{{old('vessel_name',$v->vessel_number)}}" placeholder="Vessel Number" name="vessel_number">
+                                    </div>
+                                    @if($errors->has('vessel_number'))
+                                    <span class="text-danger"> {{ $errors->first('vessel_number') }}</span>
+                                    @endif
                                 </div>
                                 <div class="col-12 d-flex justify-content-end">
                                     <button type="submit" class="btn btn-primary mb-1">Update</button>

@@ -85,7 +85,7 @@
                                     <span class="text-danger"> {{ $errors->first('qty') }}</span>
                                     @endif
                                 </div>
-                                <div class="col-md-4 col-12">
+                                <!-- <div class="col-md-4 col-12">
                                     <div class="form-group">
                                         <label for="amount">Product Price</label>
                                         <input type="text" id="amount" class="form-control" placeholder="Product Price" name="amount">
@@ -93,6 +93,18 @@
                                     @if($errors->has('amount'))
                                     <span class="text-danger"> {{ $errors->first('amount') }}</span>
                                     @endif
+                                </div> -->
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label for="Category">{{__('Received Account')}}</label>
+                                        <select  class="form-control form-select" name="credit">
+                                            @if($paymethod)
+                                                @foreach($paymethod as $d)
+                                                    <option value="{{$d['table_name']}}~{{$d['id']}}~{{$d['head_name']}}-{{$d['head_code']}}">{{$d['head_name']}}-{{$d['head_code']}}</option>
+                                                @endforeach
+                                            @endif
+                                        </select>
+                                    </div>
                                 </div>
 
                                 <div class="col-12 d-flex justify-content-end">

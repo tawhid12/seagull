@@ -47,8 +47,7 @@ class ClientController extends Controller
             $c->vessel_id = $request->vessel_id;
             $c->email = $request->email;
             $c->contact_no = $request->contact_no;
-            $companyData = company();
-            $c->company_id=$companyData['company_id'];
+            $c->company_id=company()['company_id'];
             $c->created_by=currentUserId();
             if($c->save()){
                 \LogActivity::addToLog('Add Client',$request->getContent(),'Client');

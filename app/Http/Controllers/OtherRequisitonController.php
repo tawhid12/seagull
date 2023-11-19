@@ -6,6 +6,8 @@ use App\Models\Requisiton;
 use Illuminate\Http\Request;
 use App\Http\Requests\OtherRequisition\AddNewRequest;
 use App\Http\Requests\OtherRequisition\UpdateRequest;
+use App\Models\Accounts\Child_one;
+use App\Models\Accounts\Child_two;
 use Toastr;
 
 class OtherRequisitonController extends Controller
@@ -27,7 +29,36 @@ class OtherRequisitonController extends Controller
      */
     public function create()
     {
-        return view('otherRequisition.create');
+        $paymethod=array();
+        $account_data=Child_one::whereIn('head_code',[5210])/*->where(company())*/->get();
+   
+        
+        if($account_data){
+            foreach($account_data as $ad){
+                $shead=Child_two::where('child_one_id',$ad->id);
+                if($shead->count() > 0){
+					$shead=$shead->get();
+                    foreach($shead as $sh){
+                        $paymethod[]=array(
+                                        'id'=>$sh->id,
+                                        'head_code'=>$sh->head_code,
+                                        'head_name'=>$sh->head_name,
+                                        'table_name'=>'child_twos'
+                                    );
+                    }
+                }else{
+                    $paymethod[]=array(
+                        'id'=>$ad->id,
+                        'head_code'=>$ad->head_code,
+                        'head_name'=>$ad->head_name,
+                        'table_name'=>'child_ones'
+                    );
+                }
+                
+            }
+        }
+
+        return view('otherRequisition.create',compact('paymethod'));
     }
 
     /**
@@ -39,6 +70,7 @@ class OtherRequisitonController extends Controller
     public function store(AddNewRequest $request)
     {
         try {
+            $credit=explode('~',$request->credit);
             $r = New Requisiton();
             $r->req_slip_no = $request->req_slip_no;
             $r->title = $request->title;
@@ -53,6 +85,9 @@ class OtherRequisitonController extends Controller
             $companyData = company();
             $r->company_id=$companyData['company_id'];
             $r->created_by=currentUserId();
+            $r->account_code=$credit[2];
+            $r->table_name=$credit[0];
+            $r->table_id=$credit[1];
             if($r->save()){
                 \LogActivity::addToLog('Add Product Requisition',$request->getContent(),'Requisition');
                 return redirect()->route('requisition.index', ['role' =>currentUser()])->with(Toastr::success('Data Saved!', 'Success', ["positionClass" => "toast-top-right"]));

@@ -80,9 +80,10 @@ class CompanyController extends Controller
      * @param  \App\Models\Company  $company
      * @return \Illuminate\Http\Response
      */
-    public function edit(Company $company)
+    public function edit($id)
     {
-        //
+        $c=Company::findOrFail(encryptor('decrypt',$id));
+        return view('company.edit',compact('c'));
     }
 
     /**
@@ -92,9 +93,30 @@ class CompanyController extends Controller
      * @param  \App\Models\Company  $company
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Company $company)
+    public function update(Request $request, $id)
     {
-        //
+        try {
+            $c = New Company();
+            $c->company_name = $request->company_name;
+            $c->website = $request->website;
+            $c->tax_no = $request->tax_no;
+            $c->address = $request->address;
+            $c->city = $request->city;
+            $c->country = $request->country;
+            $c->zip_code = $request->zip_code;
+            $c->email = $request->email;
+            $c->contact_no = $request->contact_no;
+            $c->created_by=currentUserId();
+            if($c->save()){
+                \LogActivity::addToLog('Update Company',$request->getContent(),'Company');
+                return redirect()->route('company.index', ['role' =>currentUser()])->with(Toastr::success('Data Saved!', 'Success', ["positionClass" => "toast-top-right"]));
+            }else{
+                return redirect()->back()->withInput()->with(Toastr::error('Please try again!', 'Fail', ["positionClass" => "toast-top-right"]));
+            }
+        } catch (Exception $e) {
+            //dd($e);
+            return redirect()->back()->withInput()->with(Toastr::error('Please try again!', 'Fail', ["positionClass" => "toast-top-right"]));
+        }
     }
 
     /**

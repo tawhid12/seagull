@@ -64,6 +64,8 @@ class AuthenticationController extends Controller
                         return redirect()->route('superadminDashboard')->with($this->resMessageHtml(true,null,'Successfully login'));
                     }elseif(currentUser() == 'salesexecutive'){
                         return redirect()->route('salesExecutivecountry')->with($this->resMessageHtml(true,null,'Successfully login'));
+                    }elseif(currentUser() == 'accountant'){
+                        return redirect()->route('accountantDashboard')->with($this->resMessageHtml(true,null,'Successfully login'));
                     }
                 }else
                     return redirect()->route('login')->with($this->resMessageHtml(false,'error','Your phone number or password is wrong!'));

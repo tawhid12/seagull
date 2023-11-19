@@ -29,7 +29,7 @@ class AddNewRequest extends FormRequest
 			'vessel_id'=>'required',
 			'product_id'=>'required',
 			'qty'=>'required',
-			'amount'=>'required',
+			//'amount'=>'required',
         ];
     }
     public function messages(){

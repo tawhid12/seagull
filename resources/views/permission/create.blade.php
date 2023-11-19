@@ -11,11 +11,17 @@
             <form class="form" method="post" action="{{route('permission.store')}}" enctype="multipart/form-data">
                 @csrf
                 <div class="row">
-                    
                     <div class="col-md-4 col-12">
                         <div class="form-group">
-                            <label for="bn_applicants_name">Permission Name</label>
-                            <input type="text" id="name" value="{{old('name')}}" class="form-control" placeholder="" name="name">
+                            <label for="name">Permission Name</label>
+                            <input type="text" id="name" value="{{old('name')}}" class="form-control" placeholder="Permission Name" name="name">
+                        </div>
+
+                    </div>
+                    <div class="col-md-4 col-12">
+                        <div class="form-group">
+                            <label for="route_name">Route Name</label>
+                            <input type="text" id="route_name" value="{{old('route_name')}}" class="form-control" placeholder="Route Name" name="route_name">
                         </div>
                     </div>
                 </div>

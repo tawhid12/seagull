@@ -112,7 +112,7 @@
                                 <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                                     <ol class="breadcrumb">
                                         @hasSection('pageSubTitle')
-                                        <li class="breadcrumb-item"><a href=">Dashboard</a></li>
+                                        <li class="breadcrumb-item"><a href="">Dashboard</a></li>
                                         <li class="breadcrumb-item active" aria-current="page">@yield('pageSubTitle')</li>
                                         @else
                                         <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>

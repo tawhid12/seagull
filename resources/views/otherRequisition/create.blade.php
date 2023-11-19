@@ -49,6 +49,18 @@
                                     <span class="text-danger"> {{ $errors->first('amount') }}</span>
                                     @endif
                                 </div>
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label for="Category">{{__('Received Account')}}</label>
+                                        <select  class="form-control form-select" name="credit">
+                                            @if($paymethod)
+                                                @foreach($paymethod as $d)
+                                                    <option value="{{$d['table_name']}}~{{$d['id']}}~{{$d['head_name']}}-{{$d['head_code']}}">{{$d['head_name']}}-{{$d['head_code']}}</option>
+                                                @endforeach
+                                            @endif
+                                        </select>
+                                    </div>
+                                </div>
                                 <div class="col-md-12 col-12">
                                     <div class="form-group">
                                         <label for="des">Description</label>
