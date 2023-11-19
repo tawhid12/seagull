@@ -1,5 +1,5 @@
 <?php
-namespace App\Http\Controllers\Account\Report;
+namespace App\Http\Controllers\Accounts\Report;
 use App\Http\Controllers\Controller;
 
 use App\Models\Chieldheadtwo;

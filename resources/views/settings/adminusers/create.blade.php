@@ -72,7 +72,7 @@
                                         @endif
                                     </div>
                                     
-                                    <div class="col-sm-4 col-12">
+                                    <!-- <div class="col-sm-4 col-12">
                                         <div class="form-group">
                                             <label for="all_company_access">All Company Access <span class="text-danger">*</span></label>
                                             <select id="all_company_access" class="form-control" name="all_company_access">
@@ -84,7 +84,7 @@
                                         @if($errors->has('all_company_access'))
                                             <span class="text-danger"> {{ $errors->first('all_company_access') }}</span>
                                         @endif
-                                    </div>
+                                    </div> -->
                                     @endif
                                     <div class="col-md-4 col-12">
                                         <div class="form-group">

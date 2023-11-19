@@ -12,7 +12,13 @@ class Role extends Model
     /*
     * relation with user
     */
-    public function users(){
+    public function users()
+    {
         return $this->hasMany(User::class);
+    }
+    // Role.php
+    public function permissions()
+    {
+        return $this->belongsToMany(Permission::class);
     }
 }

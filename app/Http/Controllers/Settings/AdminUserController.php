@@ -113,7 +113,7 @@ class AdminUserController extends Controller
      */
     public function update(UpdateRequest $request, $id)
     {
-        try {
+       
             $user = User::findOrFail(encryptor('decrypt', $id));
             $user->name = $request->userName;
             $user->contact_no = $request->contactNumber;
@@ -139,10 +139,7 @@ class AdminUserController extends Controller
                 return redirect()->route('adminuser.index')->with(Toastr::success('Successfully updated!', 'Success', ["positionClass" => "toast-top-right"]));
             else
                 return redirect()->back()->withInput()->with(Toastr::error('Please try again!', 'Fail', ["positionClass" => "toast-top-right"]));
-        } catch (Exception $e) {
-            //dd($e);
-            return redirect()->back()->withInput()->with(Toastr::error('Please try again!', 'Fail', ["positionClass" => "toast-top-right"]));
-        }
+
     }
 
     /**

@@ -86,9 +86,6 @@ Route::get('/mail', [test::class, 'index'])->name('mail');
 
 
 Route::group(['middleware' => 'unknownUser'], function () {
-
-
-
     Route::get('/register', [auth::class, 'signUpForm'])->name('register');
     Route::post('/register', [auth::class, 'signUpStore'])->name('register.store');
     Route::get('/signin', [auth::class, 'signInForm'])->name('signIn');
@@ -102,79 +99,69 @@ Route::get('/logout', [auth::class, 'singOut'])->name('logOut');
 //Route::middleware('checkRole')->group(function () {
 
 Route::middleware('chcekpermission')->group(function () {
+
     //Route::prefix('superadmin')->group(function(){
-    // Route::prefix('{role}')->group(function () {
-    Route::post('assign/permissions/{id}',  [adminuser::class, 'assignPermissions'])->name('assign.permissions');
-    Route::post('assign/company/{id}',  [adminuser::class, 'assignCompany'])->name('assign.company');
-    Route::post('assign/role/permissions/{id}',  [role::class, 'rolePermission'])->name('role.permission');
-    Route::resource('permission', permission::class);
-    Route::resource('role', role::class);
+    //Route::prefix('/{rolePrefix}/')->group(function () {
+        Route::post('assign/permissions/{id}',  [adminuser::class, 'assignPermissions'])->name('assignPermissions');
+        Route::post('assign/company/{id}',  [adminuser::class, 'assignCompany'])->name('assignCompany');
+        Route::post('assign/role/permissions/{id}',  [role::class, 'rolePermission'])->name('rolePermission');
+        Route::resource('permission', permission::class);
+        Route::resource('role', role::class);
 
-    Route::get('superadmin/dashboard', [dash::class, 'superadminDashboard'])->name('superadminDashboard');
-    Route::get('salesexecutive/country/select', [dash::class, 'salesExecutivecountry'])->name('salesExecutivecountry');
-    Route::get('salesexecutive/dashboard', [dash::class, 'salesexecutiveDashboard'])->name('salesexecutiveDashboard');
-    Route::get('accountant/dashboard', [dash::class, 'accountantDashboard'])->name('accountantDashboard');
-    /*== Secret Login ==*/
-    Route::get('secret/login/{id}', [company::class, 'secretLogin'])->name('secretLogin');
+        Route::get('dashboard', [dash::class, 'dashboard'])->name('dashboard');
+        Route::get('salesexecutive/company/select', [dash::class, 'salesExecutiveCompany'])->name('salesExecutiveCompany');
 
-    Route::get('/profile', [userprofile::class, 'profile'])->name('profile');
-    Route::post('/profile', [userprofile::class, 'store'])->name('profile.store');
-    Route::get('/change_password', [userprofile::class, 'change_password'])->name('change_password');
-    Route::post('/change_password', [userprofile::class, 'change_password_store'])->name('change_password.store');
-    Route::resource('adminuser', adminuser::class);
-    Route::resource('designation', designation::class);
-    Route::resource('employee', employee::class);
-    Route::resource('salaryDetl', salaryDetl::class);
-    Route::resource('company', company::class);
-    Route::resource('vessel', vessel::class);
-    Route::resource('client', client::class);
+        /*== Secret Login ==*/
+        Route::get('secret/login/{id}', [company::class, 'secretLogin'])->name('secretLogin');
 
-    Route::resource('category', category::class);
-    Route::resource('product', product::class);
-    Route::resource('supplier', supplier::class);
+        Route::get('/profile', [userprofile::class, 'profile'])->name('profile');
+        Route::post('/profile', [userprofile::class, 'store'])->name('profile.store');
+        Route::get('/change_password', [userprofile::class, 'change_password'])->name('change_password');
+        Route::post('/change_password', [userprofile::class, 'change_password_store'])->name('change_password.store');
+        Route::resource('adminuser', adminuser::class);
+        Route::resource('designation', designation::class);
+        Route::resource('employee', employee::class);
+        //Route::resource('salaryDetl', salaryDetl::class);
+        Route::resource('company', company::class);
+        Route::resource('vessel', vessel::class);
+        Route::resource('client', client::class);
 
-    Route::resource('requisition', requisition::class);
-    Route::resource('otherRequisition', otherrequisition::class);
-    Route::resource('autodebitvoucher', autodebitvoucher::class);
+        Route::resource('category', category::class);
+        Route::resource('product', product::class);
+        Route::resource('supplier', supplier::class);
 
-    /*Attendance Controller */
-    Route::resource('/attendance', AttendanceController::class);
-    Route::resource('/leave', LeaveController::class);
-    Route::resource('/leave-type', LeaveTypeController::class);
-    Route::resource('/total-leave-per-year', TotalLeavePerYearController::class);
-    Route::resource('/total-working-day', TotalWorkingDayController::class);
-    Route::resource('/salary-slip', SalarySlipController::class);
-    Route::resource('/salary-advance-payment', SalaryAdvancePaymentController::class);
-    Route::get('/date/wise/attendance', [ReportController::class, 'datewiseAttendance'])->name('datehwiseStudentAttnAdd');
+        Route::resource('requisition', requisition::class);
+        Route::resource('otherRequisition', otherrequisition::class);
+        Route::resource('autodebitvoucher', autodebitvoucher::class);
 
-    //Accounts
-    Route::resource('master', master::class);
-    Route::resource('sub_head', sub_head::class);
-    Route::resource('child_one', child_one::class);
-    Route::resource('child_two', child_two::class);
-    Route::resource('navigate', navigate::class);
+        /*Attendance Controller */
+        Route::resource('/attendance', AttendanceController::class);
+        Route::resource('/leave', LeaveController::class);
+        Route::resource('/leave-type', LeaveTypeController::class);
+        Route::resource('/total-leave-per-year', TotalLeavePerYearController::class);
+        Route::resource('/total-working-day', TotalWorkingDayController::class);
+        Route::resource('/salary-slip', SalarySlipController::class);
+        Route::resource('/salary-advance-payment', SalaryAdvancePaymentController::class);
+        Route::get('/date/wise/attendance', [ReportController::class, 'datewiseAttendance'])->name('datehwiseStudentAttnAdd');
 
-    Route::get('incomeStatement', [statement::class, 'index'])->name('incomeStatement');
-    Route::get('incomeStatement_details', [statement::class, 'details'])->name('incomeStatement.details');
-    Route::get('/profitloss', [profitloss::class, 'index']);
-    Route::get('/balancesheet', [balancesheet::class, 'index']);
-    Route::get('/headreport', [headreport::class, 'index'])->name('headreport');
+        //Accounts
+        Route::resource('master', master::class);
+        Route::resource('sub_head', sub_head::class);
+        Route::resource('child_one', child_one::class);
+        Route::resource('child_two', child_two::class);
+        Route::resource('navigate', navigate::class);
 
-    //Voucher
-    Route::resource('purchase_voucher', PurchaseVoucher::class);
-    Route::resource('sales_voucher', SalesVoucher::class);
-    Route::resource('credit', credit::class);
-    Route::resource('debit', debit::class);
-    Route::get('get_head', [credit::class, 'get_head'])->name('get_head');
-    Route::resource('journal', journal::class);
-    Route::get('journal_get_head', [journal::class, 'get_head'])->name('journal_get_head');
+        Route::get('incomeStatement', [statement::class, 'index'])->name('incomeStatement');
+        Route::get('incomeStatement_details', [statement::class, 'details'])->name('incomeStatement.details');
+        Route::get('/profitloss', [profitloss::class, 'index']);
+        Route::get('/balancesheet', [balancesheet::class, 'index']);
+        Route::get('/headreport', [headreport::class, 'index'])->name('headreport');
 
-
+        //Voucher
+        Route::resource('credit', credit::class);
+        Route::resource('debit', debit::class);
+        Route::get('get_head', [credit::class, 'get_head'])->name('get_head');
+        Route::resource('journal', journal::class);
+        Route::get('journal_get_head', [journal::class, 'get_head'])->name('journal_get_head');
     //});
-});
-Route::group(['middleware' => isAdmin::class], function () {
-    Route::prefix('admin')->group(function () {
-        Route::get('/dashboard', [dash::class, 'adminDashboard'])->name('admin.dashboard');
-        /* settings */
-    });
 });

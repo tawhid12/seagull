@@ -60,13 +60,7 @@ class AuthenticationController extends Controller
             if($user){
                 if(Hash::check($request->password , $user->password)){
                     $this->setSession($user);
-                    if(currentUser() == 'superadmin'){
-                        return redirect()->route('superadminDashboard')->with($this->resMessageHtml(true,null,'Successfully login'));
-                    }elseif(currentUser() == 'salesexecutive'){
-                        return redirect()->route('salesExecutivecountry')->with($this->resMessageHtml(true,null,'Successfully login'));
-                    }elseif(currentUser() == 'accountant'){
-                        return redirect()->route('accountantDashboard')->with($this->resMessageHtml(true,null,'Successfully login'));
-                    }
+                    return redirect()->route('dashboard')->with($this->responseMessage(true, null, 'Log In successed'));
                 }else
                     return redirect()->route('login')->with($this->resMessageHtml(false,'error','Your phone number or password is wrong!'));
             }else
@@ -84,11 +78,12 @@ class AuthenticationController extends Controller
                     'userName'=>encryptor('encrypt',$user->name),
                     'role'=>encryptor('encrypt',$user->role->type),
                     'roleIdentity'=>encryptor('encrypt',$user->role->identity),
-                    'country_id'=>$user->country_id,
-                    /*'language'=>encryptor('encrypt',$user->language),
-                    'companyId'=>encryptor('encrypt',$user->company_id),*/
+                    'roleId' => encryptor('encrypt', $user->role_id),
+                    /*'country_id'=>$user->country_id,
+                    'language'=>encryptor('encrypt',$user->language),
+                    'companyId'=>encryptor('encrypt',$user->company_id),
                     'companyAccess'=>encryptor('encrypt',$user->all_company_access),
-                    'image'=>$user->image?$user->image:'no-image.png'
+                    'image'=>$user->image?$user->image:'no-image.png'*/
                 ]
             );
     }

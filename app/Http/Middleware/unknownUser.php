@@ -20,25 +20,18 @@ class unknownUser
      */
     public function handle($request, Closure $next)
     {
-
-        if (Session::has('user') && Session::get('user') !== null && Session::has('roleId')) {
-            $user = User::find(encryptor('decrypt', Session::get('user')));
+        if (Session::has('userId') && Session::get('userId') !== null && Session::has('roleId')) {
+            $user = User::find(encryptor('decrypt', Session::get('userId')));
             $role = Role::find(encryptor('decrypt', Session::get('roleId')));
 
             if (!!$user && $role->identity == 'superadmin')
-                return redirect(route('superadminDashboard'));
-            else if (!!$user && $role->identity == 'operationmanager')
-                return redirect(route('operationmanagerDashboard'));
+                return redirect(route('dashboard'));
+            else if (!!$user && $role->identity == 'admin')
+                return redirect(route('dashboard'));
             else if (!!$user && $role->identity == 'salesexecutive')
-                return redirect(route('salesexecutiveDashboard'));
-            else if (!!$user && $role->identity == 'salesmanager')
-                return redirect(route('salesmanagerDashboard'));
-            else if (!!$user && $role->identity == 'accountmanager')
-                return redirect(route('accountmanagerDashboard'));
-            else if (!!$user && $role->identity == 'trainer')
-                return redirect(route('trainerDashboard'));
-            else if (!!$user && $role->identity == 'frontdesk')
-                return redirect(route('frontdeskDashboard'));
+            return redirect(route('dashboard'));
+            else if (!!$user && $role->identity == 'accountant')
+                return redirect(route('dashboard'));
             else
                 return redirect(route('signInForm'))->with($this->responseMessage(false, "error", 'Log In faild'));
 
