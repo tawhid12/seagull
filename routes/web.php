@@ -24,7 +24,7 @@ use App\Http\Controllers\TestController as test;
 
 
 use App\Http\Controllers\Employee\EmployeeController as employee;
-use App\Http\Controllers\Employee\SalaryDetailController as salaryDetl;
+use App\Http\Controllers\SalaryDetailController as salaryDetl;
 use App\Http\Controllers\CompanyController as company;
 use App\Http\Controllers\VesselController as vessel;
 use App\Http\Controllers\ClientController as client;
@@ -121,7 +121,7 @@ Route::middleware('chcekpermission')->group(function () {
         Route::resource('adminuser', adminuser::class);
         Route::resource('designation', designation::class);
         Route::resource('employee', employee::class);
-        //Route::resource('salaryDetl', salaryDetl::class);
+        Route::resource('salaryDetl', salaryDetl::class);
         Route::resource('company', company::class);
         Route::resource('vessel', vessel::class);
         Route::resource('client', client::class);
