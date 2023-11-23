@@ -33,8 +33,8 @@
                         <td>{{$e->mothers_name}}</td>
                         <td>{{$e->education_qualification}}</td>
                         <td>{{$e->mobile_no}}</td>
-                        <td>{{$e->salary}}</td>
                         <td>{{$e->joining_date}}</td>
+                        <td>{{$e->salary}}</td>
                         <td class="d-flex">
                             <!-- <a href="{{route('employee.show',encryptor('encrypt',$e->id))}}">
                                 <i class="bi bi-eye"></i>
