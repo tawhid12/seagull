@@ -37,7 +37,7 @@ class CompanyController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(AddNewRequest $request)
+    public function store(Request $request)
     {
         try {
             $c = New Company();
@@ -139,7 +139,7 @@ class CompanyController extends Controller
             request()->session()->put(
                 ['companyId' => encryptor('encrypt', $company->id),]
             );
-            return redirect(route('salesexecutiveDashboard'))->with(Toastr::success('Data Saved!', 'Success', ["positionClass" => "toast-top-right"]));
+            return redirect(route('dashboard'))->with(Toastr::success('Data Saved!', 'Success', ["positionClass" => "toast-top-right"]));
         }else
         return redirect()->back()->with($this->responseMessage(false, "error", 'Something Went Wrong!!'));
     }

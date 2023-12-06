@@ -25,14 +25,14 @@ class AddNewRequest extends FormRequest
     {
         return [
             'client_name'=>'required',
-			'vessel_id'=>'required',
+			//'vessel_id'=>'required',
             'email'=>'required|unique:clients,email',
 			'contact_no'=>'required|unique:clients,contact_no',
         ];
     }
     public function messages(){
         return [
-            'required' => "The :attribute filed is required",
+            'required' => "The :attribute field is required",
             'unique' => "The :attribute already used. Please try another",
         ];
     }

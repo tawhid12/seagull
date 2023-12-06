@@ -161,8 +161,12 @@
 								@if ($attendance_data !== null && $attendance_data->isPresent == 1)
 								<td><span class="text-success"><i class="bi bi-check-square-fill"></i></span></td>
 								@else
+									@if($attendance_data != null)
 									@if($attendance_data->isPresent > 1)
 									<td><span class="bg-warning text-white p-1">L</td>
+									@else
+									<td><span class="text-danger"><i class="bi bi-x-square-fill"></i></td>
+									@endif
 									@else
 									<td><span class="text-danger"><i class="bi bi-x-square-fill"></i></td>
 									@endif

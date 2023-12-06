@@ -87,8 +87,8 @@
                                 <td>{{$salary_slip->total_present}}</td>
                                 <td>{{$salary_slip->total_leave}}</td>
                                 <td>{{$salary_slip->total_absent}}</td>
-                                <td>{{ \Carbon\Carbon::create($salary_slip->from_date)->format('d F Y') }}</td>
-                                <td>{{ \Carbon\Carbon::create($salary_slip->to_date)->format('d F Y') }}</td>
+                                <td>{{ \Carbon\Carbon::createFromDate($salary_slip->year,$salary_slip->month,1)->format('d F Y') }}</td>
+                                <td>{{ \Carbon\Carbon::create($salary_slip->year,$salary_slip->month,1)->endOfMonth()->format('d F Y') }}</td>
                                 <td>{{$salary_slip->salary}}</td>
                                 <td>{{$salary_slip->paid_date}}</td>
                                 <td>{{$salary_slip->absent_deduction}}</td>

@@ -68,7 +68,7 @@
                                 <th scope="row">{{ ++$loop->index }}</th>
                                 <td>{{date('d M Y',strtotime($r->postingDate))}}</td>
                                 <td>{{$r->title}}</td>
-                                <td>{{$r->id}}</td>
+                                <td>{{$r->req_slip_no}}</td>
                                 <td>{{$r->client?->client_name}}</td>
                                 <td>{{$r->vessel?->vessel_name}}</td>
                                 <td>{{$r->amount}}</td>

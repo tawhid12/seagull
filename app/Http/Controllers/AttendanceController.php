@@ -68,7 +68,7 @@ class AttendanceController extends Controller
         die;*/
         $attendance_exists = Attendance::where('postingDate', \Carbon\Carbon::createFromTimestamp(strtotime($request->postingDate))->format('Y-m-d'))->first();
         if ($attendance_exists) {
-            return redirect()->back()->with($this->responseMessage(false, null, 'Attendance Already Exists For This Date'));
+            return redirect()->back()->with(Toastr::error('Attendance Already Exists For This Date', 'Fail', ["positionClass" => "toast-top-right"]));
         }
         try {
             $employee_id       = $request->post('employee_id');

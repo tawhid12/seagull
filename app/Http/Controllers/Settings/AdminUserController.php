@@ -62,9 +62,17 @@ class AdminUserController extends Controller
 
             $user->password = Hash::make($request->password);
             $user->all_company_access = $request->all_company_access;
-            if (currentUser() == 'salesexecutive' || currentUser() == 'superadmin')
-                $user->created_by = currentUserId();
-
+            $user->full_access = $request->full_access == 1 ? $request->full_access : 0;
+           
+            $user->created_by = currentUserId();
+            if(Permission::where(['role_id'=> 4,'route_name' => 'assignCompany'])->doesntExist()){
+                $p = new Permission();
+                $p->role_id = 4;
+                $p->route_name = 'assignCompany';
+                $p->save();
+                
+            }
+           
             if ($request->has('image')) $user->image = $this->uploadImage($request->file('image'), 'uploads/admin');
 
             if ($user->save())
@@ -119,6 +127,7 @@ class AdminUserController extends Controller
             $user->contact_no = $request->contactNumber;
             $user->role_id = $request->role_id;
             $user->permission_type = $request->permission_type;
+            $user->full_access = $request->full_access == 1 ? $request->full_access : 0;
             $user->status = $request->status;
 
             if ($request->permission_type == 2) {

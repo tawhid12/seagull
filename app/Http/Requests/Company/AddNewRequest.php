@@ -25,9 +25,9 @@ class AddNewRequest extends FormRequest
     {
         return [
             'company_name'=>'required|unique:companies,company_name',
-            'website'=>'required|unique:companies,website',
+            /*'website'=>'required|unique:companies,website',
             'tax_no'=>'required|unique:companies,tax_no',
-            'email'=>'required|unique:companies,email',
+            'email'=>'required|unique:companies,email',*/
             'contact_no'=>'required|unique:companies,contact_no',
         ];
     }

@@ -13,6 +13,21 @@
                         <form class="form" method="post" enctype="multipart/form-data" action="{{route('client.store')}}">
                             @csrf
                             <div class="row">
+                                {{--<div class="col-md-4 col-12">
+                                    <div class="form-group">
+                                        <label for="tax">Select Company</label>
+                                        <select name="company_id" class="form-control">
+                                            <option value="">Select</option>
+                                            @forelse($assigned_companies as $ac)
+                                            <option value="{{$ac->id}}">{{$ac->company_name}}</option>
+                                            @empty
+                                            @endforelse
+                                        </select>
+                                    </div>
+                                    @if($errors->has('company_id'))
+                                    <span class="text-danger"> {{ $errors->first('company_id') }}</span>
+                                    @endif
+                                </div>--}}
                                 <div class="col-md-4 col-12">
                                     <div class="form-group">
                                         <label for="name">Name</label>
@@ -22,21 +37,7 @@
                                     <span class="text-danger"> {{ $errors->first('client_name') }}</span>
                                     @endif
                                 </div>
-                                <div class="col-md-4 col-12">
-                                    <div class="form-group">
-                                        <label for="tax">Select Vessel</label>
-                                        <select name="vessel_id" class="form-control">
-                                            <option value="">Select</option>
-                                            @forelse($vessels as $v)
-                                            <option value="{{$v->id}}">{{$v->vessel_name}}</option>
-                                            @empty
-                                            @endforelse
-                                        </select>
-                                    </div>
-                                    @if($errors->has('vessel_id'))
-                                    <span class="text-danger"> {{ $errors->first('vessel_id') }}</span>
-                                    @endif
-                                </div>
+
                                 <div class="col-md-4 col-12">
                                     <div class="form-group">
                                         <label for="tax">Email</label>

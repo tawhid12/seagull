@@ -18,8 +18,10 @@
                         <thead>
                             <tr>
                                 <th scope="col">{{__('#SL')}}</th>
-                                <th scope="col">{{__('Name')}}</th>
-                                <th scope="col">{{__('Number')}}</th>
+                                <th scope="col">{{__('Vessel Name')}}</th>
+                                <th scope="col">{{__('Vessel Number')}}</th>
+                                <th scope="col">{{__('Company')}}</th>
+                                <th scope="col">{{__('Client')}}</th>
                                 <th class="white-space-nowrap">{{__('ACTION')}}</th>
                             </tr>
                         </thead>
@@ -29,6 +31,8 @@
                                 <th scope="row">{{ ++$loop->index }}</th>
                                 <td>{{$v->vessel_name}}</td>
                                 <td>{{$v->vessel_number}}</td>
+                                <td>{{$v->company?->company_name}}</td>
+                                <td>{{$v->client?->client_name}}</td>
                                 <td class="white-space-nowrap">
                                     <a href="{{route('vessel.edit',encryptor('encrypt',$v->id))}}">
                                         <i class="bi bi-pencil-square"></i>

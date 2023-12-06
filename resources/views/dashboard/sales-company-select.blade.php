@@ -1,5 +1,5 @@
 @extends('layout.app-country')
-@section('pageTitle',trans('Salesexecutive | Company Select'))
+@section('pageTitle',trans('Company Select'))
 @section('pageSubTitle',trans('Company Select'))
 
 @section('content')
@@ -27,6 +27,9 @@
                             @empty
                             <tr>
                                 <th colspan="4" class="text-center">No Company Assigned</th>
+                            </tr>
+                            <tr>
+                                <th colspan="4"><a href="{{route('dashboard')}}" class="btn btn-sm btn-primary">Back To Dashboard</a></th>
                             </tr>
                             @endforelse
                         </tbody>

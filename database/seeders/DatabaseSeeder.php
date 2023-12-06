@@ -5,7 +5,7 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-
+use DB;
 
 class DatabaseSeeder extends Seeder
 {
@@ -17,8 +17,12 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call([
-            PermissionSeeder::class,
-            UserPermissionsTableSeeder::class,
+            //PermissionSeeder::class,
+            //UserPermissionsTableSeeder::class,
+        ]);
+        DB::table('permissions')->insert([
+            'role_id' => 4,
+            'name' => 'salesExecutiveCompany',
         ]);
     }
 }

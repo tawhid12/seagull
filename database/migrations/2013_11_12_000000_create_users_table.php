@@ -25,6 +25,7 @@ return new class extends Migration
             $table->string('image')->nullable();
             // $table->integer('user_type')->default(1)->comment('1 => for Own Employee, 2 => Company Owner');
             // $table->integer('company_id')->default(0);
+            $table->boolean('full_access')->default(false)->comment('1=>yes 0=>no');
             $table->integer('department_id')->nullable();
             $table->integer('designation_id')->nullable();
             $table->boolean('status')->default(1)->comment('1=>active 2=>Logged 0 => Inactive');
@@ -47,6 +48,7 @@ return new class extends Migration
                 'designation_id' => 1,
                 'department_id' => 1,
                 'role_id' => 1,
+                'full_access' => 1,
                 'status' => 1,
                 'created_by' => 1,
                 'created_at' => Carbon::now()
@@ -59,6 +61,7 @@ return new class extends Migration
                 'designation_id' => 1,
                 'department_id' => 1,
                 'role_id' => 2,
+                'full_access' => 0,
                 'status' => 1,
                 'created_at' => Carbon::now(),
                 'created_by' => 1,
@@ -71,6 +74,7 @@ return new class extends Migration
                 'designation_id' => 1,
                 'department_id' => 1,
                 'role_id' => 3,
+                'full_access' => 0,
                 'status' => 1,
                 'created_at' => Carbon::now(),
                 'created_by' => 1,
@@ -83,6 +87,7 @@ return new class extends Migration
                 'designation_id' => 1,
                 'department_id' => 1,
                 'role_id' => 4,
+                'full_access' => 0,
                 'status' => 1,
                 'created_at' => Carbon::now(),
                 'created_by' => 1,
@@ -95,6 +100,7 @@ return new class extends Migration
                 'designation_id' => 1,
                 'department_id' => 1,
                 'role_id' =>5,
+                'full_access' => 0,
                 'status' => 1,
                 'created_at' => Carbon::now(),
                 'created_by' => 1,
@@ -107,6 +113,7 @@ return new class extends Migration
                 'designation_id' => 1,
                 'department_id' => 1,
                 'role_id' => 6,
+                'full_access' => 0,
                 'status' => 1,
                 'created_at' => Carbon::now(),
                 'created_by' => 1,
@@ -119,6 +126,7 @@ return new class extends Migration
                 'designation_id' => 1,
                 'department_id' => 1,
                 'role_id' => 7,
+                'full_access' => 0,
                 'status' => 1,
                 'created_at' => Carbon::now(),
                 'created_by' => 1,
@@ -131,6 +139,7 @@ return new class extends Migration
                 'designation_id' => 1,
                 'department_id' => 1,
                 'role_id' => 8,
+                'full_access' => 0,
                 'status' => 1,
                 'created_at' => Carbon::now(),
                 'created_by' => 1,

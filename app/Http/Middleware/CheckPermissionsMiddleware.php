@@ -54,6 +54,7 @@ class CheckPermissionsMiddleware
                         return $next($request);
                     }
                 }else{
+   
                     if ($user->permissions->contains('route_name', $requiredPermission)){
                         return $next($request);
                     }

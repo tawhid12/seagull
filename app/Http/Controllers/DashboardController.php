@@ -20,6 +20,9 @@ class DashboardController extends Controller
         } elseif (currentUser() == 'admin') {
             //return redirect()->route('adminDashboard')->with($this->resMessageHtml(true,null,'Successfully login'));
             return view('dashboard.admin');
+        } elseif (currentUser() == 'hrexecutive') {
+            //return redirect()->route('adminDashboard')->with($this->resMessageHtml(true,null,'Successfully login'));
+            return view('dashboard.hr');
         } elseif (currentUser() == 'salesexecutive') {
             //return redirect()->route('salesExecutiveCompany')->with($this->resMessageHtml(true,null,'Successfully login'));
             $company = company()['company_id'];

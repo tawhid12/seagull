@@ -13,7 +13,37 @@
                         <form class="form" method="post" enctype="multipart/form-data" action="{{route('vessel.store', ['role' =>currentUser()])}}">
                             @csrf
                             <div class="row">
-                                <div class="col-md-4 col-12">
+                                {{--<div class="col-md-3 col-12" id="company_data">
+                                    <div class="form-group">
+                                        <label for="tax">Select Company</label>
+                                        <select name="company_id" class="form-control" required>
+                                            <option value="">Select</option>
+                                            @forelse($assigned_companies as $ac)
+                                            <option value="{{$ac->id}}">{{$ac->company_name}}</option>
+                                            @empty
+                                            @endforelse
+                                        </select>
+                                    </div>
+                                    @if($errors->has('company_id'))
+                                    <span class="text-danger"> {{ $errors->first('company_id') }}</span>
+                                    @endif
+                                </div>--}}
+                                <div class="col-md-3 col-12" id="company_data">
+                                    <div class="form-group">
+                                        <label for="tax">Select Client</label>
+                                        <select name="client_id" class="form-control" required>
+                                            <option value="">Select</option>
+                                            @forelse($clients as $c)
+                                            <option value="{{$c->id}}">{{$c->client_name}}</option>
+                                            @empty
+                                            @endforelse
+                                        </select>
+                                    </div>
+                                    @if($errors->has('client_id'))
+                                    <span class="text-danger"> {{ $errors->first('client_id') }}</span>
+                                    @endif
+                                </div>
+                                <div class="col-md-3 col-12">
                                     <div class="form-group">
                                         <label for="name">Name</label>
                                         <input type="text" id="vessel_name" class="form-control" placeholder="Vessel Name" name="vessel_name">
@@ -22,7 +52,7 @@
                                     <span class="text-danger"> {{ $errors->first('vessel_name') }}</span>
                                     @endif
                                 </div>
-                                <div class="col-md-4 col-12">
+                                <div class="col-md-3 col-12">
                                     <div class="form-group">
                                         <label for="tax">Vessel Number</label>
                                         <input type="text" id="vessel_number" class="form-control" placeholder="Vessel Number" name="vessel_number">
@@ -47,3 +77,32 @@
 <!-- // Basic multiple Column Form section end -->
 </div>
 @endsection
+@push('scripts')
+<script>
+    $(document).ready(function() {
+        /*$("select[name='company_id']").on('change', function() {
+            var company_id = $(this).val();
+            if (company_id) {
+                var url = "{{ url('company/client/') }}/" + company_id;
+                $.ajax({
+                    url: url,
+                    method: 'GET',
+                    dataType: 'json',
+                    success: function(res) {
+                        console.log(res.data);
+                        $('#company_data').next('#client_id').remove();
+                        $('#company_data').after(res.data);
+                    },
+                    error: function(e) {
+                        console.log(e);
+                    }
+                });
+            } else {
+
+            }
+
+        });*/
+
+    });
+</script>
+@endpush

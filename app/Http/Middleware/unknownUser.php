@@ -29,11 +29,13 @@ class unknownUser
             else if (!!$user && $role->identity == 'admin')
                 return redirect(route('dashboard'));
             else if (!!$user && $role->identity == 'salesexecutive')
-            return redirect(route('dashboard'));
+                return redirect(route('dashboard'));
             else if (!!$user && $role->identity == 'accountant')
                 return redirect(route('dashboard'));
+            else if (!!$user && $role->identity == 'hrexecutive')
+                return redirect(route('dashboard'));
             else
-                return redirect(route('signInForm'))->with($this->responseMessage(false, "error", 'Log In faild'));
+                return redirect(route('login'))->with($this->responseMessage(false, "error", 'Log In faild'));
 
             return $next($request);
         }

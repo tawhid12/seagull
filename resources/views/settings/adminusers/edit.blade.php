@@ -100,21 +100,31 @@
                                     <span class="text-danger"> {{ $errors->first('status') }}</span>
                                     @endif
                                 </div>
-                                <div class="col-sm-4 col-12">
+                                {{--<div class="col-sm-4 col-12">
                                     <div class="form-group">
                                         <label for="permission_type">Permission Type<span class="text-danger">*</span></label>
                                         <select id="permission_type" class="form-control" name="permission_type">
                                             <option value="">Select Access</option>
                                             <option {{old('permission_type',$user->permission_type)=="1"?"selected":""}} value="1">User Based</option>
-                                            <!-- <option {{old('permission_type',$user->permission_type)=="2"?"selected":""}} value="2">Role Based</option> -->
-                                        </select>
-                                    </div>
-                                    @if($errors->has('all_company_access'))
-                                    <span class="text-danger"> {{ $errors->first('all_company_access') }}</span>
-                                    @endif
-                                </div>
+                                <!-- <option {{old('permission_type',$user->permission_type)=="2"?"selected":""}} value="2">Role Based</option> -->
+                                </select>
+                            </div>
+                            @if($errors->has('all_company_access'))
+                            <span class="text-danger"> {{ $errors->first('all_company_access') }}</span>
+                            @endif
+                    </div>--}}
 
-                                <!-- <div class="col-sm-4 col-12">
+                    <div class="col-sm-4 col-12 mt-3">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="full_access" name="full_access" value="1">
+                            <label class="form-check-label" for="full_access">Full Access</label>
+                        </div>
+                        @if($errors->has('full_access'))
+                        <span class="text-danger"> {{ $errors->first('full_access') }}</span>
+                        @endif
+                    </div>
+
+                    <!-- <div class="col-sm-4 col-12">
                                     <div class="form-group">
                                         <label for="show_price">Product Price Access <span class="text-danger">*</span></label>
                                         <select id="show_price" class="form-control" name="show_price">
@@ -128,80 +138,80 @@
                                     @endif
                                 </div> -->
 
-                                <div class="col-md-4 col-12">
-                                    <div class="form-group">
-                                        <label for="password">Password</label>
-                                        <input type="password" id="password" class="form-control" name="password">
-                                    </div>
-                                </div>
-                                <div class="col-md-4 col-12">
-                                    <div class="form-group">
-                                        <label for="image">Image</label>
-                                        <input type="file" id="image" class="form-control" placeholder="Image" name="image">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-12 d-flex justify-content-end">
-                                    <button type="submit" class="btn btn-primary m-1">Update</button>
-                                </div>
-                            </div>
-                        </form>
-                        @if(currentUser() == 'salesexecutive')
-                        <h4>Company Assign</h4>
-                        <ul class="list-unstyled mb-0">
-                            <form method="POST" action="{{ route('assignCompany', $user->id) }}">
-                                @csrf
-                                @forelse($company as $c)
-                                <li class="d-inline-block me-2 mb-1">
-                                    <div class="form-check">
-                                        <div class="checkbox">
-                                            <input type="checkbox" name="company_id[]" class="form-check-input" id="company_id" value="{{ $c->id }}" @if (in_array($c->id, $user->company->pluck('id')->toArray())) checked @endif>
-                                            <label for="company">{{$c->company_name}}</label>
-                                        </div>
-                                    </div>
-                                </li>
-                                @empty
-                                @endforelse
-                                <div class="row">
-                                    <div class="col-12">
-                                        <button type="submit" class="btn btn-success me-1 mb-1">Assign Company</button>
-                                    </div>
-                                </div>
-                            </form>
-                        </ul>
-                        <hr />
-                        @endif
-                        <h4 class="border-bottom my-3">All Permissions</h4>
-                        <ul class="list-unstyled mb-0">
-                            <form method="POST" action="{{ route('assignPermissions', $user->id) }}">
-                                <div class="row">
-                                    @csrf
-                                    @forelse($permissions as $p)
-                                    <div class="col-12 col-md-2">
-                                        <li class="d-inline-block me-2 mb-1">
-                                            <div class="form-check">
-                                                <div class="checkbox">
-                                                    <input type="checkbox" name="permissions[]" class="form-check-input" id="permissions" value="{{ $p->id }}" @if (in_array($p->id, $user->permissions->pluck('id')->toArray())) checked @endif>
-                                                    <label for="permission">{{$p->name}}</label>
-                                                </div>
-                                            </div>
-                                        </li>
-                                    </div>
-                                    @empty
-                                    @endforelse
-                                    <div class="row">
-                                        <div class="col-12">
-                                            <button type="submit" class="btn btn-primary me-1 mb-1">Assign Permissions</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-                        </ul>
+                    <div class="col-md-4 col-12">
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="password" id="password" class="form-control" name="password">
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-12">
+                        <div class="form-group">
+                            <label for="image">Image</label>
+                            <input type="file" id="image" class="form-control" placeholder="Image" name="image">
+                        </div>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-12 d-flex justify-content-end">
+                        <button type="submit" class="btn btn-primary m-1">Update</button>
+                    </div>
+                </div>
+                </form>
+                {{--@if(currentUser() == 'superadmin')--}}
+                <h4>Company Assign</h4>
+                <ul class="list-unstyled mb-0">
+                    <form method="POST" action="{{ route('assignCompany', $user->id) }}">
+                        @csrf
+                        @forelse($company as $c)
+                        <li class="d-inline-block me-2 mb-1">
+                            <div class="form-check">
+                                <div class="checkbox">
+                                    <input type="checkbox" name="company_id[]" class="form-check-input" id="company_id" value="{{ $c->id }}" @if (in_array($c->id, $user->company->pluck('id')->toArray())) checked @endif>
+                                    <label for="company">{{$c->company_name}}</label>
+                                </div>
+                            </div>
+                        </li>
+                        @empty
+                        @endforelse
+                        <div class="row">
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-success me-1 mb-1">Assign Company</button>
+                            </div>
+                        </div>
+                    </form>
+                </ul>
+                <hr />
+                {{--@endif--}}
+                {{--<h4 class="border-bottom my-3">All Permissions</h4>
+                        <ul class="list-unstyled mb-0">
+                            <form method="POST" action="{{ route('assignPermissions', $user->id) }}">
+                <div class="row">
+                    @csrf
+                    @forelse($permissions as $p)
+                    <div class="col-12 col-md-2">
+                        <li class="d-inline-block me-2 mb-1">
+                            <div class="form-check">
+                                <div class="checkbox">
+                                    <input type="checkbox" name="permissions[]" class="form-check-input" id="permissions" value="{{ $p->id }}" @if (in_array($p->id, $user->permissions->pluck('id')->toArray())) checked @endif>
+                                    <label for="permission">{{$p->name}}</label>
+                                </div>
+                            </div>
+                        </li>
+                    </div>
+                    @empty
+                    @endforelse
+                    <div class="row">
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-primary me-1 mb-1">Assign Permissions</button>
+                        </div>
+                    </div>
+                </div>
+                </form>
+                </ul>--}}
             </div>
         </div>
+    </div>
+    </div>
     </div>
 </section>
 <!-- // Basic multiple Column Form section end -->

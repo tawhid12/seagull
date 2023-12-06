@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
     <meta charset="UTF-8">
@@ -124,6 +124,11 @@
                     </div>
                 </div>
                 <div class="page-content">
+                    @if(company()['company_id']!= '')
+                    @php $companyData = company(); $company = \DB::table('companies')->where('id',$companyData['company_id'])->first(); @endphp
+                    <h4 class="text-center text-primary">Logged Company:  {{$company->company_name}}</h4>
+                    <a class="ml-auto btn btn-sm btn-danger"href="{{route('salesExecutiveCompany')}}">Switch Company</a>
+                    @endif
                     @yield('content')
                 </div>
 

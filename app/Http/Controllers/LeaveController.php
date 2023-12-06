@@ -157,12 +157,13 @@ class LeaveController extends Controller
                     Attendance::where('employee_id', $request->employee_id)->whereIn('postingDate', $all_dates)->update(['isPresent' => 4]);
                     $l->status = 1;
                 } else {
+                    $l->status = 1;
                 }
             } else {
             }
             if ($l->save()) {
                 \LogActivity::addToLog('Update Leave', $request->getContent(), 'Leave');
-                return redirect()->route('leave.index', ['role' => currentUser()])->with(Toastr::success('Data Saved!', 'Success', ["positionClass" => "toast-top-right"]));
+                return redirect()->route('leave.index')->with(Toastr::success('Data Saved!', 'Success', ["positionClass" => "toast-top-right"]));
             } else {
                 return redirect()->back()->withInput()->with(Toastr::error('Please try again!', 'Fail', ["positionClass" => "toast-top-right"]));
             }

@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Vessel;
+use App\Models\Client;
 use Illuminate\Http\Request;
 use App\Http\Requests\Vessel\AddNewRequest;
 use App\Http\Requests\Vessel\UpdateRequest;
 use Toastr;
+
 class VesselController extends Controller
 {
     /**
@@ -16,7 +19,7 @@ class VesselController extends Controller
      */
     public function index()
     {
-        $vessel = Vessel::latest()->paginate(15);
+        $vessel = Vessel::with(['company','client'])->latest()->paginate(15);
         return view('vessel.index', compact('vessel'));
     }
 
@@ -27,7 +30,11 @@ class VesselController extends Controller
      */
     public function create()
     {
-        return view('vessel.create');
+        $user = User::find(currentUserId()); // $userId is the ID of the user you're interested in
+        $assigned_companies = $user->company;
+        $companyData = company();
+        $clients = Client::where('company_id',$companyData['company_id'])->get();
+        return view('vessel.create', compact('assigned_companies','clients'));
     }
 
     /**
@@ -39,15 +46,16 @@ class VesselController extends Controller
     public function store(AddNewRequest $request)
     {
         try {
-            $v = New Vessel();
+            $v = new Vessel();
             $v->vessel_name = $request->vessel_name;
             $v->vessel_number = $request->vessel_number;
-            $v->company_id=company()['company_id'];
-            $v->created_by=currentUserId();
-            if($v->save()){
-                \LogActivity::addToLog('Add Vessel',$request->getContent(),'Vessel');
-                return redirect()->route('vessel.index', ['role' =>currentUser()])->with(Toastr::success('Data Saved!', 'Success', ["positionClass" => "toast-top-right"]));
-            }else{
+            $v->company_id = /*$request->company_id;*/company()['company_id'];
+            $v->client_id = $request->client_id;
+            $v->created_by = currentUserId();
+            if ($v->save()) {
+                \LogActivity::addToLog('Add Vessel', $request->getContent(), 'Vessel');
+                return redirect()->route('vessel.index')->with(Toastr::success('Data Saved!', 'Success', ["positionClass" => "toast-top-right"]));
+            } else {
                 return redirect()->back()->withInput()->with(Toastr::error('Please try again!', 'Fail', ["positionClass" => "toast-top-right"]));
             }
         } catch (Exception $e) {
@@ -75,8 +83,12 @@ class VesselController extends Controller
      */
     public function edit($id)
     {
-        $v=Vessel::findOrFail(encryptor('decrypt',$id));
-        return view('vessel.edit',compact('v'));
+        $v = Vessel::findOrFail(encryptor('decrypt', $id));
+        $user = User::find(currentUserId()); // $userId is the ID of the user you're interested in
+        $assigned_companies = $user->company;
+        $companyData = company();
+        $clients = Client::where('company_id',$companyData['company_id'])->get();
+        return view('vessel.edit', compact('v', 'assigned_companies','clients'));
     }
 
     /**
@@ -86,9 +98,25 @@ class VesselController extends Controller
      * @param  \App\Models\Vessel  $vessel
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Vessel $vessel)
+    public function update(Request $request, $id)
     {
-        //
+        try {
+            $v = Vessel::findOrFail(encryptor('decrypt', $id));
+            $v->vessel_name = $request->vessel_name;
+            $v->vessel_number = $request->vessel_number;
+            $v->company_id = /*$request->company_id;*/company()['company_id'];
+            $v->client_id = $request->client_id;
+            $v->created_by = currentUserId();
+            if ($v->save()) {
+                \LogActivity::addToLog('Add Vessel', $request->getContent(), 'Vessel');
+                return redirect()->route('vessel.index')->with(Toastr::success('Data Saved!', 'Success', ["positionClass" => "toast-top-right"]));
+            } else {
+                return redirect()->back()->withInput()->with(Toastr::error('Please try again!', 'Fail', ["positionClass" => "toast-top-right"]));
+            }
+        } catch (Exception $e) {
+            //dd($e);
+            return redirect()->back()->withInput()->with(Toastr::error('Please try again!', 'Fail', ["positionClass" => "toast-top-right"]));
+        }
     }
 
     /**
@@ -100,5 +128,25 @@ class VesselController extends Controller
     public function destroy(Vessel $vessel)
     {
         //
+    }
+    public function vessel_by_company($id)
+    {
+        $vessels = Vessel::where('company_id', $id)->get();
+        $data = '<div class="row">';
+
+        $data .= '<div class="col-md-3 col-12">';
+        $data .= '<div class="form-group">';
+        $data .= '<label for="vessel_id">Select Vessel</label>';
+        $data .= '<select name="vessel_id" class="form-control js-example-basic-single" required>';
+        $data .= '<option value="">Select</option>';
+
+        foreach ($vessels as $v) {
+            $data .= '<option value="' . $v->id . '">' . $v->name . '</option>';
+        }
+
+        $data .= '</select>';
+        $data .= '</div>';
+        $data .= '</div>';
+        return response()->json(['data' => $data]);
     }
 }

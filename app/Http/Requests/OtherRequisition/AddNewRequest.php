@@ -24,6 +24,7 @@ class AddNewRequest extends FormRequest
     public function rules()
     {
         return [
+            'req_slip_no'=>'required|unique:requisitons,req_slip_no',
             'postingDate'=>'required',
 			'amount'=>'required',
         ];

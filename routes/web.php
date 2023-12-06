@@ -47,6 +47,9 @@ use App\http\controllers\SalarySlipController;
 use App\http\controllers\SalaryAdvancePaymentController;
 use App\Http\Controllers\ReportController;
 
+use App\Http\Controllers\InvoiceController as invoice;
+use App\Http\Controllers\PaymentController as payment;
+
 use App\Http\Controllers\Accounts\MasterAccountController as master;
 use App\Http\Controllers\Accounts\SubHeadController as sub_head;
 use App\Http\Controllers\Accounts\ChildOneController as child_one;
@@ -68,6 +71,7 @@ use App\Http\Middleware\isSalesexecutive;
 use App\Http\Middleware\isUser;
 use App\Models\Salary\SalaryAdvancePayment;
 use App\Models\TotalLeavePerYear;
+
 
 /*
 
@@ -96,72 +100,92 @@ Route::group(['middleware' => 'unknownUser'], function () {
 Route::get('/logout', [auth::class, 'singOut'])->name('logOut');
 
 
-//Route::middleware('checkRole')->group(function () {
+//Route::middleware('checkRole')->group(function () {.
+Route::middleware(['checkauth'])->group(function () {
+    Route::get('/dashboard', [dash::class, 'dashboard'])->name('dashboard');
+    Route::get('company/select', [dash::class, 'salesExecutiveCompany'])->name('salesExecutiveCompany');
+    Route::post('assign/company/{id}',  [adminuser::class, 'assignCompany'])->name('assignCompany');
+    Route::get('/date/wise/attendance', [ReportController::class, 'datewiseAttendance'])->name('datehwiseStudentAttnAdd');
+    Route::get('incomeStatement_details', [statement::class, 'details'])->name('incomeStatement.details');
+    Route::get('journal_get_head', [journal::class, 'get_head'])->name('journal_get_head');
+    Route::get('get_head', [credit::class, 'get_head'])->name('get_head');
+    Route::get('incomeStatement', [statement::class, 'index'])->name('incomeStatement');
+    Route::get('/headreport', [headreport::class, 'index'])->name('headreport');
 
-Route::middleware('chcekpermission')->group(function () {
+    /*== Secret Login ==*/
+    Route::get('secret/login/{id}', [company::class, 'secretLogin'])->name('secretLogin');
+    /*== Client By Company ==*/
+    Route::get('company/client/{id}', [client::class, 'client_by_company'])->name('client_by_company');
+    /*== Client By Company ==*/
+    Route::get('company/vessel/{id}', [vessel::class, 'vessel_by_company'])->name('vessel_by_company');
+    /*== Payment By Invoice ==*/
+    Route::get('payment/invoice/', [payment::class, 'payment_by_invoice'])->name('payment_by_invoice');
+});
+Route::middleware(['checkrole'])->prefix('admin')->group(function () {
 
     //Route::prefix('superadmin')->group(function(){
     //Route::prefix('/{rolePrefix}/')->group(function () {
-        Route::post('assign/permissions/{id}',  [adminuser::class, 'assignPermissions'])->name('assignPermissions');
-        Route::post('assign/company/{id}',  [adminuser::class, 'assignCompany'])->name('assignCompany');
-        Route::post('assign/role/permissions/{id}',  [role::class, 'rolePermission'])->name('rolePermission');
+    /*Route::post('assign/permissions/{id}',  [adminuser::class, 'assignPermissions'])->name('assignPermissions');*/
+
+    /*Route::post('assign/role/permissions/{id}',  [role::class, 'rolePermission'])->name('rolePermission');
         Route::resource('permission', permission::class);
-        Route::resource('role', role::class);
+        Route::resource('role', role::class);*/
 
-        Route::get('dashboard', [dash::class, 'dashboard'])->name('dashboard');
-        Route::get('salesexecutive/company/select', [dash::class, 'salesExecutiveCompany'])->name('salesExecutiveCompany');
 
-        /*== Secret Login ==*/
-        Route::get('secret/login/{id}', [company::class, 'secretLogin'])->name('secretLogin');
+    Route::resource('role', role::class);
+    Route::get('permission/{role}', [permission::class, 'index'])->name('permission.list');
+    Route::post('permission/{role}', [permission::class, 'save'])->name('permission.save');
 
-        Route::get('/profile', [userprofile::class, 'profile'])->name('profile');
-        Route::post('/profile', [userprofile::class, 'store'])->name('profile.store');
-        Route::get('/change_password', [userprofile::class, 'change_password'])->name('change_password');
-        Route::post('/change_password', [userprofile::class, 'change_password_store'])->name('change_password.store');
-        Route::resource('adminuser', adminuser::class);
-        Route::resource('designation', designation::class);
-        Route::resource('employee', employee::class);
-        Route::resource('salaryDetl', salaryDetl::class);
-        Route::resource('company', company::class);
-        Route::resource('vessel', vessel::class);
-        Route::resource('client', client::class);
 
-        Route::resource('category', category::class);
-        Route::resource('product', product::class);
-        Route::resource('supplier', supplier::class);
+    Route::get('/profile', [userprofile::class, 'profile'])->name('profile');
+    Route::post('/profile', [userprofile::class, 'store'])->name('profile.store');
+    Route::get('/change_password', [userprofile::class, 'change_password'])->name('change_password');
+    Route::post('/change_password', [userprofile::class, 'change_password_store'])->name('change_password.store');
+    Route::resource('adminuser', adminuser::class);
+    Route::resource('designation', designation::class);
+    Route::resource('employee', employee::class);
+    Route::resource('salaryDetl', salaryDetl::class);
+    Route::resource('company', company::class);
+    Route::resource('vessel', vessel::class);
+    Route::resource('client', client::class);
 
-        Route::resource('requisition', requisition::class);
-        Route::resource('otherRequisition', otherrequisition::class);
-        Route::resource('autodebitvoucher', autodebitvoucher::class);
+    Route::resource('category', category::class);
+    Route::resource('product', product::class);
+    Route::resource('supplier', supplier::class);
 
-        /*Attendance Controller */
-        Route::resource('/attendance', AttendanceController::class);
-        Route::resource('/leave', LeaveController::class);
-        Route::resource('/leave-type', LeaveTypeController::class);
-        Route::resource('/total-leave-per-year', TotalLeavePerYearController::class);
-        Route::resource('/total-working-day', TotalWorkingDayController::class);
-        Route::resource('/salary-slip', SalarySlipController::class);
-        Route::resource('/salary-advance-payment', SalaryAdvancePaymentController::class);
-        Route::get('/date/wise/attendance', [ReportController::class, 'datewiseAttendance'])->name('datehwiseStudentAttnAdd');
+    Route::resource('requisition', requisition::class);
+    Route::resource('otherRequisition', otherrequisition::class);
+    Route::resource('autodebitvoucher', autodebitvoucher::class);
 
-        //Accounts
-        Route::resource('master', master::class);
-        Route::resource('sub_head', sub_head::class);
-        Route::resource('child_one', child_one::class);
-        Route::resource('child_two', child_two::class);
-        Route::resource('navigate', navigate::class);
+    /*Attendance Controller */
+    Route::resource('attendance', AttendanceController::class);
+    Route::resource('leave', LeaveController::class);
+    Route::resource('leave-type', LeaveTypeController::class);
+    Route::resource('total-leave-per-year', TotalLeavePerYearController::class);
+    Route::resource('total-working-day', TotalWorkingDayController::class);
+    Route::resource('salary-slip', SalarySlipController::class);
+    Route::resource('salary-advance-payment', SalaryAdvancePaymentController::class);
 
-        Route::get('incomeStatement', [statement::class, 'index'])->name('incomeStatement');
-        Route::get('incomeStatement_details', [statement::class, 'details'])->name('incomeStatement.details');
-        Route::get('/profitloss', [profitloss::class, 'index']);
-        Route::get('/balancesheet', [balancesheet::class, 'index']);
-        Route::get('/headreport', [headreport::class, 'index'])->name('headreport');
+    /* Invoice */
+    Route::resource('invoice', invoice::class)->middleware('company');
+    Route::resource('payment', payment::class)->middleware('company');
 
-        //Voucher
-        Route::resource('credit', credit::class);
-        Route::resource('debit', debit::class);
-        Route::get('get_head', [credit::class, 'get_head'])->name('get_head');
-        Route::resource('journal', journal::class);
-        Route::get('journal_get_head', [journal::class, 'get_head'])->name('journal_get_head');
+    //Accounts
+    Route::resource('master', master::class);
+    Route::resource('sub_head', sub_head::class);
+    Route::resource('child_one', child_one::class);
+    Route::resource('child_two', child_two::class);
+    Route::resource('navigate', navigate::class);
+
+
+    Route::get('/profitloss', [profitloss::class, 'index']);
+    Route::get('/balancesheet', [balancesheet::class, 'index']);
+
+
+    //Voucher
+    Route::resource('credit', credit::class);
+    Route::resource('debit', debit::class);
+    Route::resource('journal', journal::class);
+
     //});
 });

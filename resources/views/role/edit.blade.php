@@ -1,53 +1,49 @@
 @extends('layout.app')
-@section('pageTitle','Edit Role')
-@section('pageSubTitle','Update Role')
-@push('styles')
-@endpush
+
+@section('title',trans('Role'))
+@section('page',trans('Update'))
+
 @section('content')
-<!-- Bordered table start -->
-<div class="col-12 p-3">
-    <div class="border">
-        <div class="p-3">
-            <!-- <form class="form" method="post" action="" enctype="multipart/form-data"> -->
-                @csrf
-                @method('patch')
-                <div class="row">
-                    <h5 class="text-center">Role Type {{$r->type}}</h5>
-                    <h5>All Permissions</h5>
-                    <ul class="list-unstyled mb-0">
-                        <form method="POST" action="{{route('role.permission',encryptor('encrypt',$r->id))}}">
-                            <div class="row">
-                                @csrf
-                                @forelse($permissions as $p)
-                                <div class="col-12 col-md-2">
-                                    <li class="d-inline-block me-2 mb-1">
-                                        <div class="form-check">
-                                            <div class="checkbox">
-                                                <input type="checkbox" name="permissions[]" class="form-check-input" id="permissions" value="{{ $p->id }}" @if (in_array($p->id, $r->permissions->pluck('id')->toArray())) checked @endif>
-                                                <label for="permission">{{$p->name}}</label>
-                                            </div>
-                                        </div>
-                                    </li>
-                                </div>
-                                @empty
-                                @endforelse
-                                <div class="row">
-                                    <div class="col-12">
-                                        <button type="submit" class="btn btn-primary me-1 mb-1">Save Permissions</button>
-                                    </div>
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-content">
+                <div class="card-body">
+                    <form class="form" method="post" action="{{route('role.update',encryptor('encrypt',$role->id))}}">
+                        @csrf
+                        @method('PATCH')
+                        <input type="hidden" name="uptoken" value="{{encryptor('encrypt',$role->id)}}">
+                        <div class="row">
+                            <div class="col-md-6 col-12">
+                                <div class="form-group">
+                                    <label for="Identity">Identity (only Alpha Character)<i class="text-danger">*</i></label>
+                                    <input type="text" id="Identity" pattern="[A-Za-z]+" class="form-control" value="{{ old('Identity',$role->identity)}}" name="Identity">
+                                    @if($errors->has('Identity'))
+                                        <span class="text-danger"> {{ $errors->first('Identity') }}</span>
+                                    @endif
                                 </div>
                             </div>
-                        </form>
-                    </ul>
+                            <div class="col-md-6 col-12">
+                                <div class="form-group">
+                                    <label for="Name">Name</label>
+                                    <input type="text" id="Name" class="form-control" value="{{ old('Name',$role->name)}}" name="Name">
+                                    @if($errors->has('Name'))
+                                        <span class="text-danger"> {{ $errors->first('Name') }}</span>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-12 d-flex justify-content-end">
+                                <button type="submit" class="btn btn-primary me-1 mb-1">Save</button>
+                                
+                            </div>
+                        </div>
+                    </form>
                 </div>
-                <!-- <div class="col-12 d-flex justify-content-end">
-                    <button type="submit" class="btn btn-primary">Update</button>
-                </div> -->
-            <!-- </form> -->
+            </div>
         </div>
     </div>
 </div>
 @endsection
-@push('scripts')
-
-@endpush

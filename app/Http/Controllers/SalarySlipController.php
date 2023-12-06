@@ -111,7 +111,10 @@ class SalarySlipController extends Controller
         // Get the last day of the month
         $salary_generate_to = $prev->endOfMonth();
 
-
+/*echo $previousMonthDate;
+echo '<br>';
+echo $salary_generate_to;
+die;*/
         // Check if the duration is exactly 1 month
         if (/*$salary_generate_to->diffInMonths($previousMonthDate) === 1 &&*/$salary_generate_to->format('Y') === $previousMonthDate->format('Y')) {
             // The duration is 1 month
@@ -121,7 +124,7 @@ class SalarySlipController extends Controller
                 return redirect()->back()->with(Toastr::error('This Month Already Generated!', 'Error', ["positionClass" => "toast-top-right"]));
             } else {
                 $total_working_day = TotalWorkingDay::where('month', $generate_month)->where('year', $generate_year)->first();
-                //print_r($total_working_day);die;
+                //print_r($total_working_day->toArray());die;
                 if (!isset($total_working_day)) {
                     return redirect()->back()->with(Toastr::error('Please Entry Total Working Day First!', 'Error', ["positionClass" => "toast-top-right"]));
                 } else {
@@ -131,8 +134,10 @@ class SalarySlipController extends Controller
                             ->where('to_date', '<=', $salary_generate_to)
                             ->where(['employee_id' => $e->id, 'status' => 1])
                             ->count();
-                        $attendance_count = Attendance::whereBetween('postingDate', [$previousMonthDate, $salary_generate_to])->where(['isPresent' => 1, 'employee_id' => $e->id])->count();
-                        $absent_count = Attendance::whereBetween('postingDate', [$previousMonthDate, $salary_generate_to])->where(['isPresent' => 0, 'employee_id' => $e->id])->count();
+                        
+                        $attendance_count = Attendance::whereBetween('postingDate', [$previousMonthDate->format('Y-m-d'), $salary_generate_to->format('Y-m-d')])->where(['isPresent' => 1, 'employee_id' => $e->id])->count();
+                        //echo $attendance_count;die;
+                        $absent_count = Attendance::whereBetween('postingDate', [$previousMonthDate->format('Y-m-d'), $salary_generate_to->format('Y-m-d')])->where(['isPresent' => 0, 'employee_id' => $e->id])->count();
                         $sadvp = SalaryAdvancePayment::where(['month' => $generate_month, 'year' => $generate_year, 'employee_id' => $e->id])->first();
                         $sl = new SalarySlip();
                         $sl->employee_id = $e->id;
@@ -173,7 +178,7 @@ class SalarySlipController extends Controller
                         $sl->save();
                     }
                     \LogActivity::addToLog('Generate Salary Slip', $request->getContent(), 'Salary Slip');
-                    return redirect()->route('salary-slip.index', ['role' => currentUser()])->with(Toastr::success('Generated!', 'Success', ["positionClass" => "toast-top-right"]));
+                    return redirect()->route('salary-slip.index')->with(Toastr::success('Generated!', 'Success', ["positionClass" => "toast-top-right"]));
                 }
             }
         } else {

@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('city')->nullable();
             $table->string('country')->nullable();
             $table->string('zip_code')->nullable();
-            $table->string('email')->unique();
+            $table->string('email')->nullable();
             $table->string('contact_no')->unique();
             $table->boolean('status')->default(1)->comment('1=>active 0 => Inactive');
             $table->unsignedBigInteger('created_by');

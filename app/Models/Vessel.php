@@ -8,4 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Vessel extends Model
 {
     use HasFactory;
+    public function company(){
+        return $this->belongsTo(Company::class);
+    }
+    public function client(){
+        return $this->belongsTo(Client::class);
+    }
 }

@@ -38,7 +38,7 @@ class RequisitonController extends Controller
         $vessels = Vessel::where('company_id',$companyData['company_id'])->get();
 
         $paymethod=array();
-        $account_data=Child_one::whereIn('head_code',[5110])/*->where(company())*/->get();
+        $account_data=Child_one::whereIn('head_code',[5101,5201])/*->where(company())*/->get();
    
         
         if($account_data){

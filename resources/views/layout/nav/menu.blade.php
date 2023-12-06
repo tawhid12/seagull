@@ -69,215 +69,221 @@
 
 
                             </li>
-                            <li class="submenu-item  ">
+                            {{--<li class="submenu-item  ">
                                 <a href="{{route('permission.index')}}" class='submenu-link'>Permission</a>
 
 
-                            </li>
+            </li>--}}
 
 
-                            <li class="submenu-item  ">
-                                <a href="{{route('designation.index')}}" class='submenu-link'>Designation</a>
+            <li class="submenu-item  ">
+                <a href="{{route('designation.index')}}" class='submenu-link'>Designation</a>
 
 
-                            </li>
-                            <li class="submenu-item  ">
-                                <a href="{{route('adminuser.index')}}" class='submenu-link'>Users</a>
-
-
-                            </li>
-
-
-
-                        </ul>
-
-
-                    </div>
-                </div>
             </li>
-            <li class="menu-item  has-sub">
-                <a href="#" class='menu-link'>
-                    <i class="bi bi-box-seam-fill"></i>
-                    <span>Company</span>
-                </a>
-                <div class="submenu ">
-                    <!-- Wrap to submenu-group-wrapper if you want 3-level submenu. Otherwise remove it. -->
-                    <div class="submenu-group-wrapper">
-                        <ul class="submenu-group">
-                            <li class="submenu-item  ">
-                                <a href="{{route('company.index')}}" class='submenu-link'>Company</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
+            <li class="submenu-item  ">
+                <a href="{{route('adminuser.index')}}" class='submenu-link'>Users</a>
+
+
             </li>
-            <li class="menu-item  has-sub">
-                <a href="#" class='menu-link'>
-                    <i class="bi bi-grid-1x2-fill"></i>
-                    <span>Shipping</span>
-                </a>
-                <div class="submenu ">
-                    <!-- Wrap to submenu-group-wrapper if you want 3-level submenu. Otherwise remove it. -->
-                    <div class="submenu-group-wrapper">
-                        <ul class="submenu-group">
-                            <li class="submenu-item  ">
-                                <a href="{{route('vessel.index')}}" class='submenu-link'>Vessel</a>
-                            </li>
-                            <li class="submenu-item  ">
-                                <a href="{{route('client.index')}}" class='submenu-link'>Client</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </li>
-            <li class="menu-item  has-sub">
-                <a href="#" class='menu-link'>
-                    <i class="bi bi-boxes"></i>
-                    <span>Product</span>
-                </a>
-                <div class="submenu ">
-                    <!-- Wrap to submenu-group-wrapper if you want 3-level submenu. Otherwise remove it. -->
-                    <div class="submenu-group-wrapper">
-                        <ul class="submenu-group">
-                            <li class="submenu-item  ">
-                                <a href="{{route('category.index')}}" class='submenu-link'>Categories</a>
-                            </li>
-                            <li class="submenu-item  ">
-                                <a href="{{route('product.index')}}" class='submenu-link'>Products</a>
-                            </li>
-                            <li class="submenu-item  ">
-                                <a href="{{route('supplier.index')}}" class='submenu-link'>Suppliers</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </li>
-            <li class="menu-item  has-sub">
-                <a href="#" class='menu-link'>
-                    <i class="bi bi-handbag"></i>
-                    <span>Fund</span>
-                </a>
-                <div class="submenu">
-                    <!-- Wrap to submenu-group-wrapper if you want 3-level submenu. Otherwise remove it. -->
-                    <div class="submenu-group-wrapper">
-                        <ul class="submenu-group">
-                            <li class="submenu-item">
-                                <a href="{{route('requisition.index')}}" class='submenu-link'>Requisition</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </li>
-
-            <li class="menu-item  has-sub">
-                <a href="#" class='menu-link'>
-                    <i class="bi bi-handbag"></i>
-                    <span>HRM</span>
-                </a>
-                <div class="submenu">
-
-                    <!-- Wrap to submenu-group-wrapper if you want 3-level submenu. Otherwise remove it. -->
-                    <div class="submenu-group-wrapper">
-                        <ul class="submenu-group">
-                            <li class="submenu-item">
-                                <a href="{{route('employee.index')}}" class='submenu-link'>Employee List</a>
-                            </li>
-                            <li class="submenu-item has-sub">
-                                <a href="#" class='submenu-link'>Attendance</a>
-                                <ul class="subsubmenu">
-                                    <li class="subsubmenu-item">
-                                        <a href="{{route('attendance.create')}}" class=''>Add Attendance </a>
-                                    </li>
-                                    <li class="subsubmenu-item">
-                                        <a href="{{route('attendance.index')}}" class=''>Employee Attendance </a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="submenu-item has-sub">
-                                <a href="#" class='submenu-link'>Payroll</a>
-                                <ul class="subsubmenu">
-                                    <li class="subsubmenu-item">
-                                        <a href="{{route('leave-type.index')}}" class=''>Leave Type</a>
-                                    </li>
-                                    <li class="subsubmenu-item">
-                                        <a href="{{route('total-working-day.index')}}" class=''>Total Working Day (Month Wise)</a>
-                                    </li>
-                                    <li class="subsubmenu-item">
-                                        <a href="{{route('total-leave-per-year.index')}}" class=''>Total Assigned Leave</a>
-                                    </li>
-                                    <li class="subsubmenu-item">
-                                        <a href="{{route('leave.create')}}" class=''>Add Leave </a>
-                                    </li>
-                                    <li class="subsubmenu-item">
-                                        <a href="{{route('leave.index')}}" class=''>Leave</a>
-                                    </li>
-                                    <li class="subsubmenu-item">
-                                        <a href="{{route('salary-slip.index')}}" class=''>Salary Slip</a>
-                                    </li>
-                                    <li class="subsubmenu-item">
-                                        <a href="{{route('salary-slip.create')}}" class=''>Generate Salary Slip</a>
-                                    </li>
-                                    <li class="subsubmenu-item">
-                                        <a href="{{route('salary-advance-payment.index')}}" class=''>Salary Advance Payment</a>
-                                    </li>
-                                </ul>
-                            </li>
-
-                        </ul>
-                    </div>
-                </div>
-            </li>
-
-
-
-            <li class="menu-item has-sub">
-                <a href="#" class='menu-link'><i class="bi bi-calculator"></i><span>{{__('Accounts')}}</span>
-                </a>
-                <div class="submenu">
-                    <!-- Wrap to submenu-group-wrapper if you want 3-level submenu. Otherwise remove it. -->
-                    <div class="submenu-group-wrapper">
-                        <ul class="submenu-group">
-                            <li class="submenu-item"><a class='submenu-link' href="{{route('master.index')}}">{{__('Master Head')}}</a></li>
-                            <li class="submenu-item"><a class='submenu-link' href="{{route('sub_head.index')}}">{{__('Sub Head')}}</a></li>
-                            <li class="submenu-item"><a class='submenu-link' href="{{route('child_one.index')}}">{{__('Child One')}}</a></li>
-                            <li class="submenu-item"><a class='submenu-link' href="{{route('child_two.index')}}">{{__('Child Two')}}</a></li>
-                            <li class="submenu-item"><a class='submenu-link' href="{{route('navigate.index')}}">{{__('Navigate View')}}</a></li>
-                            <li class="submenu-item"><a class='submenu-link' href="{{route('incomeStatement')}}">{{__('Income Statement')}}</a></li>
-                            <li class="submenu-item"><a class='submenu-link' href="{{route('headreport')}}">{{__('Account Head Report')}}</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </li>
-            <li class="menu-item has-sub">
-                <a href="#" class='menu-link'><i class="bi bi-receipt"></i><span>{{__('Voucher')}}</span>
-                </a>
-                <div class="submenu">
-                    <!-- Wrap to submenu-group-wrapper if you want 3-level submenu. Otherwise remove it. -->
-                    <div class="submenu-group-wrapper">
-                        <ul class="submenu-group">
-                            <li class="submenu-item"><a class='submenu-link' href="{{route('credit.index')}}">{{__('Credit Voucher')}}</a></li>
-                            <li class="submenu-item"><a class='submenu-link' href="{{route('debit.index')}}">{{__('Debit Voucher')}}</a></li>
-                            <li class="submenu-item"><a class='submenu-link' href="{{route('journal.index')}}">{{__('Journal Voucher')}}</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </li>
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
         </ul>
+
+
+    </div>
+    </div>
+    </li>
+    <li class="menu-item  has-sub">
+        <a href="#" class='menu-link'>
+            <i class="bi bi-box-seam-fill"></i>
+            <span>Company</span>
+        </a>
+        <div class="submenu ">
+            <!-- Wrap to submenu-group-wrapper if you want 3-level submenu. Otherwise remove it. -->
+            <div class="submenu-group-wrapper">
+                <ul class="submenu-group">
+                    <li class="submenu-item  ">
+                        <a href="{{route('company.index')}}" class='submenu-link'>Company</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </li>
+    <li class="menu-item  has-sub">
+        <a href="#" class='menu-link'>
+            <i class="bi bi-grid-1x2-fill"></i>
+            <span>Shipping</span>
+        </a>
+        <div class="submenu ">
+            <!-- Wrap to submenu-group-wrapper if you want 3-level submenu. Otherwise remove it. -->
+            <div class="submenu-group-wrapper">
+                <ul class="submenu-group">
+                    <li class="submenu-item  ">
+                        <a href="{{route('client.index')}}" class='submenu-link'>Client</a>
+                    </li>
+                    <li class="submenu-item  ">
+                        <a href="{{route('vessel.index')}}" class='submenu-link'>Vessel</a>
+                    </li>
+                    <li class="submenu-item  ">
+                        <a href="{{route('invoice.index')}}" class='submenu-link'>Invoice</a>
+                    </li>
+                    {{--<li class="submenu-item  ">
+                        <a href="{{route('payment.index')}}" class='submenu-link'>Payment</a>
+                    </li>--}}
+                </ul>
+            </div>
+        </div>
+    </li>
+    <li class="menu-item  has-sub">
+        <a href="#" class='menu-link'>
+            <i class="bi bi-boxes"></i>
+            <span>Product</span>
+        </a>
+        <div class="submenu ">
+            <!-- Wrap to submenu-group-wrapper if you want 3-level submenu. Otherwise remove it. -->
+            <div class="submenu-group-wrapper">
+                <ul class="submenu-group">
+                    <li class="submenu-item  ">
+                        <a href="{{route('category.index')}}" class='submenu-link'>Categories</a>
+                    </li>
+                    <li class="submenu-item  ">
+                        <a href="{{route('product.index')}}" class='submenu-link'>Products</a>
+                    </li>
+                    <li class="submenu-item  ">
+                        <a href="{{route('supplier.index')}}" class='submenu-link'>Suppliers</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </li>
+    <li class="menu-item  has-sub">
+        <a href="#" class='menu-link'>
+            <i class="bi bi-handbag"></i>
+            <span>Fund</span>
+        </a>
+        <div class="submenu">
+            <!-- Wrap to submenu-group-wrapper if you want 3-level submenu. Otherwise remove it. -->
+            <div class="submenu-group-wrapper">
+                <ul class="submenu-group">
+                    <li class="submenu-item">
+                        <a href="{{route('requisition.index')}}" class='submenu-link'>Requisition</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </li>
+
+    <li class="menu-item  has-sub">
+        <a href="#" class='menu-link'>
+            <i class="bi bi-handbag"></i>
+            <span>HRM</span>
+        </a>
+        <div class="submenu">
+
+            <!-- Wrap to submenu-group-wrapper if you want 3-level submenu. Otherwise remove it. -->
+            <div class="submenu-group-wrapper">
+                <ul class="submenu-group">
+                    <li class="submenu-item">
+                        <a href="{{route('employee.index')}}" class='submenu-link'>Employee List</a>
+                    </li>
+                    <li class="submenu-item has-sub">
+                        <a href="#" class='submenu-link'>Attendance</a>
+                        <ul class="subsubmenu">
+                            <li class="subsubmenu-item">
+                                <a href="{{route('attendance.create')}}" class=''>Add Attendance </a>
+                            </li>
+                            <li class="subsubmenu-item">
+                                <a href="{{route('attendance.index')}}" class=''>Employee Attendance </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="submenu-item has-sub">
+                        <a href="#" class='submenu-link'>Payroll</a>
+                        <ul class="subsubmenu">
+                            <li class="subsubmenu-item">
+                                <a href="{{route('leave-type.index')}}" class=''>Leave Type</a>
+                            </li>
+                            <li class="subsubmenu-item">
+                                <a href="{{route('total-working-day.index')}}" class=''>Total Working Day (Month Wise)</a>
+                            </li>
+                            <li class="subsubmenu-item">
+                                <a href="{{route('total-leave-per-year.index')}}" class=''>Total Assigned Leave</a>
+                            </li>
+                            <li class="subsubmenu-item">
+                                <a href="{{route('leave.create')}}" class=''>Add Leave </a>
+                            </li>
+                            <li class="subsubmenu-item">
+                                <a href="{{route('leave.index')}}" class=''>Leave</a>
+                            </li>
+                            <li class="subsubmenu-item">
+                                <a href="{{route('salary-slip.index')}}" class=''>Salary Slip</a>
+                            </li>
+                            <li class="subsubmenu-item">
+                                <a href="{{route('salary-slip.create')}}" class=''>Generate Salary Slip</a>
+                            </li>
+                            <li class="subsubmenu-item">
+                                <a href="{{route('salary-advance-payment.index')}}" class=''>Salary Advance Payment</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </li>
+
+
+
+    <li class="menu-item has-sub">
+        <a href="#" class='menu-link'><i class="bi bi-calculator"></i><span>{{__('Accounts')}}</span>
+        </a>
+        <div class="submenu">
+            <!-- Wrap to submenu-group-wrapper if you want 3-level submenu. Otherwise remove it. -->
+            <div class="submenu-group-wrapper">
+                <ul class="submenu-group">
+                    <li class="submenu-item"><a class='submenu-link' href="{{route('master.index')}}">{{__('Master Head')}}</a></li>
+                    <li class="submenu-item"><a class='submenu-link' href="{{route('sub_head.index')}}">{{__('Sub Head')}}</a></li>
+                    <li class="submenu-item"><a class='submenu-link' href="{{route('child_one.index')}}">{{__('Child One')}}</a></li>
+                    <li class="submenu-item"><a class='submenu-link' href="{{route('child_two.index')}}">{{__('Child Two')}}</a></li>
+                    <li class="submenu-item"><a class='submenu-link' href="{{route('navigate.index')}}">{{__('Navigate View')}}</a></li>
+                    <li class="submenu-item"><a class='submenu-link' href="{{route('incomeStatement')}}">{{__('Income Statement')}}</a></li>
+                    <li class="submenu-item"><a class='submenu-link' href="{{route('headreport')}}">{{__('Account Head Report')}}</a></li>
+                </ul>
+            </div>
+        </div>
+    </li>
+    <li class="menu-item has-sub">
+        <a href="#" class='menu-link'><i class="bi bi-receipt"></i><span>{{__('Voucher')}}</span>
+        </a>
+        <div class="submenu">
+            <!-- Wrap to submenu-group-wrapper if you want 3-level submenu. Otherwise remove it. -->
+            <div class="submenu-group-wrapper">
+                <ul class="submenu-group">
+                    <li class="submenu-item"><a class='submenu-link' href="{{route('credit.index')}}">{{__('Credit Voucher')}}</a></li>
+                    <li class="submenu-item"><a class='submenu-link' href="{{route('debit.index')}}">{{__('Debit Voucher')}}</a></li>
+                    <li class="submenu-item"><a class='submenu-link' href="{{route('journal.index')}}">{{__('Journal Voucher')}}</a></li>
+                </ul>
+            </div>
+        </div>
+    </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </ul>
     </div>
 </nav>
