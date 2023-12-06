@@ -8,7 +8,7 @@ use App\Models\Permission; // custome
 use Illuminate\Http\Request;
 use Session; // custome
 
-class checkRole
+class CheckRole
 {
     /**
      * Handle an incoming request.
