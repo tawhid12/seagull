@@ -26,7 +26,7 @@ class CompanyMiddleware
             }
         } elseif (currentUser() == 'superadmin' || currentUser() == 'accountant') {
             $route = explode('.', $request->route()->getName());
-            if ($route[1] == 'index') {
+            if ($route[1] == 'index' || $route[0] == 'company') {
                 return $next($request);
             } else {
                 \Toastr::warning("You don't have permission to access this page");
