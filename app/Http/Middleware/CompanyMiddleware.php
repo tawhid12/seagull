@@ -28,7 +28,9 @@ class CompanyMiddleware
             $route = explode('.', $request->route()->getName());
             if ($route[1] == 'index' || $route[0] == 'company') {
                 return $next($request);
-            } else {
+            } elseif($request->route()->getName() == 'requisition.update'){
+                return $next($request);
+            }else {
                 \Toastr::warning("You don't have permission to access this page");
                 return redirect()->back();
             }
