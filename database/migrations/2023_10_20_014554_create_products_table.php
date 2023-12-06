@@ -20,6 +20,10 @@ return new class extends Migration
             $table->integer('qty')->nullable();
             $table->decimal('per_unit_price',10,2)->default(0.00);
             $table->decimal('opening_balance',10,2)->default(0.00);
+            $table->string('product_item_code')->nullable();
+            $table->string('product_model')->nullable();
+            $table->string('manufacturer')->nullable();
+            $table->text('description')->nullable();
             $table->unsignedBigInteger('company_id')->index()->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
             $table->unsignedBigInteger('created_by');
             $table->unsignedBigInteger('updated_by')->nullable();

@@ -145,16 +145,16 @@ Route::middleware(['checkrole'])->prefix('admin')->group(function () {
     Route::resource('designation', designation::class);
     Route::resource('employee', employee::class);
     Route::resource('salaryDetl', salaryDetl::class);
-    Route::resource('company', company::class);
-    Route::resource('vessel', vessel::class);
-    Route::resource('client', client::class);
+    Route::resource('company', company::class)->middleware('company');
+    Route::resource('vessel', vessel::class)->middleware('company');
+    Route::resource('client', client::class)->middleware('company');
 
-    Route::resource('category', category::class);
-    Route::resource('product', product::class);
-    Route::resource('supplier', supplier::class);
+    Route::resource('category', category::class)->middleware('company');
+    Route::resource('product', product::class)->middleware('company');
+    Route::resource('supplier', supplier::class)->middleware('company');
 
-    Route::resource('requisition', requisition::class);
-    Route::resource('otherRequisition', otherrequisition::class);
+    Route::resource('requisition', requisition::class)->middleware('company');
+    Route::resource('otherRequisition', otherrequisition::class)->middleware('company');
     Route::resource('autodebitvoucher', autodebitvoucher::class);
 
     /*Attendance Controller */
