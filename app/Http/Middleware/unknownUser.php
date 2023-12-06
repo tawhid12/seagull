@@ -35,7 +35,7 @@ class unknownUser
             else if (!!$user && $role->identity == 'hrexecutive')
                 return redirect(route('dashboard'));
             else
-                return redirect(route('login'))->with($this->responseMessage(false, "error", 'Log In faild'));
+                return redirect(route('login'));
 
             return $next($request);
         }

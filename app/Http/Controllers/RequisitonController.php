@@ -140,7 +140,7 @@ class RequisitonController extends Controller
         try {
             $r = Requisiton::findOrFail(encryptor('decrypt',$id));
             if(currentUser() == 'superadmin'){
-                $r->status = 1;
+                $r->status = !$r->status;
             }
             $r->updated_by=currentUserId();
             if($r->save()){
