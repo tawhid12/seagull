@@ -4,10 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\Supplier;
 use Illuminate\Http\Request;
+use App\Models\Accounts\Child_one;
+use App\Models\Accounts\Child_two;
 use App\Http\Requests\Supplier\AddNewRequest;
 use App\Http\Requests\Supplier\UpdateRequest;
 use App\Models\Product;
 use Toastr;
+use DB;
 class SupplierController extends Controller
 {
     /**
@@ -30,7 +33,7 @@ class SupplierController extends Controller
     {
         $companyData = company();
         $products = Product::where('company_id',$companyData['company_id'])->get();
-        return view('supplier.create',compact('products'));
+        return view('supplier.create');
     }
 
     /**
@@ -39,24 +42,51 @@ class SupplierController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(AddNewRequest $request)
+    public function store(Request $request)
     {
+        /*echo '<pre>';
+print_r($request->toArray());die;*/
         try {
-            $s = New Supplier();
-            $s->supplier_name = $request->supplier_name;
-            $s->product_id = $request->product_id;
-            $s->email = $request->email;
-            $s->contact_no = $request->contact_no;
-            $companyData = company();
-            $s->company_id=$companyData['company_id'];
-            $s->created_by=currentUserId();
-            if($s->save()){
-                \LogActivity::addToLog('Add Supplier',$request->getContent(),'Supplier');
-                return redirect()->route('supplier.index', ['role' =>currentUser()])->with(Toastr::success('Data Saved!', 'Success', ["positionClass" => "toast-top-right"]));
+            DB::beginTransaction();
+            $sup = New Supplier();
+            $sup->supplier_name = $request->supplier_name;
+            $sup->phone = $request->phone;
+            $sup->mobile = $request->mobile;
+            $sup->email = $request->email;
+            //$c->vessel_id = $request->vessel_id;
+            $sup->fax = $request->fax;
+            $sup->web = $request->web;
+            $sup->address = $request->address;
+            $sup->address = $request->address;
+            $sup->tin = $request->tin;
+            $sup->tin_name = $request->tin_name;
+            $sup->bin = $request->bin;
+            $sup->bin_name = $request->bin_name;
+            $sup->contact_person_name = $request->contact_person_name;
+            $sup->contact_person_phone = $request->contact_person_phone;
+            $sup->contact_person_email = $request->contact_person_email;
+            $sup->created_by=currentUserId();
+            if($sup->save()){
+                $id_child_one = Child_one::where('head_code','2130')/*->where(company())*/->first();
+                $ach = new Child_two;
+                $ach->child_one_id= $id_child_one->id;
+                $ach->head_name=$request->supplier_name;
+                $ach->head_code = '2130'.$sup->id;
+                $ach->opening_balance =$request->openingAmount ?? 0;
+                $ach->created_by=currentUserId();
+                if($ach->save()) {
+                    $sup->account_id = $ach->id;
+                    $sup->save();
+                    DB::commit();
+                    \LogActivity::addToLog('Add Supplier', $request->getContent(), 'Supplier');
+                    return redirect()->route('supplier.index')->with(Toastr::success('Data Saved!', 'Success', ["positionClass" => "toast-top-right"]));
+                }else
+                    return redirect()->back()->withInput()->with(Toastr::error('Please try again!', 'Fail', ["positionClass" => "toast-top-right"]));
             }else{
                 return redirect()->back()->withInput()->with(Toastr::error('Please try again!', 'Fail', ["positionClass" => "toast-top-right"]));
             }
         } catch (Exception $e) {
+            DB::rollback();
             //dd($e);
             return redirect()->back()->withInput()->with(Toastr::error('Please try again!', 'Fail', ["positionClass" => "toast-top-right"]));
         }

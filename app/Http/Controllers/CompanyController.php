@@ -17,7 +17,7 @@ class CompanyController extends Controller
      */
     public function index()
     {
-        $company = Company::latest()->paginate(15);
+        $company = Company::with('banks')->latest()->paginate(15);
         return view('company.index', compact('company'));
     }
 
@@ -96,7 +96,7 @@ class CompanyController extends Controller
     public function update(Request $request, $id)
     {
         try {
-            $c = New Company();
+            $c = Company::findOrFail(encryptor('decrypt',$id));
             $c->company_name = $request->company_name;
             $c->website = $request->website;
             $c->tax_no = $request->tax_no;
@@ -139,7 +139,13 @@ class CompanyController extends Controller
             request()->session()->put(
                 ['companyId' => encryptor('encrypt', $company->id),]
             );
-            return redirect(route('dashboard'))->with(Toastr::success('Data Saved!', 'Success', ["positionClass" => "toast-top-right"]));
+            /*echo '<pre>';
+            print_r(\request()->session());die;*/
+            if(Session::get('redirected_from'))
+            return redirect()->to(Session::get('redirected_from'));
+            //return redirect()->to($request->fullUrl());
+            else
+           return redirect(route('dashboard'))->with(Toastr::success('Data Saved!', 'Success', ["positionClass" => "toast-top-right"]));
         }else
         return redirect()->back()->with($this->responseMessage(false, "error", 'Something Went Wrong!!'));
     }

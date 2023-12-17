@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\LeaveType;
 use Illuminate\Http\Request;
 use Toastr;
+
 class LeaveTypeController extends Controller
 {
     /**
@@ -15,7 +16,7 @@ class LeaveTypeController extends Controller
     public function index()
     {
         $leave_types = LeaveType::paginate();
-        return view('leave.leave_type.index',compact('leave_types'));
+        return view('leave.leave_type.index', compact('leave_types'));
     }
 
     /**
@@ -37,13 +38,13 @@ class LeaveTypeController extends Controller
     public function store(Request $request)
     {
         try {
-            $lt = New LeaveType();
+            $lt = new LeaveType();
             $lt->leave_type = $request->leave_type;
-            
-            if($lt->save()){
-                \LogActivity::addToLog('Add Leave Type',$request->getContent(),'Leave Type');
+
+            if ($lt->save()) {
+                \LogActivity::addToLog('Add Leave Type', $request->getContent(), 'Leave Type');
                 return redirect()->route('leave-type.index')->with(Toastr::success('Data Saved!', 'Success', ["positionClass" => "toast-top-right"]));
-            }else{
+            } else {
                 return redirect()->back()->withInput()->with(Toastr::error('Please try again!', 'Fail', ["positionClass" => "toast-top-right"]));
             }
         } catch (Exception $e) {
@@ -69,9 +70,10 @@ class LeaveTypeController extends Controller
      * @param  \App\Models\LeaveType  $leaveType
      * @return \Illuminate\Http\Response
      */
-    public function edit(LeaveType $leaveType)
+    public function edit($id)
     {
-        //
+        $lt = LeaveType::findOrFail(encryptor('decrypt', $id));
+        return view('leave.leave_type.edit', compact('lt'));
     }
 
     /**
@@ -81,9 +83,22 @@ class LeaveTypeController extends Controller
      * @param  \App\Models\LeaveType  $leaveType
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, LeaveType $leaveType)
+    public function update(Request $request, $id)
     {
-        //
+        try {
+            $lt = LeaveType::findorFail(encryptor('decrypt', $id));
+            $lt->leave_type = $request->leave_type;
+
+            if ($lt->save()) {
+                \LogActivity::addToLog('Update Leave Type', $request->getContent(), 'Leave Type');
+                return redirect()->route('leave-type.index')->with(Toastr::success('Data Saved!', 'Success', ["positionClass" => "toast-top-right"]));
+            } else {
+                return redirect()->back()->withInput()->with(Toastr::error('Please try again!', 'Fail', ["positionClass" => "toast-top-right"]));
+            }
+        } catch (Exception $e) {
+            //dd($e);
+            return redirect()->back()->withInput()->with(Toastr::error('Please try again!', 'Fail', ["positionClass" => "toast-top-right"]));
+        }
     }
 
     /**

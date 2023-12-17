@@ -16,7 +16,8 @@ use App\Http\Traits\ResponseTrait;
 use DB;
 use Session;
 use Exception;
-
+use Toastr;
+use App\Models\Requisiton;
 class DebitVoucherController extends Controller
 {
     use ResponseTrait;
@@ -307,13 +308,23 @@ class DebitVoucherController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request){
-        try {
-            DB::beginTransaction();
+		$model = trim($request->model);
+		$model_id = trim($request->model_id);
+		//echo $model;die;
+		if($model && $model_id){
+			$op = Requisiton::findOrFail(encryptor('decrypt',$model_id));
+			$op->v_status=1;
+			$op->updated_by = currentUser();
+			$op->save();
+			//print_r($op);die;
+		}else{
+			return redirect()->back()->withInput()->with(Toastr::error('Please try again!', 'Fail', ["positionClass" => "toast-top-right"]));
+		}
             $voucher_no = $this->create_voucher_no();
             if(!empty($voucher_no)){
                 $jv=new DebitVoucher;
                 $jv->voucher_no=$voucher_no;
-                $jv->company_id =/*company()['company_id']*/1;
+                $jv->company_id =company()['company_id'];
                 $jv->current_date=$request->current_date;
                 $jv->pay_name=$request->pay_name;
                 $jv->purpose=$request->purpose;
@@ -393,16 +404,12 @@ class DebitVoucherController extends Controller
                         }
                     }
                 }
-                DB::commit();
+                
 				return redirect()->route('debit.index')->with($this->resMessageHtml(true,null,'Successfully created'));
 			}else{
 				return redirect()->back()->withInput()->with($this->resMessageHtml(false,'error','Please try again'));
 			}
-		}catch (Exception $e) {
-			// dd($e);
-			DB::rollBack();
-			return redirect()->back()->withInput()->with($this->resMessageHtml(false,'error','Please try again'));
-		}
+		
     }
 
     /**

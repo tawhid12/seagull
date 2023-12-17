@@ -24,7 +24,7 @@ return new class extends Migration
             $table->date('to_date');*/
             $table->integer('month');
             $table->integer('year');
-            $table->boolean('status')->default(2)->comment('1=>paid 2=>Unpaid');
+            $table->boolean('status')->default(3)->comment('1=>paid 2=>Unpaid 3=> Unapproved');
             $table->date('paid_date')->nullable();
             $table->decimal('salary',10,2);
             $table->decimal('deduction',10,2)->default(0.00)->comment('Per month deduct amount if advance salary');

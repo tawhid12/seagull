@@ -19,7 +19,7 @@
                             <tr>
                                 <th scope="col">{{__('#SL')}}</th>
                                 <th scope="col">{{__('Name')}}</th>
-                                <th scope="col">{{__('Status')}}</th>
+{{--                                <th scope="col">{{__('Status')}}</th>--}}
                                 <th class="white-space-nowrap">{{__('ACTION')}}</th>
                             </tr>
                         </thead>
@@ -28,7 +28,7 @@
                             <tr>
                                 <th scope="row">{{ ++$loop->index }}</th>
                                 <td>{{$c->category_name}}</td>
-                                <td>@if($c->status == 1) {{__('Active') }} @else {{__('Inactive') }} @endif</td>
+{{--                                <td>@if($c->status == 1) {{__('Active') }} @else {{__('Inactive') }} @endif</td>--}}
                                 <td class="white-space-nowrap">
                                     <a href="{{route('category.edit',encryptor('encrypt',$c->id))}}">
                                         <i class="bi bi-pencil-square"></i>

@@ -14,7 +14,7 @@
                 <!-- table bordered -->
                 <div class="table-responsive">
                     <table class="table table-bordered mb-0">
-                        <a class="btn btn-sm btn-primary float-end" href="{{route('invoice.create')}}"><i class="bi bi-pencil-square"></i></a>
+                        <a class="btn btn-sm btn-primary float-end" href="{{route('order.create')}}"><i class="bi bi-pencil-square"></i></a>
                         <thead>
                             <tr>
                                 <th scope="col">{{__('#SL')}}</th>
@@ -39,7 +39,7 @@
                                 <td>{{$p->invoice?->amount}}</td>
                                 <td>{{$p->amount}}</td>
                                 <td>{{$p->created_at}}</td>
-                               
+
                                 <td class="white-space-nowrap">
                                     <a href="{{route('payment.edit',encryptor('encrypt',$p->id))}}">
                                         <i class="bi bi-pencil-square"></i>
@@ -72,57 +72,8 @@
 </section>
 <!-- Bordered table end -->
 
-<div class="modal fade" id="paymentModal" tabindex="-1" role="dialog" aria-labelledby="paymentModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl" role="document">
-        <div class="modal-content">
-            <form class="form" method="post" action="{{route('payment.store')}}" enctype="multipart/form-data">
-                @csrf
-                <input type="hidden" name="invoice_id" id="invoice_id">
-                <div class="modal-header text-center">
-                    <h4 class="modal-title" id="addNoteModalLabel"></h4>
-                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <h5 class="text-primary text-center">Payment For:-<span id="client"></span></h5>
-                <div class="modal-body" id="invData">
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Payment</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
+
 @endsection
 @push('scripts')
-<script>
-    $('#paymentModal').on('show.bs.modal', function(event) {
-        $('#paymentData').empty();
-        var button = $(event.relatedTarget);
-        var invoice_id = button.data('invoice-id');
-        var client = button.data('client');
-        var modal = $(this);
-        modal.find('#invoice_id').val(invoice_id);
-        modal.find('#client').text(client);
 
-        $.ajax({
-            url: "{{route('payment_by_invoice')}}",
-            method: 'GET',
-            dataType: 'json',
-            data:{
-                invoice_id:invoice_id
-            },
-            success: function(res) {
-                console.log(res.data);
-                $('#invData').append(res.data);
-            },
-            error: function(e) {
-                console.log(e);
-            }
-        });
-
-    });
-</script>
 @endpush

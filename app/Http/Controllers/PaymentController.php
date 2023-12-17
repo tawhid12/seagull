@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Invoice;
+use App\Models\Order;
 use App\Models\Payment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -17,7 +17,7 @@ class PaymentController extends Controller
      */
     public function index()
     {
-        $payments = Payment::with('invoice')->paginate(50);
+        $payments = Payment::with('order')->paginate(50);
         return view('payment.index', compact('payments'));
     }
 
@@ -46,9 +46,8 @@ class PaymentController extends Controller
 
             }*/
             $p = new Payment();
-            $p->invoice_id = $request->invoice_id;
-            $companyData = company();
-            $p->company_id = $companyData['company_id'];
+            $p->order_id = $request->order_id;
+            $p->company_id = company()['company_id'];
             $p->amount = $request->amount;
             //$p->posted_on = Carbon::parse($request->posted_on)->format('Y-m-d');
             $p->created_by = currentUserId();
@@ -108,15 +107,15 @@ class PaymentController extends Controller
     {
         //
     }
-    public function payment_by_invoice(Request $request)
+    public function payment_by_order(Request $request)
     {
-        $inv = Invoice::findOrFail($request->invoice_id);
+        $order = Order::findOrFail($request->order_id);
 
         $data = '<div class="row">';
         $data .= '<div class="col-md-3 col-12">';
         $data .= '<div class="form-group">';
-        $data .= '<label for="">Invoice No</label>';
-        $data .= '<input type="text" class="form-control" value="' . $inv->invoice_no . '" readonly>';
+        $data .= '<label for="">Order No</label>';
+        $data .= '<input type="text" class="form-control" value="' . $order->id . '" readonly>';
         $data .= '</div>';
         $data .= '</div>';
 

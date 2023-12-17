@@ -26,16 +26,21 @@ use App\Http\Controllers\TestController as test;
 use App\Http\Controllers\Employee\EmployeeController as employee;
 use App\Http\Controllers\SalaryDetailController as salaryDetl;
 use App\Http\Controllers\CompanyController as company;
+use App\Http\Controllers\BankDetailController as bank;
 use App\Http\Controllers\VesselController as vessel;
+use App\Http\Controllers\VesselCategoryController as vessel_cat;
 use App\Http\Controllers\ClientController as client;
 
 use App\Http\Controllers\CategoryController as category;
 use App\Http\Controllers\ProductController as product;
+use App\Http\Controllers\ProductTypeController as producttype;
 use App\Http\Controllers\SupplierController as supplier;
 
 
 use App\Http\Controllers\RequisitonController as requisition;
-use App\Http\Controllers\OtherRequisitonController as otherrequisition;
+use App\Http\Controllers\ProductRequisitonController as prorequisition;
+use App\Http\Controllers\ProductRequisitionDetailsController as prorequisitiondetl;
+
 use App\Http\Controllers\AutoDebitVoucherController as autodebitvoucher;
 
 use App\Http\Controllers\AttendanceController;
@@ -47,7 +52,12 @@ use App\http\controllers\SalarySlipController;
 use App\http\controllers\SalaryAdvancePaymentController;
 use App\Http\Controllers\ReportController;
 
-use App\Http\Controllers\InvoiceController as invoice;
+use App\Http\Controllers\OrderController as order;
+use App\Http\Controllers\ServiceReportController as service;
+use App\Http\Controllers\DeliveryReportController as delivery;
+use App\Http\Controllers\InvoiceReportController as invoice;
+use App\Http\Controllers\WorkDoneReportController as workdone;
+
 use App\Http\Controllers\PaymentController as payment;
 
 use App\Http\Controllers\Accounts\MasterAccountController as master;
@@ -119,7 +129,10 @@ Route::middleware(['checkauth'])->group(function () {
     /*== Client By Company ==*/
     Route::get('company/vessel/{id}', [vessel::class, 'vessel_by_company'])->name('vessel_by_company');
     /*== Payment By Invoice ==*/
-    Route::get('payment/invoice/', [payment::class, 'payment_by_invoice'])->name('payment_by_invoice');
+    Route::get('payment/order/', [payment::class, 'payment_by_order'])->name('payment_by_order');
+
+    Route::get('product/all',  [product::class, 'allProducts'])->name('allProducts');
+    Route::get('productbyId',  [product::class, 'productById'])->name('productById');
 });
 Route::middleware(['checkrole'])->prefix('admin')->group(function () {
 
@@ -146,15 +159,19 @@ Route::middleware(['checkrole'])->prefix('admin')->group(function () {
     Route::resource('employee', employee::class);
     Route::resource('salaryDetl', salaryDetl::class);
     Route::resource('company', company::class)->middleware('company');
+    Route::resource('bank', bank::class);
     Route::resource('vessel', vessel::class)->middleware('company');
+    Route::resource('vessel-categories', vessel_cat::class)->middleware('company');
     Route::resource('client', client::class)->middleware('company');
 
-    Route::resource('category', category::class)->middleware('company');
-    Route::resource('product', product::class)->middleware('company');
-    Route::resource('supplier', supplier::class)->middleware('company');
+    Route::resource('category', category::class);
+    Route::resource('product', product::class);
+    Route::resource('product-type', producttype::class);
+    Route::resource('supplier', supplier::class);
 
     Route::resource('requisition', requisition::class)->middleware('company');
-    Route::resource('otherRequisition', otherrequisition::class)->middleware('company');
+    Route::resource('product-requisition', prorequisition::class)->middleware('company');
+    Route::resource('product-requisition-detl', prorequisitiondetl::class)->middleware('company');
     Route::resource('autodebitvoucher', autodebitvoucher::class);
 
     /*Attendance Controller */
@@ -166,8 +183,12 @@ Route::middleware(['checkrole'])->prefix('admin')->group(function () {
     Route::resource('salary-slip', SalarySlipController::class);
     Route::resource('salary-advance-payment', SalaryAdvancePaymentController::class);
 
-    /* Invoice */
-    Route::resource('invoice', invoice::class)->middleware('company');
+    /* Order */
+    Route::resource('order', order::class)->middleware('company');
+    Route::resource('service-report', service::class)->middleware('company');
+    Route::resource('delivery-report', delivery::class)->middleware('company');
+    Route::resource('invoice-report', invoice::class)->middleware('company');
+    Route::resource('work-done-report', workdone::class)->middleware('company');
     Route::resource('payment', payment::class)->middleware('company');
 
     //Accounts

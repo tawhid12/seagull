@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Company;
 use App\Models\User;
 use DB;
-
+use Session;
 class DashboardController extends Controller
 {
     /*
@@ -33,7 +33,13 @@ class DashboardController extends Controller
             }
         } elseif (currentUser() == 'accountant') {
             //return redirect()->route('accountantDashboard')->with($this->resMessageHtml(true, null, 'Successfully login'));
-            return view('dashboard.accountant');
+            //return view('dashboard.accountant');
+            $company = company()['company_id'];
+            if ($company) {
+                return view('dashboard.accountant');
+            } else {
+                return redirect()->route('salesExecutiveCompany');
+            }
         }
     }
     public function superadminDashboard()
@@ -59,7 +65,7 @@ class DashboardController extends Controller
     /*
     * sales manager dashboard
     */
-    public function salesExecutiveCompany()
+    public function salesExecutiveCompany(Request $request)
     {
         $company = DB::table('user_company')
             ->join('companies', 'user_company.company_id', 'companies.id')

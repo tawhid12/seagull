@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Vessel;
 use App\Models\Client;
+use App\Models\VesselCategory;
 use Illuminate\Http\Request;
 use App\Http\Requests\Vessel\AddNewRequest;
 use App\Http\Requests\Vessel\UpdateRequest;
@@ -32,9 +33,9 @@ class VesselController extends Controller
     {
         $user = User::find(currentUserId()); // $userId is the ID of the user you're interested in
         $assigned_companies = $user->company;
-        $companyData = company();
-        $clients = Client::where('company_id',$companyData['company_id'])->get();
-        return view('vessel.create', compact('assigned_companies','clients'));
+        $clients = Client::where('company_id',company())->get();
+        $vessel_cats = VesselCategory::all();
+        return view('vessel.create', compact('assigned_companies','clients','vessel_cats'));
     }
 
     /**
@@ -49,6 +50,7 @@ class VesselController extends Controller
             $v = new Vessel();
             $v->vessel_name = $request->vessel_name;
             $v->vessel_number = $request->vessel_number;
+            $v->vessel_cat_id = $request->vessel_cat_id;
             $v->company_id = /*$request->company_id;*/company()['company_id'];
             $v->client_id = $request->client_id;
             $v->created_by = currentUserId();

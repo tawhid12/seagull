@@ -95,12 +95,17 @@
                                 <td>{{$salary_slip->deduction}}</td>
                                 <td>@if($salary_slip->status == 1) {{__('Paid') }} @else {{__('UnPaid') }} @endif</td>
                                 <td class="white-space-nowrap">
-                                    <a class="btn btn-sm btn-success" href="{{route('salary-slip.show',encryptor('encrypt',$salary_slip->id))}}">
-                                        <span><i class="bi bi-eye"></i></span>
+                                    <a class="btn btn-sm btn-success" href="{{route('salary-slip.edit',encryptor('encrypt',$salary_slip->id))}}">
+                                        <span><i class="bi bi-pencil"></i></span>
                                     </a>
+                                    <form id="approve-form" action="{{route('salary-slip.update',encryptor('encrypt',$salary_slip->id))}}" style="display: inline;" method="post">
+                                        @csrf
+                                        @method('PUT')
+                                        <a href="javascript:void(0)" data-status="{{$salary_slip->status}}" data-title="{{$salary_slip->title}}" class="approve btn @if($salary_slip->status == 1) btn-warning @else btn-success @endif btn-sm" data-toggle="tooltip" title="Approve">@if($salary_slip->status == 1) {{__('UnApproved') }} @else {{__('Approved') }} @endif</a>
+                                    </form>
                                     @if($salary_slip->status == 2 && currentUser() == 'accountant')
                                     <a class="btn btn-sm btn-success" href="{{route('autodebitvoucher.create',['id' => encryptor('encrypt',$salary_slip->id)])}}">
-                                        <i class="bi bi-pencil-square"></i>Paid
+                                        <i class="bi bi-pencil-square"></i>Salary Payment
                                     </a>
                                     @endif
                                     <!-- <a href="javascript:void()" onclick="$('#form{{$salary_slip->id}}').submit()">

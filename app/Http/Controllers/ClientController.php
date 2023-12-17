@@ -7,8 +7,11 @@ use App\Models\Client;
 use Illuminate\Http\Request;
 use App\Http\Requests\Client\AddNewRequest;
 use App\Http\Requests\Client\UpdateRequest;
+use App\Models\Accounts\Child_one;
+use App\Models\Accounts\Child_two;
 use App\Models\Vessel;
 use Toastr;
+use DB;
 class ClientController extends Controller
 {
     /**
@@ -42,23 +45,54 @@ class ClientController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(AddNewRequest $request)
+    public function store(Request $request)
     {
+        /*echo '<pre>';
+        print_r($request->toArray());die;*/
         try {
+            DB::beginTransaction();
             $c = New Client();
             $c->client_name = $request->client_name;
-            //$c->vessel_id = $request->vessel_id;
+            $c->client_short_name = $request->client_short_name;
+            $c->phone = $request->phone;
+            $c->mobile = $request->mobile;
             $c->email = $request->email;
-            $c->contact_no = $request->contact_no;
+            //$c->vessel_id = $request->vessel_id;
+            $c->fax = $request->fax;
+            $c->web = $request->web;
+            $c->address = $request->address;
+            $c->address = $request->address;
+            $c->tin = $request->tin;
+            $c->tin_name = $request->tin_name;
+            $c->bin = $request->bin;
+            $c->bin_name = $request->bin_name;
+            $c->contact_person_name = $request->contact_person_name;
+            $c->contact_person_phone = $request->contact_person_phone;
+            $c->contact_person_email = $request->contact_person_email;
             $c->company_id=/*$request->company_id*/company()['company_id'];
             $c->created_by=currentUserId();
             if($c->save()){
-                \LogActivity::addToLog('Add Client',$request->getContent(),'Client');
-                return redirect()->route('client.index')->with(Toastr::success('Data Saved!', 'Success', ["positionClass" => "toast-top-right"]));
+                $id_child_one = Child_one::where('head_code','1130')/*->where(company())*/->first();
+                $ach = new Child_two;
+                $ach->child_one_id= $id_child_one->id;
+                $ach->company_id=company()['company_id'];
+                $ach->head_name=$request->client_name;
+                $ach->head_code = '1130'.$c->id;
+                $ach->opening_balance =$request->openingAmount ?? 0;
+                $ach->created_by=currentUserId();
+                if($ach->save()) {
+                    $c->account_id = $ach->id;
+                    $c->save();
+                    DB::commit();
+                    \LogActivity::addToLog('Add Client', $request->getContent(), 'Client');
+                    return redirect()->route('client.index')->with(Toastr::success('Data Saved!', 'Success', ["positionClass" => "toast-top-right"]));
+                }else
+                    return redirect()->back()->withInput()->with(Toastr::error('Please try again!', 'Fail', ["positionClass" => "toast-top-right"]));
             }else{
                 return redirect()->back()->withInput()->with(Toastr::error('Please try again!', 'Fail', ["positionClass" => "toast-top-right"]));
             }
         } catch (Exception $e) {
+            DB::rollback();
             //dd($e);
             return redirect()->back()->withInput()->with(Toastr::error('Please try again!', 'Fail', ["positionClass" => "toast-top-right"]));
         }
@@ -131,7 +165,7 @@ class ClientController extends Controller
 
     public function client_by_company(Request $request, $id){
         $clients = Client::where('company_id',$id)->get();
-       
+
 
         $data = '<div class="col-md-3 col-12" id="client_id">';
         $data .= '<div class="form-group">';
@@ -144,12 +178,12 @@ class ClientController extends Controller
             $data .= '<option value="' . $c->id . '" selected>' . $c->client_name . '</option>';
             else
             $data .= '<option value="' . $c->id . '" >' . $c->client_name . '</option>';
-            
+
         }
 
         $data .= '</select>';
         $data .= '</div>';
-  
+
         return response()->json(['data' => $data]);
     }
 }

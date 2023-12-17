@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('vessel_number')->unique();
             $table->unsignedBigInteger('company_id')->index()->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
             $table->unsignedBigInteger('client_id')->index()->foreign('client_id')->references('id')->on('clients')->onDelete('cascade');
+            $table->unsignedBigInteger('vessel_cat_id')->index()->foreign('vessel_cat_id')->references('id')->on('vessel_categories')->onDelete('cascade');
             $table->unsignedBigInteger('created_by');
             $table->unsignedBigInteger('updated_by')->nullable();
             $table->timestamps();

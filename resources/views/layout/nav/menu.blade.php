@@ -107,6 +107,9 @@
                     <li class="submenu-item  ">
                         <a href="{{route('company.index')}}" class='submenu-link'>Company</a>
                     </li>
+                    <li class="submenu-item  ">
+                        <a href="{{route('bank.index')}}" class='submenu-link'>Bank</a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -124,10 +127,13 @@
                         <a href="{{route('client.index')}}" class='submenu-link'>Client</a>
                     </li>
                     <li class="submenu-item  ">
+                        <a href="{{route('vessel-categories.index')}}" class='submenu-link'>Vessel Categories</a>
+                    </li>
+                    <li class="submenu-item  ">
                         <a href="{{route('vessel.index')}}" class='submenu-link'>Vessel</a>
                     </li>
                     <li class="submenu-item  ">
-                        <a href="{{route('invoice.index')}}" class='submenu-link'>Invoice</a>
+                        <a href="{{route('order.index')}}" class='submenu-link'>Order</a>
                     </li>
                     {{--<li class="submenu-item  ">
                         <a href="{{route('payment.index')}}" class='submenu-link'>Payment</a>
@@ -149,6 +155,9 @@
                         <a href="{{route('category.index')}}" class='submenu-link'>Categories</a>
                     </li>
                     <li class="submenu-item  ">
+                        <a href="{{route('product-type.index')}}" class='submenu-link'>Product Type</a>
+                    </li>
+                    <li class="submenu-item  ">
                         <a href="{{route('product.index')}}" class='submenu-link'>Products</a>
                     </li>
                     <li class="submenu-item  ">
@@ -168,7 +177,10 @@
             <div class="submenu-group-wrapper">
                 <ul class="submenu-group">
                     <li class="submenu-item">
-                        <a href="{{route('requisition.index')}}" class='submenu-link'>Requisition</a>
+                        <a href="{{route('requisition.index')}}" class='submenu-link'>Fund Requisition</a>
+                    </li>
+                    <li class="submenu-item">
+                        <a href="{{route('product-requisition.index')}}" class='submenu-link'>Product Requisition</a>
                     </li>
                 </ul>
             </div>

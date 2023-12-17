@@ -16,11 +16,11 @@
     <div class="row" id="table-bordered">
         <div class="col-12">
             <div class="card">
-                <div class="row my-2">
+                {{--<div class="row my-2">
 
                     <div class="col-md-6">
-                        <a class="btn btn-sm btn-primary me-3" href="{{route('requisition.create')}}">Product Requisition</a>
-                        <a class="btn btn-sm btn-primary" href="{{route('otherRequisition.create')}}">Other Requisition</a>
+                        <a class="btn btn-sm btn-primary me-3" href="{{route('requisition.create')}}">Fund Requisition</a>
+                        <a class="btn btn-sm btn-primary" href="{{route('product-requisition.create')}}">Product Requisition</a>
 
                     </div>
                     <div class="col-md-6">
@@ -44,11 +44,12 @@
 
 
                     </div>
-                </div>
+                </div>--}}
 
                 <!-- table bordered -->
                 <div class="table-responsive">
                     <table class="requisition table table-bordered mb-0">
+                        <a class="btn btn-sm btn-primary float-end" href="{{route('requisition.create')}}"><i class="bi bi-pencil-square"></i></a>
                         <thead>
                             <tr>
                                 <th scope="col">{{__('#SL')}}</th>
@@ -57,7 +58,8 @@
                                 <th scope="col">{{__('Fund Requisition #')}}</th>
                                 <th scope="col">{{__('Client Name')}}</th>
                                 <th scope="col">{{__('Vessel Name')}}</th>
-                                <th scope="col">{{__('Total Price')}}</th>
+                                <th scope="col">{{__('Requisition Amount')}}</th>
+                                <th scope="col">{{__('Approve Amount')}}</th>
                                 <th scope="col">{{__('Status')}}</th>
                                 <th class="white-space-nowrap">{{__('ACTION')}}</th>
                             </tr>
@@ -71,11 +73,11 @@
                                 <td>{{$r->req_slip_no}}</td>
                                 <td>{{$r->client?->client_name}}</td>
                                 <td>{{$r->vessel?->vessel_name}}</td>
-                                <td>{{$r->amount}}</td>
+                                <td>{{$r->order_amount}}</td>
                                 <td>@if($r->status == 1) {{__('Approved') }} @else {{__('UnApproved') }} @endif</td>
                                 <td class="white-space-nowrap">
-                                    @if($r->status == 1 && currentUser() == 'accountant')
-                                    <a class="btn btn-sm btn-success" href="{{route('autodebitvoucher.create',['id' => encryptor('encrypt',$r->id)])}}">
+                                    @if($r->status == 1 && $r->v_status == 2 && currentUser() == 'accountant')
+                                    <a class="btn btn-sm btn-success" href="{{route('autodebitvoucher.create',['id' => encryptor('encrypt',$r->id),'op' => 'Requisiton'])}}">
                                         <i class="bi bi-pencil-square"></i>Create Voucher
                                     </a>
                                     @endif

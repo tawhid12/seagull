@@ -56,6 +56,16 @@
                                     @endif
                                 </div>
 
+                                <div class="col-md-12 col-12">
+                                    <div class="form-group">
+                                        <label for="note ">Remarks</label>
+                                        <textarea name="note" class="form-control" rows="6"></textarea>
+                                    </div>
+                                    @if($errors->has('leave_type_id '))
+                                    <span class="text-danger"> {{ $errors->first('leave_type_id ') }}</span>
+                                    @endif
+                                </div>
+
                                 <div class="col-12 d-flex justify-content-end my-2">
                                     <button type="submit" class="btn btn-primary me-1 mb-1">Save</button>
 

@@ -65,7 +65,7 @@
                                         <label for="status ">Select Status</label>
                                         <select name="status" class="form-control">
                                             <option value="">Select</option>
-                                            <option value="1">Approved</option>
+                                            <option value="1" @if($l->status == 1) selected @endif>Approved</option>
                                         </select>
                                     </div>
                                 </div>

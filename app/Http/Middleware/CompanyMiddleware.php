@@ -4,7 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-
+use Session;
 class CompanyMiddleware
 {
     /**
@@ -16,15 +16,20 @@ class CompanyMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        if (currentUser() == 'salesexecutive') {
+        Session::put('redirected_from', $request->fullUrl());
+        //if (currentUser() == 'salesexecutive' || currentUser() == 'superadmin' ) {
             $company = company()['company_id'];
             if ($company) {
                 //return view('dashboard.salesexecutive');
                 return $next($request);
             } else {
+                $route = explode('.', $request->route()->getName());
+                if( $route[0] == 'company' &&currentUser() == 'superadmin' ){
+                    return $next($request);
+                }
                 return redirect()->route('salesExecutiveCompany');
             }
-        } elseif (currentUser() == 'superadmin' || currentUser() == 'accountant') {
+        /*}elseif (currentUser() == 'superadmin' || currentUser() == 'accountant') {
             $route = explode('.', $request->route()->getName());
             if ($route[1] == 'index' || $route[0] == 'company') {
                 return $next($request);
@@ -34,9 +39,9 @@ class CompanyMiddleware
                 \Toastr::warning("You don't have permission to access this page");
                 return redirect()->back();
             }
-        } else {
+        }else {
             \Toastr::warning("You don't have permission to access this page");
             return redirect()->back();
-        }
+        }*/
     }
 }

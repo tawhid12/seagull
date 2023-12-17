@@ -35,7 +35,7 @@ class unknownUser
             else if (!!$user && $role->identity == 'hrexecutive')
                 return redirect(route('dashboard'));
             else
-                return redirect(route('login'));
+                return redirect(route('logOut'));
 
             return $next($request);
         }

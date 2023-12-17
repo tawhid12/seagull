@@ -15,7 +15,8 @@
                             <form class="form" enctype="multipart/form-data" method="post" action="{{route('debit.store')}}">
                                 @csrf
                                 <div class="row">
-                                    
+                                    <input type="hidden" name="model" value="{{request()->get('op')}}">
+                                    <input type="hidden" name="model_id" value="{{request()->get('id')}}">
                                     <div class="col-md-6 col-12">
                                         <div class="form-group">
                                             <label for="countryName">{{__('Voucher No')}}</label>

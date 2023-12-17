@@ -19,6 +19,7 @@ class CheckRole
      */
     public function handle(Request $request, Closure $next)
     {
+       
         if(!Session::has('userId') || Session::has('userId')==null){
             return redirect()->route('logOut');
         }else{
@@ -33,6 +34,7 @@ class CheckRole
                     /*=== Requisition|Client|Vessel create|Update Check For Role Except Salesadmin ===*/
                     return $next($request);
                 }else{
+                    //echo $request->route()->getName();die;
                     if(Permission::where('role_id',$user->role_id)->where('name',$request->route()->getName())->exists())
                         return $next($request);
                     else{

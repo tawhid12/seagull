@@ -209,9 +209,10 @@ die;*/
      * @param  \App\Models\SalarySlip  $salarySlip
      * @return \Illuminate\Http\Response
      */
-    public function edit(SalarySlip $salarySlip)
+    public function edit($id)
     {
-        //
+        $sl = SalarySlip::findOrFail(encryptor('decrypt', $id));
+        return view('salary.slip.edit', compact('sl'));
     }
 
     /**
@@ -221,9 +222,17 @@ die;*/
      * @param  \App\Models\SalarySlip  $salarySlip
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, SalarySlip $salarySlip)
+    public function update(Request $request, $id)
     {
-        //
+        try {
+            $sl = SalarySlip::findOrFail(encryptor('decrypt', $id));
+            if(currentUser() == 'superadmin'){
+                $sl->status = !$sl->status;
+            }
+        }catch (Exception $e) {
+            //dd($e);
+            return redirect()->back()->withInput()->with(Toastr::error('Please try again!', 'Fail', ["positionClass" => "toast-top-right"]));
+        }
     }
 
     /**

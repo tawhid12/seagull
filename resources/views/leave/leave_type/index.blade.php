@@ -19,7 +19,7 @@
                             <tr>
                                 <th scope="col">{{__('#SL')}}</th>
                                 <th scope="col">{{__('Type')}}</th>
-                                <th scope="col">{{__('Status')}}</th>
+                                <!-- <th scope="col">{{__('Status')}}</th> -->
                                 <th class="white-space-nowrap">{{__('ACTION')}}</th>
                             </tr>
                         </thead>
@@ -28,7 +28,7 @@
                             <tr>
                                 <th scope="row">{{ ++$loop->index }}</th>
                                 <td>{{$lt->leave_type}}</td>
-                                <td></td>
+                                <!-- <td></td> -->
                                 <td class="white-space-nowrap">
                                     <a href="{{route('leave-type.edit',encryptor('encrypt',$lt->id))}}">
                                         <i class="bi bi-pencil-square"></i>

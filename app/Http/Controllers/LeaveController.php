@@ -157,9 +157,10 @@ class LeaveController extends Controller
                     Attendance::where('employee_id', $request->employee_id)->whereIn('postingDate', $all_dates)->update(['isPresent' => 4]);
                     $l->status = 1;
                 } else {
-                    $l->status = 1;
+                    return redirect()->back()->withInput()->with(Toastr::error('Attendance Not Exixts!', 'Fail', ["positionClass" => "toast-top-right"]));
                 }
             } else {
+                return redirect()->back()->withInput()->with(Toastr::error('No Leave Remaining!', 'Fail', ["positionClass" => "toast-top-right"]));
             }
             if ($l->save()) {
                 \LogActivity::addToLog('Update Leave', $request->getContent(), 'Leave');

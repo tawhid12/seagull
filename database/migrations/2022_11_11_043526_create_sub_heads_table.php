@@ -22,6 +22,8 @@ return new class extends Migration
             $table->string('head_code');
             $table->unique(['company_id', 'head_code']);
             $table->string('opening_balance');
+            $table->unsignedBigInteger('created_by');
+            $table->unsignedBigInteger('updated_by')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

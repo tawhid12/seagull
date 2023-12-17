@@ -1,7 +1,7 @@
 @extends('layout.app')
 
-@section('pageTitle','Create Product Requistion')
-@section('pageSubTitle','Create Product Requisition')
+@section('pageTitle','Create Fund Requistion')
+@section('pageSubTitle','Create Fund Requisition')
 
 @section('content')
 <section id="multiple-column-form">
@@ -13,6 +13,30 @@
                         <form class="form" method="post" enctype="multipart/form-data" action="{{route('requisition.store')}}">
                             @csrf
                             <div class="row">
+                                <div class="col-md-4 col-12">
+                                    <div class="form-group">
+                                        <label for="title">Requistion Title</label>
+                                        <input type="text" id="title" class="form-control" placeholder="Requisition Title" name="title">
+                                    </div>
+                                    @if($errors->has('title'))
+                                        <span class="text-danger"> {{ $errors->first('title') }}</span>
+                                    @endif
+                                </div>
+                                <div class="col-md-4 col-12">
+                                    <div class="form-group">
+                                        <label for="tax">Select Order</label>
+                                        <select name="order_id" class="form-control">
+                                            <option value="">Select</option>
+                                            @forelse($orders as $or)
+                                                <option value="{{$or->id}}">{{$or->order_subject}}</option>
+                                            @empty
+                                            @endforelse
+                                        </select>
+                                    </div>
+                                    @if($errors->has('order_id'))
+                                        <span class="text-danger"> {{ $errors->first('order_id') }}</span>
+                                    @endif
+                                </div>
                                 <div class="col-md-4 col-12">
                                     <div class="form-group">
                                         <label for="req_slip_no">Requistion Slip No</label>
@@ -31,7 +55,7 @@
                                     <span class="text-danger"> {{ $errors->first('postingDate') }}</span>
                                     @endif
                                 </div>
-                                <div class="col-md-4 col-12">
+                                {{--<div class="col-md-4 col-12">
                                     <div class="form-group">
                                         <label for="tax">Select Client</label>
                                         <select name="client_id" class="form-control">
@@ -85,7 +109,7 @@
                                     <span class="text-danger"> {{ $errors->first('qty') }}</span>
                                     @endif
                                 </div>
-                                <!-- <div class="col-md-4 col-12">
+                                <div class="col-md-4 col-12">
                                     <div class="form-group">
                                         <label for="amount">Product Price</label>
                                         <input type="text" id="amount" class="form-control" placeholder="Product Price" name="amount">
@@ -93,8 +117,8 @@
                                     @if($errors->has('amount'))
                                     <span class="text-danger"> {{ $errors->first('amount') }}</span>
                                     @endif
-                                </div> -->
-                                <div class="col-md-6 col-12">
+                                </div>--}}
+{{--                                <div class="col-md-4 col-12">
                                     <div class="form-group">
                                         <label for="Category">{{__('Received Account')}}</label>
                                         <select  class="form-control form-select" name="credit">
@@ -105,6 +129,15 @@
                                             @endif
                                         </select>
                                     </div>
+                                </div>--}}
+                                <div class="col-md-12 col-12">
+                                    <div class="form-group">
+                                        <label for="postingDate">Description</label>
+                                        <textarea rows="5" id="des" class="form-control" name="des"></textarea>
+                                    </div>
+                                    @if($errors->has('des'))
+                                        <span class="text-danger"> {{ $errors->first('des') }}</span>
+                                    @endif
                                 </div>
 
                                 <div class="col-12 d-flex justify-content-end">

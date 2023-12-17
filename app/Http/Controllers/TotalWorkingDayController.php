@@ -71,9 +71,10 @@ class TotalWorkingDayController extends Controller
      * @param  \App\Models\TotalWorkingDay  $totalWorkingDay
      * @return \Illuminate\Http\Response
      */
-    public function edit(TotalWorkingDay $totalWorkingDay)
+    public function edit($id)
     {
-        //
+        $twd = TotalWorkingDay::findOrFail(encryptor('decrypt', $id));
+        return view('leave.total_working_day.edit', compact('twd'));
     }
 
     /**
@@ -83,9 +84,23 @@ class TotalWorkingDayController extends Controller
      * @param  \App\Models\TotalWorkingDay  $totalWorkingDay
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, TotalWorkingDay $totalWorkingDay)
+    public function update(Request $request, $id)
     {
-        //
+        try {
+            $twd = TotalWorkingDay::findorFail(encryptor('decrypt', $id));
+            $twd->total_working_day = $request->total_working_day;
+            $twd->month = $request->month;
+            $twd->year = $request->year;
+            if ($twd->save()) {
+                \LogActivity::addToLog('Update Total Working Day', $request->getContent(), 'Total Wokring Day');
+                return redirect()->route('total-working-day.index')->with(Toastr::success('Data Saved!', 'Success', ["positionClass" => "toast-top-right"]));
+            } else {
+                return redirect()->back()->withInput()->with(Toastr::error('Please try again!', 'Fail', ["positionClass" => "toast-top-right"]));
+            }
+        } catch (Exception $e) {
+            //dd($e);
+            return redirect()->back()->withInput()->with(Toastr::error('Please try again!', 'Fail', ["positionClass" => "toast-top-right"]));
+        }
     }
 
     /**
