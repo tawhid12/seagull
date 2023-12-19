@@ -30,7 +30,7 @@ return new class extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
-        /*DB::table('companies')->insert(
+        DB::table('companies')->insert(
             [
                 'company_name' => 'Company-1',
                 'website' => 'www.seagull.com',
@@ -39,7 +39,7 @@ return new class extends Migration
                 'contact_no' => '01600000000',
                 'created_by' => 1,
             ]
-        );*/
+        );
     }
 
     /**
