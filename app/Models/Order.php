@@ -21,4 +21,16 @@ class Order extends Model
     {
         return $this->hasMany(Payment::class);
     }
+    public function service_report(){
+        return $this->hasMany(ServiceReport::class);
+    }
+    public function delivery_report(){
+        return $this->hasMany(DeliveryReport::class);
+    }
+    public function invoice_report(){
+        return $this->hasMany(InvoiceReport::class);
+    }
+    public function work_done_report(){
+        return $this->hasMany(WorkDoneReport::class);
+    }
 }

@@ -79,9 +79,12 @@ class OrderController extends Controller
      * @param  \App\Models\Order  $order
      * @return \Illuminate\Http\Response
      */
-    public function show(Order $order)
+    public function show($id)
     {
-        //
+        $clients = Client::where('company_id', company())->get();
+        $vessels = Vessel::where('company_id', company())->get();
+        $or=Order::with(['service_report','delivery_report','invoice_report','work_done_report'])->findOrFail(encryptor('decrypt',$id));
+        return view('order.show',compact('or','clients', 'vessels'));
     }
 
     /**
@@ -93,8 +96,8 @@ class OrderController extends Controller
     public function edit($id)
     {
         $companyData = company();
-        $clients = Client::where('company_id', $companyData['company_id'])->get();
-        $vessels = Vessel::where('company_id', $companyData['company_id'])->get();
+        $clients = Client::where('company_id', company())->get();
+        $vessels = Vessel::where('company_id', company())->get();
         $or=Order::findOrFail(encryptor('decrypt',$id));
         return view('order.edit',compact('or','clients', 'vessels'));
     }

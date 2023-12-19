@@ -20,11 +20,11 @@
                                 <th scope="col">{{__('#SL')}}</th>
                                 <th scope="col">{{__('Company Name')}}</th>
                                 <th scope="col">{{__('Website')}}</th>
-                                <th scope="col">{{__('Tax No')}}</th>
-                                <th scope="col">{{__('Address')}}</th>
+                                <!-- <th scope="col">{{__('Tax No')}}</th> -->
+                                <!-- <th scope="col">{{__('Address')}}</th> -->
                                 <th scope="col">{{__('City')}}</th>
                                 <th scope="col">{{__('Country')}}</th>
-                                <th scope="col">{{__('Zip')}}</th>
+                                <!-- <th scope="col">{{__('Zip')}}</th> -->
                                 <th scope="col">{{__('Email')}}</th>
                                 <th scope="col">{{__('Contact')}}</th>
                                 <th scope="col">{{__('Bank Detail')}}</th>
@@ -37,11 +37,11 @@
                                     <th scope="row">{{ ++$loop->index }}</th>
                                     <td>{{$c->company_name}}</td>
                                     <td>{{$c->website}}</td>
-                                    <td>{{$c->tax_no}}</td>
-                                    <td>{{$c->address}}</td>
+                                    <!-- <td>{{$c->tax_no}}</td> -->
+                                    <!-- <td>{{$c->address}}</td> -->
                                     <td>{{$c->city}}</td>
                                     <td>{{$c->country}}</td>
-                                    <td>{{$c->zip_code}}</td>
+                                    <!-- <td>{{$c->zip_code}}</td> -->
                                     <td>{{$c->email}}</td>
                                     <td>{{$c->contact_no}}</td>
                                     <td>

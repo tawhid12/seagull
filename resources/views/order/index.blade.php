@@ -18,7 +18,7 @@
                             <thead>
                             <tr>
                                 <th scope="col">{{__('#SL')}}</th>
-                                <th scope="col">{{__('Invoice No')}}</th>
+                                <th scope="col">{{__('Order No')}}</th>
                                 <th scope="col">{{__('Company')}}</th>
                                 <th scope="col">{{__('Client')}}</th>
                                 <th scope="col">{{__('Vessel')}}</th>
@@ -33,8 +33,8 @@
                             <tbody>
                             @forelse($orders as $or)
                                 <tr>
-                                    <th scope="row">{{ ++$loop->index }}</th>
-                                    <td>{{$or->invoice_no}}</td>
+                                    <td>{{ ++$loop->index }}</td>
+                                    <td>{{$or->id}}</td>
                                     <td>{{$or->company?->company_name}}</td>
                                     <td>{{$or->client?->client_name}}</td>
                                     <td>{{$or->vessel?->vessel_name}}</td>
@@ -43,19 +43,22 @@
                                     <td>{{$or->amount-$or->payments->sum('amount')}}</td>
                                     <td>{{$or->posted_on}}</td>
                                     <td>
-                                        <a href="" class="btn btn-sm btn-success" title="Service report">S/R</a>
-                                        <a href="" class="btn btn-sm btn-success">D/R</a>
-                                        <a href="" class="btn btn-sm btn-success">I/R</a>
-                                        <a href="" class="btn btn-sm btn-success">Wkd/R</a>
+                                        <a href="{{route('service-report.create',['id' => $or->id])}}" class="m-1 btn btn-sm btn-success" title="Service report">S/R</a>
+                                        <a href="{{route('delivery-report.create',['id' => $or->id])}}" class="m-1 btn btn-sm btn-success">D/R</a>
+                                        <a href="{{route('invoice-report.create',['id' => $or->id])}}" class="m-1 btn btn-sm btn-success">I/R</a>
+                                        <a href="{{route('work-done-report.create',['id' => $or->id])}}" class="m-1 btn btn-sm btn-success">Wkd/R</a>
                                     </td>
                                     <td>
                                         <a href="{{route('order.edit',encryptor('encrypt',$or->id))}}">
                                             <i class="bi bi-pencil-square"></i>
                                         </a>
-                                        <a data-order-id="{{ $or->id }}" data-client="{{ $or->client?->client_name }}"
+                                        <a href="{{route('order.show',encryptor('encrypt',$or->id))}}">
+                                            <i class="bi bi-eye"></i>
+                                        </a>
+                                        <!-- <a data-order-id="{{ $or->id }}" data-client="{{ $or->client?->client_name }}"
                                            href="#" data-bs-toggle="modal" data-bs-target="#paymentModal"
-                                           class="ms-2 d-inline-block btn btn-primary btn-sm" title="Reserve">Make
-                                            Payment</a>
+                                           class="ms-2 d-inline-block btn btn-primary btn-sm" title="Payment">
+                                            Payment</a> -->
 
                                         <!-- <a href="javascript:void()" onclick="$('#form{{$or->id}}').submit()">
                                                 <i class="bi bi-trash"></i>

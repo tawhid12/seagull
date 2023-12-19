@@ -25,7 +25,7 @@
                                 <div class="col-md-4 col-12">
                                     <div class="form-group">
                                         <label for="name">Website</label>
-                                        <input type="text" id="website" class="form-control" placeholder="Company Website" name="website">
+                                        <input type="text" id="website" value="{{ $c->website }}" class="form-control" placeholder="Company Website" name="website">
                                     </div>
                                     @if($errors->has('website'))
                                     <span class="text-danger"> {{ $errors->first('website') }}</span>
@@ -34,7 +34,7 @@
                                 <div class="col-md-4 col-12">
                                     <div class="form-group">
                                         <label for="tax">Tax</label>
-                                        <input type="text" id="tax_no" class="form-control" placeholder="Tax" name="tax_no">
+                                        <input type="text" id="tax_no" value="{{ $c->tax_no }}" class="form-control" placeholder="Tax" name="tax_no">
                                     </div>
                                     @if($errors->has('tax_no'))
                                     <span class="text-danger"> {{ $errors->first('tax_no') }}</span>
@@ -44,7 +44,7 @@
                                 <div class="col-md-12 col-12">
                                     <div class="form-group">
                                         <label for="address">Address</label>
-                                        <textarea rows="5" id="address" class="form-control" placeholder="Company Address" name="address"></textarea>
+                                        <textarea rows="5" id="address" class="form-control" placeholder="Company Address" name="address">{{ $c->address }}</textarea>
                                     </div>
                                     @if($errors->has('address '))
                                     <span class="text-danger"> {{ $errors->first('address') }}</span>
@@ -53,7 +53,7 @@
                                 <div class="col-md-4 col-12">
                                     <div class="form-group">
                                         <label for="city">City</label>
-                                        <input type="text" id="city" class="form-control" placeholder="City" name="city">
+                                        <input type="text" id="city" value="{{ $c->city }}" class="form-control" placeholder="City" name="city">
                                     </div>
                                     @if($errors->has('city'))
                                     <span class="text-danger"> {{ $errors->first('city') }}</span>
@@ -62,7 +62,7 @@
                                 <div class="col-md-4 col-12">
                                     <div class="form-group">
                                         <label for="country">Country</label>
-                                        <input type="text" id="country" class="form-control" placeholder="Country" name="country">
+                                        <input type="text" id="country" value="{{ $c->country }}" class="form-control" placeholder="Country" name="country">
                                     </div>
                                     @if($errors->has('country'))
                                     <span class="text-danger"> {{ $errors->first('country') }}</span>
@@ -71,7 +71,7 @@
                                 <div class="col-md-4 col-12">
                                     <div class="form-group">
                                         <label for="zip_code">Zip Code</label>
-                                        <input type="text" id="zip_code" class="form-control" placeholder="Zip Code" name="zip_code">
+                                        <input type="text" id="zip_code" value="{{ $c->zip_code }}" class="form-control" placeholder="Zip Code" name="zip_code">
                                     </div>
                                     @if($errors->has('zip_code'))
                                     <span class="text-danger"> {{ $errors->first('zip_code') }}</span>
@@ -80,7 +80,7 @@
                                 <div class="col-md-4 col-12">
                                     <div class="form-group">
                                         <label for="email">Email</label>
-                                        <input type="text" id="email" class="form-control" placeholder="Email" name="email">
+                                        <input type="text" id="email" value="{{ $c->email }}" class="form-control" placeholder="Email" name="email">
                                     </div>
                                     @if($errors->has('email'))
                                     <span class="text-danger"> {{ $errors->first('email') }}</span>
@@ -89,7 +89,7 @@
                                 <div class="col-md-4 col-12">
                                     <div class="form-group">
                                         <label for="contact_no">Contact No</label>
-                                        <input type="text" id="contact_no" class="form-control" placeholder="contact_no" name="contact_no">
+                                        <input type="text" id="contact_no" value="{{ $c->contact_no }}" class="form-control" placeholder="contact_no" name="contact_no">
                                     </div>
                                     @if($errors->has('contact_no'))
                                     <span class="text-danger"> {{ $errors->first('contact_no') }}</span>

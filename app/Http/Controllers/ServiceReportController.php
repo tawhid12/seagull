@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
 use App\Models\ServiceReport;
 use Illuminate\Http\Request;
-
+use App\Http\Traits\ImageHandleTraits;
+use Toastr;
 class ServiceReportController extends Controller
 {
+    use ImageHandleTraits;
     /**
      * Display a listing of the resource.
      *
@@ -22,9 +25,10 @@ class ServiceReportController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        $or = Order::with('service_report')->findOrFail($request->get('id'));
+        return view('service_report.create', compact('or'));
     }
 
     /**
@@ -35,7 +39,21 @@ class ServiceReportController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+            $sr = New ServiceReport();
+            if ($request->has('service_report')) $sr->file_name = 'uploads/service_report/'.$this->uploadImage($request->file('service_report'), 'uploads/service_report');
+            $sr->order_id = $request->order_id;
+            $sr->created_by = currentUserId();
+            if ($sr->save()) {
+                \LogActivity::addToLog('Upload Service Report', $request->getContent(), 'Service Report');
+                return redirect()->route('order.index')->with(Toastr::success('Data Saved!', 'Success', ["positionClass" => "toast-top-right"]));
+            } else {
+                return redirect()->back()->withInput()->with(Toastr::error('Please try again!', 'Fail', ["positionClass" => "toast-top-right"]));
+            }
+        } catch (Exception $e) {
+            //dd($e);
+            return redirect()->back()->withInput()->with(Toastr::error('Please try again!', 'Fail', ["positionClass" => "toast-top-right"]));
+        }
     }
 
     /**

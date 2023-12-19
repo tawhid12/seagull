@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\BankDetail;
 use App\Models\Company;
 use Illuminate\Http\Request;
+use App\Http\Requests\BankDetail\AddBankDetailRequest;
+use App\Http\Requests\BankDetail\UpdateBankDetailRequest;
 use Toastr;
 class BankDetailController extends Controller
 {
@@ -36,7 +38,7 @@ class BankDetailController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(AddBankDetailRequest $request)
     {
         try {
             $bd = New BankDetail();
@@ -46,12 +48,11 @@ class BankDetailController extends Controller
             $bd->account_name = $request->account_name;
             $bd->account_no = $request->account_no;
             $bd->swift_code = $request->swift_code;
-            $companyData = company();
-            $bd->company_id=$companyData['company_id'];
+            $bd->company_id=$request->company_id;
             $bd->created_by=currentUserId();
             if($bd->save()){
                 \LogActivity::addToLog('Add Bank Detail',$request->getContent(),'Bank Detail');
-                return redirect()->route('bank.index', ['role' =>currentUser()])->with(Toastr::success('Data Saved!', 'Success', ["positionClass" => "toast-top-right"]));
+                return redirect()->route('bank.index')->with(Toastr::success('Data Saved!', 'Success', ["positionClass" => "toast-top-right"]));
             }else{
                 return redirect()->back()->withInput()->with(Toastr::error('Please try again!', 'Fail', ["positionClass" => "toast-top-right"]));
             }
@@ -80,8 +81,9 @@ class BankDetailController extends Controller
      */
     public function edit($id)
     {
-        $bd=BankDetail::findOrFail(encryptor('decrypt',$id));
-        return view('bank.edit',compact('bd'));
+        $b=BankDetail::findOrFail(encryptor('decrypt',$id));
+        $companies = Company::get();
+        return view('bank.edit',compact('b','companies'));
     }
 
     /**
@@ -91,8 +93,9 @@ class BankDetailController extends Controller
      * @param  \App\Models\BankDetail  $bankDetail
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateBankDetailRequest $request, $id)
     {
+        //print_r($request->toArray());die;
         try {
             $bd = BankDetail::findOrFail(encryptor('decrypt',$id));
             $bd->bank_name = $request->bank_name;
@@ -101,12 +104,11 @@ class BankDetailController extends Controller
             $bd->account_name = $request->account_name;
             $bd->account_no = $request->account_no;
             $bd->swift_code = $request->swift_code;
-            $companyData = company();
-            $bd->company_id=$companyData['company_id'];
+            $bd->company_id=$request->company_id;
             $bd->created_by=currentUserId();
             if($bd->save()){
                 \LogActivity::addToLog('Add Bank Detail',$request->getContent(),'Bank Detail');
-                return redirect()->route('bank.index', ['role' =>currentUser()])->with(Toastr::success('Data Saved!', 'Success', ["positionClass" => "toast-top-right"]));
+                return redirect()->route('bank.index')->with(Toastr::success('Data Saved!', 'Success', ["positionClass" => "toast-top-right"]));
             }else{
                 return redirect()->back()->withInput()->with(Toastr::error('Please try again!', 'Fail', ["positionClass" => "toast-top-right"]));
             }

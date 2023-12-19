@@ -28,6 +28,10 @@ class UpdateOrderRequest extends FormRequest
         return [
             'invoice_no'=>'nullable|unique:orders,invoice_no,'.$id,
             'po_no'=>'nullable|unique:orders,po_no,'.$id,
+            'client_id'=>'required',
+            'vessel_id'=>'required',
+            'currency'=>'required',
+            'amount'=>'required|numeric|gt:0',
         ];
     }
     public function messages(){

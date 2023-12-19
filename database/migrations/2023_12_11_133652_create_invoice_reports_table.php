@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('invoice_reports', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('order_id')->index()->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
+            $table->string('file_name');
             $table->unsignedBigInteger('created_by');
             $table->unsignedBigInteger('updated_by')->nullable();
             $table->timestamps();

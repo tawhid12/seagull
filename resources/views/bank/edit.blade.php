@@ -1,7 +1,7 @@
 @extends('layout.app')
 
-@section('pageTitle','Edit Designation')
-@section('pageSubTitle','Edit Designation')
+@section('pageTitle','Edit Bank')
+@section('pageSubTitle','Edit Bank')
 
 @section('content')
 
@@ -11,21 +11,82 @@
             <div class="card">
                 <div class="card-content">
                     <div class="card-body">
-                        <form class="form" method="post" enctype="multipart/form-data" action="{{route('designation.update',encryptor('encrypt',$d->id), ['role' =>currentUser()])}}">
+                        <form class="form" method="post" enctype="multipart/form-data" action="{{route('bank.update',encryptor('encrypt',$b->id), ['role' =>currentUser()])}}">
                             @csrf
                             @method('patch')
-                            <input type="hidden" name="uptoken" value="{{encryptor('encrypt',$d->id)}}">
+                            <input type="hidden" name="uptoken" value="{{encryptor('encrypt',$b->id)}}">
                             <div class="row">
-                                <div class="col-md-4 col-12">
-                                    <div class="form-group">
-                                        <label for="name">Name</label>
-                                        <input type="text" id="name" value="{{ $d->designation_name }}" class="form-control" placeholder="Designation Name" name="designation_name">
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group">
+                                            <label for="tax">Select Company</label>
+                                            <select name="company_id" class="form-control">
+                                                <option value="">Select</option>
+                                                @forelse($companies as $c)
+                                                    <option value="{{$c->id}}" @if($c->id == $b->company_id) selected @endif>{{$c->company_name}}</option>
+                                                @empty
+                                                @endforelse
+                                            </select>
+                                        </div>
+                                        @if($errors->has('company_id'))
+                                            <span class="text-danger"> {{ $errors->first('company_id') }}</span>
+                                        @endif
+                                    </div>
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group">
+                                            <label for="name">Bank Name</label>
+                                            <input type="text" id="bank_name" class="form-control"
+                                                   placeholder="Bank Name" name="bank_name" value="{{ $b->bank_name }}">
+                                        </div>
+                                        @if($errors->has('bank_name'))
+                                            <span class="text-danger"> {{ $errors->first('bank_name') }}</span>
+                                        @endif
+                                    </div>
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group">
+                                            <label for="name">Branch</label>
+                                            <input type="text" id="branch" class="form-control"
+                                                   placeholder="Branch" name="branch" value="{{ $b->branch }}">
+                                        </div>
+                                        @if($errors->has('branch'))
+                                            <span class="text-danger"> {{ $errors->first('branch') }}</span>
+                                        @endif
+                                    </div>
+
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group">
+                                            <label for="account_name">Account Name</label>
+                                            <input type="text" id="account_name" class="form-control" placeholder="Account Name"
+                                                   name="account_name" value="{{ $b->account_name }}">
+                                        </div>
+                                        @if($errors->has('account_name'))
+                                            <span class="text-danger"> {{ $errors->first('account_name') }}</span>
+                                        @endif
+                                    </div>
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group">
+                                            <label for="account_no">Account No</label>
+                                            <input type="text" id="account_no" class="form-control" placeholder="Account No"
+                                                   name="account_no" value="{{ $b->account_no }}">
+                                        </div>
+                                        @if($errors->has('account_no'))
+                                            <span class="text-danger"> {{ $errors->first('account_no') }}</span>
+                                        @endif
+                                    </div>
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group">
+                                            <label for="swift_code">Swift Code</label>
+                                            <input type="text" id="swift_code" class="form-control" placeholder="Swift Code"
+                                                   name="swift_code" value="{{ $b->swift_code }}">
+                                        </div>
+                                        @if($errors->has('swift_code'))
+                                            <span class="text-danger"> {{ $errors->first('swift_code') }}</span>
+                                        @endif
+                                    </div>
+                                    <div class="col-12 d-flex justify-content-end">
+                                        <button type="submit" class="btn btn-primary me-1 mb-1">Save</button>
+
                                     </div>
                                 </div>
-                                <div class="col-12 d-flex justify-content-end">
-                                    <button type="submit" class="btn btn-primary mb-1">Update</button>
-                                </div>
-                            </div>
                         </form>
                     </div>
                 </div>

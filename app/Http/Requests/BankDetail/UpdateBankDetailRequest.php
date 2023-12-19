@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests\Company;
+namespace App\Http\Requests\BankDetail;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
 
-class UpdateRequest extends FormRequest
+class UpdateBankDetailRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,8 +26,9 @@ class UpdateRequest extends FormRequest
     {
         $id=encryptor('decrypt',$r->uptoken);
         return [
-            'company_name'=>'required|unique:companies,company_name,'.$id,
-            'contact_no'=>'required|unique:companies,contact_no,'.$id
+            'bank_name'=>'required|unique:bank_details,bank_name,'.$id,
+            'account_name'=>'required|unique:bank_details,account_name,'.$id,
+            'account_no'=>'required|unique:bank_details,account_no,'.$id,
         ];
     }
     public function messages(){

@@ -13,7 +13,7 @@ class AddOrderRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,18 @@ class AddOrderRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'invoice_no'=>'nullable|unique:orders,invoice_no,',
+            'po_no'=>'nullable|unique:orders,po_no,',
+            'client_id'=>'required',
+            'vessel_id'=>'required',
+            'currency'=>'required',
+            'amount'=>'required|numeric|gt:0',
+        ];
+    }
+    public function messages(){
+        return [
+            'required' => "The :attribute filed is required",
+            'unique' => "The :attribute already used. Please try another",
         ];
     }
 }

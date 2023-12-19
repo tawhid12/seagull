@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
 use App\Models\WorkDoneReport;
 use Illuminate\Http\Request;
+use App\Http\Traits\ImageHandleTraits;
+use Toastr;
 
 class WorkDoneReportController extends Controller
 {
+    use ImageHandleTraits;
     /**
      * Display a listing of the resource.
      *
@@ -22,9 +26,10 @@ class WorkDoneReportController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        $or = Order::with('work_done_report')->findOrFail($request->get('id'));
+        return view('work_done.create', compact('or'));
     }
 
     /**
@@ -35,7 +40,21 @@ class WorkDoneReportController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+            $wrk = New WorkDoneReport();
+            if ($request->has('work_done_report')) $wrk->file_name = 'uploads/work_done_report/'.$this->uploadImage($request->file('work_done_report'), 'uploads/work_done_report');
+            $wrk->order_id = $request->order_id;
+            $wrk->created_by = currentUserId();
+            if ($wrk->save()) {
+                \LogActivity::addToLog('Upload Work Report', $request->getContent(), 'Work Report');
+                return redirect()->route('order.index')->with(Toastr::success('Data Saved!', 'Success', ["positionClass" => "toast-top-right"]));
+            } else {
+                return redirect()->back()->withInput()->with(Toastr::error('Please try again!', 'Fail', ["positionClass" => "toast-top-right"]));
+            }
+        } catch (Exception $e) {
+            //dd($e);
+            return redirect()->back()->withInput()->with(Toastr::error('Please try again!', 'Fail', ["positionClass" => "toast-top-right"]));
+        }
     }
 
     /**
