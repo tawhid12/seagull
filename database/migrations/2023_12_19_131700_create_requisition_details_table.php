@@ -13,9 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('purchase_orders', function (Blueprint $table) {
+        Schema::create('requisition_details', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('invoice_id')->index()->foreign('invoice_id')->references('id')->on('invoices')->onDelete('cascade');
+            $table->unsignedBigInteger('requisition_id')->index()->foreign('requisition_id')->references('id')->on('requisitions')->onDelete('cascade');
+            $table->decimal('approve_amount',10,2)->default(0.00);
+            $table->boolean('v_status')->default(3)->comment('1=>Complete 2=> Pending');
+            $table->date('postingDate');
+            $table->text('des')->nullable();
             $table->unsignedBigInteger('created_by');
             $table->unsignedBigInteger('updated_by')->nullable();
             $table->timestamps();
@@ -30,6 +34,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('purchase_orders');
+        Schema::dropIfExists('requisition_details');
     }
 };

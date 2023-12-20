@@ -30,13 +30,13 @@
                                 <td>{{$vc->category_name}}</td>
 {{--                                <td>@if($$vc->status == 1) {{__('Active') }} @else {{__('Inactive') }} @endif</td>--}}
                                 <td class="white-space-nowrap">
-                                    <a href="{{route('category.edit',encryptor('encrypt',$vc->id))}}">
+                                    <a href="{{route('vessel-categories.edit',encryptor('encrypt',$vc->id))}}">
                                         <i class="bi bi-pencil-square"></i>
                                     </a>
                                     <!-- <a href="javascript:void()" onclick="$('#form{{$vc->id}}').submit()">
                                                 <i class="bi bi-trash"></i>
                                             </a> -->
-                                    <form id="form{{$vc->id}}" action="{{route('category.destroy',encryptor('encrypt',$vc->id))}}" method="post">
+                                    <form id="form{{$vc->id}}" action="{{route('vessel-categories.destroy',encryptor('encrypt',$vc->id))}}" method="post">
                                         @csrf
                                         @method('delete')
 

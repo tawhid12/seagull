@@ -11,6 +11,7 @@ use App\Http\Requests\Supplier\UpdateRequest;
 use App\Models\Product;
 use Toastr;
 use DB;
+
 class SupplierController extends Controller
 {
     /**
@@ -32,7 +33,7 @@ class SupplierController extends Controller
     public function create()
     {
         $companyData = company();
-        $products = Product::where('company_id',$companyData['company_id'])->get();
+        $products = Product::where('company_id', $companyData['company_id'])->get();
         return view('supplier.create');
     }
 
@@ -42,13 +43,13 @@ class SupplierController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(UpdateRequest $request)
     {
         /*echo '<pre>';
 print_r($request->toArray());die;*/
         try {
             DB::beginTransaction();
-            $sup = New Supplier();
+            $sup = new Supplier();
             $sup->supplier_name = $request->supplier_name;
             $sup->phone = $request->phone;
             $sup->mobile = $request->mobile;
@@ -65,24 +66,24 @@ print_r($request->toArray());die;*/
             $sup->contact_person_name = $request->contact_person_name;
             $sup->contact_person_phone = $request->contact_person_phone;
             $sup->contact_person_email = $request->contact_person_email;
-            $sup->created_by=currentUserId();
-            if($sup->save()){
-                $id_child_one = Child_one::where('head_code','2130')/*->where(company())*/->first();
+            $sup->created_by = currentUserId();
+            if ($sup->save()) {
+                $id_child_one = Child_one::where('head_code', '2130')/*->where(company())*/->first();
                 $ach = new Child_two;
-                $ach->child_one_id= $id_child_one->id;
-                $ach->head_name=$request->supplier_name;
-                $ach->head_code = '2130'.$sup->id;
-                $ach->opening_balance =$request->openingAmount ?? 0;
-                $ach->created_by=currentUserId();
-                if($ach->save()) {
+                $ach->child_one_id = $id_child_one->id;
+                $ach->head_name = $request->supplier_name;
+                $ach->head_code = '2130' . $sup->id;
+                $ach->opening_balance = $request->openingAmount ?? 0;
+                $ach->created_by = currentUserId();
+                if ($ach->save()) {
                     $sup->account_id = $ach->id;
                     $sup->save();
                     DB::commit();
                     \LogActivity::addToLog('Add Supplier', $request->getContent(), 'Supplier');
                     return redirect()->route('supplier.index')->with(Toastr::success('Data Saved!', 'Success', ["positionClass" => "toast-top-right"]));
-                }else
+                } else
                     return redirect()->back()->withInput()->with(Toastr::error('Please try again!', 'Fail', ["positionClass" => "toast-top-right"]));
-            }else{
+            } else {
                 return redirect()->back()->withInput()->with(Toastr::error('Please try again!', 'Fail', ["positionClass" => "toast-top-right"]));
             }
         } catch (Exception $e) {
@@ -109,9 +110,10 @@ print_r($request->toArray());die;*/
      * @param  \App\Models\Supplier  $supplier
      * @return \Illuminate\Http\Response
      */
-    public function edit(Supplier $supplier)
+    public function edit($id)
     {
-        //
+        $sup = Supplier::findOrFail(encryptor('decrypt', $id));
+        return view('supplier.edit', compact('sup'));
     }
 
     /**
@@ -121,9 +123,46 @@ print_r($request->toArray());die;*/
      * @param  \App\Models\Supplier  $supplier
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Supplier $supplier)
+    public function update(Request $request, $id)
     {
-        //
+        try {
+            DB::beginTransaction();
+            $sup = Supplier::findOrFail(encryptor('decrypt', $id));
+            $sup->supplier_name = $request->supplier_name;
+            $sup->phone = $request->phone;
+            $sup->mobile = $request->mobile;
+            $sup->email = $request->email;
+            //$c->vessel_id = $request->vessel_id;
+            $sup->fax = $request->fax;
+            $sup->web = $request->web;
+            $sup->address = $request->address;
+            $sup->address = $request->address;
+            $sup->tin = $request->tin;
+            $sup->tin_name = $request->tin_name;
+            $sup->bin = $request->bin;
+            $sup->bin_name = $request->bin_name;
+            $sup->contact_person_name = $request->contact_person_name;
+            $sup->contact_person_phone = $request->contact_person_phone;
+            $sup->contact_person_email = $request->contact_person_email;
+            $sup->created_by = currentUserId();
+            if ($sup->save()) {
+                $child_two = Child_two::where('head_code', '2130' . $sup->id)->first();
+                //print_r($child_two);die;
+                $child_two->head_name = $request->supplier_name;
+                if ($child_two->save()) {
+                    DB::commit();
+                    \LogActivity::addToLog('Update Supplier', $request->getContent(), 'Supplier');
+                    return redirect()->route('supplier.index')->with(Toastr::success('Data Saved!', 'Success', ["positionClass" => "toast-top-right"]));
+                } else
+                    return redirect()->back()->withInput()->with(Toastr::error('Please try again!', 'Fail', ["positionClass" => "toast-top-right"]));
+            } else {
+                return redirect()->back()->withInput()->with(Toastr::error('Please try again!', 'Fail', ["positionClass" => "toast-top-right"]));
+            }
+        } catch (Exception $e) {
+            DB::rollback();
+            //dd($e);
+            return redirect()->back()->withInput()->with(Toastr::error('Please try again!', 'Fail', ["positionClass" => "toast-top-right"]));
+        }
     }
 
     /**

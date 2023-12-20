@@ -395,7 +395,7 @@ class CreditVoucherController extends Controller
                     }
                 }
                 DB::commit();
-				return redirect()->route(currentUser().'.credit.index')->with($this->resMessageHtml(true,null,'Successfully created'));
+				return redirect()->route('credit.index')->with($this->resMessageHtml(true,null,'Successfully created'));
 			}else{
 				return redirect()->back()->withInput()->with($this->resMessageHtml(false,'error','Please try again'));
 			}

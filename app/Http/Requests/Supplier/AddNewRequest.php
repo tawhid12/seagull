@@ -25,9 +25,6 @@ class AddNewRequest extends FormRequest
     {
         return [
             'supplier_name'=>'required|unique:suppliers,supplier_name',
-			'email'=>'required|unique:suppliers,email',
-			'contact_no'=>'required|unique:suppliers,contact_no',
-            'product_id'=>'required',
         ];
     }
     public function messages(){

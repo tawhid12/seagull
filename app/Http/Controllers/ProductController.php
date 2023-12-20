@@ -42,7 +42,7 @@ class ProductController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(AddNewRequest $request)
     {
         try {
             $p = new Product();
@@ -53,10 +53,12 @@ class ProductController extends Controller
             $p->product_model = $request->product_model;
             $p->manufacturer = $request->manufacturer;
             $p->description = $request->description;
+            $p->brand = $request->brand;
+            $p->manu_country = $request->manu_country;
             $p->created_by = currentUserId();
             if ($p->save()) {
                 \LogActivity::addToLog('Add Product', $request->getContent(), 'Product');
-                return redirect()->route('product.index', ['role' => currentUser()])->with(Toastr::success('Data Saved!', 'Success', ["positionClass" => "toast-top-right"]));
+                return redirect()->route('product.index')->with(Toastr::success('Data Saved!', 'Success', ["positionClass" => "toast-top-right"]));
             } else {
                 return redirect()->back()->withInput()->with(Toastr::error('Please try again!', 'Fail', ["positionClass" => "toast-top-right"]));
             }
@@ -83,9 +85,12 @@ class ProductController extends Controller
      * @param \App\Models\Product $product
      * @return \Illuminate\Http\Response
      */
-    public function edit(Product $product)
+    public function edit($id)
     {
-        //
+        $p=Product::findOrFail(encryptor('decrypt',$id));
+        $categories = Category::all();
+        $pro_types = ProductType::all();
+        return view('product.edit', compact('p','categories', 'pro_types'));
     }
 
     /**
@@ -95,9 +100,30 @@ class ProductController extends Controller
      * @param \App\Models\Product $product
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Product $product)
+    public function update(UpdateRequest $request,$id)
     {
-        //
+        try {
+            $p = Product::findOrFail(encryptor('decrypt',$id));
+            $p->product_name = $request->product_name;
+            $p->category_id = $request->category_id;
+            $p->pro_type_id = $request->pro_type_id;
+            $p->product_item_code = $request->product_item_code;
+            $p->product_model = $request->product_model;
+            $p->manufacturer = $request->manufacturer;
+            $p->description = $request->description;
+            $p->brand = $request->brand;
+            $p->manu_country = $request->manu_country;
+            $p->updated_by = currentUserId();
+            if ($p->save()) {
+                \LogActivity::addToLog('Update Product', $request->getContent(), 'Product');
+                return redirect()->route('product.index', ['role' => currentUser()])->with(Toastr::success('Data Saved!', 'Success', ["positionClass" => "toast-top-right"]));
+            } else {
+                return redirect()->back()->withInput()->with(Toastr::error('Please try again!', 'Fail', ["positionClass" => "toast-top-right"]));
+            }
+        } catch (Exception $e) {
+            //dd($e);
+            return redirect()->back()->withInput()->with(Toastr::error('Please try again!', 'Fail', ["positionClass" => "toast-top-right"]));
+        }
     }
 
     /**

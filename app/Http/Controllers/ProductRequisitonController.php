@@ -50,6 +50,7 @@ class ProductRequisitonController extends Controller
             if($order->amount == 0.00){
                 return redirect()->back()->withInput()->with(Toastr::error('Order Amount should Be greater than Zero', 'Fail', ["positionClass" => "toast-top-right"]));
             }
+            /* Product Requisition Can Not Greater Than Order Amount */
             $pr = new ProductRequisiton();
             $pr->title = $request->title;
             $pr->req_slip_no = $request->req_slip_no;

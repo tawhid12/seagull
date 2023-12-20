@@ -32,11 +32,10 @@ return new class extends Migration
         });
         DB::table('companies')->insert(
             [
-                'company_name' => 'Company-1',
-                'website' => 'www.seagull.com',
-                'tax_no' => '123',
-                'email' => 'test@gmail.com',
-                'contact_no' => '01600000000',
+                'company_name' => 'Seagull Marine Engineers',
+                'website' => 'www.seagullmarinebd.com',
+                'email' => 'kazi@seagullmarinebd.com',
+                'contact_no' => '+8802333326668',
                 'created_by' => 1,
             ]
         );

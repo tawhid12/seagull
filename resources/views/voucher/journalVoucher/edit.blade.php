@@ -11,7 +11,7 @@
                 <div class="card">
                     <div class="card-content">
                         <div class="card-body">
-                            <form class="form" enctype="multipart/form-data" method="post" action="{{route(currentUser().'.journal.update',encryptor('encrypt',$journalVoucher->id))}}">
+                            <form class="form" enctype="multipart/form-data" method="post" action="{{route('journal.update',encryptor('encrypt',$journalVoucher->id))}}">
                                 @csrf
                                 @method('patch')
                                 <input type="hidden" name="uptoken" value="{{encryptor('encrypt',$journalVoucher->id)}}">
@@ -186,7 +186,7 @@
 
     function get_head(code){
 	    if($(code).val()!=""){
-            $.getJSON( "{{route(currentUser().'.get_head')}}",{'code':$(code).val()}, function(j){
+            $.getJSON( "{{route('get_head')}}",{'code':$(code).val()}, function(j){
 	            if(j.length>0){
             		var data			= '';
             		var table_name 		= '';

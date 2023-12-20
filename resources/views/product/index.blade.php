@@ -19,6 +19,11 @@
                             <tr>
                                 <th scope="col">{{__('#SL')}}</th>
                                 <th scope="col">{{__('Name')}}</th>
+                                <th scope="col">{{__('Category')}}</th>
+                                <th scope="col">{{__('Type')}}</th>
+                                <th scope="col">{{__('Item Code')}}</th>
+                                <th scope="col">{{__('Model')}}</th>
+                                <th scope="col">{{__('Manufacturer')}}</th>
 {{--                                <th scope="col">{{__('Status')}}</th>--}}
                                 <th class="white-space-nowrap">{{__('ACTION')}}</th>
                             </tr>
@@ -28,6 +33,12 @@
                             <tr>
                                 <th scope="row">{{ ++$loop->index }}</th>
                                 <td>{{$p->product_name}}</td>
+                                <td>{{$p->category?->category_name}}</td>
+                                <td>{{$p->pro_type?->product_type_name}}</td>
+                                <td>{{$p->product_item_code}}</td>
+                                <td>{{$p->product_model}}</td>
+                                <td>{{$p->manufacturer}}</td>
+                               
 {{--                                <td>@if($p->status == 1) {{__('Active') }} @else {{__('Inactive') }} @endif</td>--}}
                                 <td class="white-space-nowrap">
                                     <a href="{{route('product.edit',encryptor('encrypt',$p->id))}}">

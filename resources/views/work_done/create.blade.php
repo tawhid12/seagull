@@ -19,9 +19,9 @@
                                 <th scope="col">{{__('Company')}}</th>
                                 <th scope="col">{{__('Client')}}</th>
                                 <th scope="col">{{__('Vessel')}}</th>
-                                <th scope="col">{{__('Invoice Amount')}}</th>
-                                <th scope="col">{{__('Receive Amount')}}</th>
-                                <th scope="col">{{__('Due Amount')}}</th>
+                                <th scope="col">{{__('Invoice')}}</th>
+                                <th scope="col">{{__('Receive')}}</th>
+                                <th scope="col">{{__('Due')}}</th>
                                 <th scope="col">{{__('Posted On')}}</th>
                             </tr>
                         </thead>

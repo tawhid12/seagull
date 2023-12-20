@@ -36,7 +36,7 @@ class CategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(AddNewRequest $request)
+    public function store(Request $request)
     {
         try {
             $c = New Category();
@@ -45,7 +45,7 @@ class CategoryController extends Controller
             $c->created_by=currentUserId();
             if($c->save()){
                 \LogActivity::addToLog('Add Category',$request->getContent(),'Category');
-                return redirect()->route('category.index', ['role' =>currentUser()])->with(Toastr::success('Data Saved!', 'Success', ["positionClass" => "toast-top-right"]));
+                return redirect()->route('category.index')->with(Toastr::success('Data Saved!', 'Success', ["positionClass" => "toast-top-right"]));
             }else{
                 return redirect()->back()->withInput()->with(Toastr::error('Please try again!', 'Fail', ["positionClass" => "toast-top-right"]));
             }
@@ -72,9 +72,10 @@ class CategoryController extends Controller
      * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function edit(Category $category)
+    public function edit($id)
     {
-        //
+        $c=Category::findOrFail(encryptor('decrypt',$id));
+        return view('categories.edit',compact('c'));
     }
 
     /**
@@ -84,9 +85,23 @@ class CategoryController extends Controller
      * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Category $category)
+    public function update(UpdateRequest $request,$id)
     {
-        //
+        try {
+            $c = Category::findOrFail(encryptor('decrypt',$id));;
+            $c->category_name = $request->category_name;
+            $c->company_id=company()['company_id'];
+            $c->updated_by=currentUserId();
+            if($c->save()){
+                \LogActivity::addToLog('Update Category',$request->getContent(),'Category');
+                return redirect()->route('category.index')->with(Toastr::success('Data Saved!', 'Success', ["positionClass" => "toast-top-right"]));
+            }else{
+                return redirect()->back()->withInput()->with(Toastr::error('Please try again!', 'Fail', ["positionClass" => "toast-top-right"]));
+            }
+        } catch (Exception $e) {
+            //dd($e);
+            return redirect()->back()->withInput()->with(Toastr::error('Please try again!', 'Fail', ["positionClass" => "toast-top-right"]));
+        }
     }
 
     /**

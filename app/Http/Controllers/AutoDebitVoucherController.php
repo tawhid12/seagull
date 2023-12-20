@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Accounts\Child_one;
 use App\Models\Accounts\Child_two;
-use App\Models\Requisiton;
+use App\Models\Requisition;
 use DB;
 use Session;
 use Exception;
@@ -26,13 +26,9 @@ class AutoDebitVoucherController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
+    public function create()
     {
-        $r = Requisiton::findOrFail(encryptor('decrypt',$request->id));
-        /*echo '<pre>';
-        print_r($requisition);
-        echo '</pre>';
-        die;*/
+        $r = Requisition::findOrFail(encryptor('decrypt',request()->get('id')));
         $paymethod = array();
         $account_data = Child_one::whereIn('head_code', [1110, 1120])/*->where(company())*/->get();
 

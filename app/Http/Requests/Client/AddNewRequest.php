@@ -25,9 +25,7 @@ class AddNewRequest extends FormRequest
     {
         return [
             'client_name'=>'required',
-			//'vessel_id'=>'required',
-            'email'=>'required|unique:clients,email',
-			'contact_no'=>'required|unique:clients,contact_no',
+            'client_short_name'=>'required',
         ];
     }
     public function messages(){

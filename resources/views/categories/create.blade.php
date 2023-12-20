@@ -10,7 +10,7 @@
             <div class="card">
                 <div class="card-content">
                     <div class="card-body">
-                        <form class="form" method="post" enctype="multipart/form-data" action="{{route('category.store', ['role' =>currentUser()])}}">
+                        <form class="form" method="post" enctype="multipart/form-data" action="{{route('category.store')}}">
                             @csrf
                             <div class="row">
                                 <div class="col-md-4 col-12">

@@ -230,10 +230,10 @@
                                 <a href="{{route('leave.index')}}" class=''>Leave</a>
                             </li>
                             <li class="subsubmenu-item">
-                                <a href="{{route('salary-slip.index')}}" class=''>Salary Slip</a>
+                                <a href="{{route('salary-slip.create')}}" class=''>Generate Salary Slip</a>
                             </li>
                             <li class="subsubmenu-item">
-                                <a href="{{route('salary-slip.create')}}" class=''>Generate Salary Slip</a>
+                                <a href="{{route('salary-slip.index')}}" class=''>Salary Slip</a>
                             </li>
                             <li class="subsubmenu-item">
                                 <a href="{{route('salary-advance-payment.index')}}" class=''>Salary Advance Payment</a>

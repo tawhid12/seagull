@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\ProductType;
 use Illuminate\Http\Request;
+use App\Http\Requests\ProductType\AddNewRequest;
+use App\Http\Requests\ProductType\UpdateRequest;
 use Toastr;
 class ProductTypeController extends Controller
 {
@@ -34,7 +36,7 @@ class ProductTypeController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(AddNewRequest $request)
     {
         try {
             $pt = New ProductType();
@@ -69,9 +71,10 @@ class ProductTypeController extends Controller
      * @param  \App\Models\ProductType  $productType
      * @return \Illuminate\Http\Response
      */
-    public function edit(ProductType $productType)
+    public function edit($id)
     {
-        //
+        $pt=ProductType::findOrFail(encryptor('decrypt',$id));
+        return view('product_type.edit',compact('pt'));
     }
 
     /**
@@ -81,9 +84,22 @@ class ProductTypeController extends Controller
      * @param  \App\Models\ProductType  $productType
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, ProductType $productType)
+    public function update(UpdateRequest $request,$id)
     {
-        //
+        try {
+            $pt = ProductType::findOrFail(encryptor('decrypt',$id));
+            $pt->product_type_name = $request->product_type_name;
+            $pt->updated_by=currentUserId();
+            if($pt->save()){
+                \LogActivity::addToLog('Update Product Type',$request->getContent(),'Product Type');
+                return redirect()->route('product-type.index')->with(Toastr::success('Data Saved!', 'Success', ["positionClass" => "toast-top-right"]));
+            }else{
+                return redirect()->back()->withInput()->with(Toastr::error('Please try again!', 'Fail', ["positionClass" => "toast-top-right"]));
+            }
+        } catch (Exception $e) {
+            //dd($e);
+            return redirect()->back()->withInput()->with(Toastr::error('Please try again!', 'Fail', ["positionClass" => "toast-top-right"]));
+        }
     }
 
     /**

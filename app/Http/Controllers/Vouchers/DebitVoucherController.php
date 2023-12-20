@@ -17,7 +17,7 @@ use DB;
 use Session;
 use Exception;
 use Toastr;
-use App\Models\Requisiton;
+use App\Models\Requisition;
 class DebitVoucherController extends Controller
 {
     use ResponseTrait;
@@ -308,18 +308,18 @@ class DebitVoucherController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request){
-		$model = trim($request->model);
+		/*$model = trim($request->model);
 		$model_id = trim($request->model_id);
 		//echo $model;die;
 		if($model && $model_id){
-			$op = Requisiton::findOrFail(encryptor('decrypt',$model_id));
+			$op = Requisition::findOrFail(encryptor('decrypt',$model_id));
 			$op->v_status=1;
 			$op->updated_by = currentUser();
 			$op->save();
 			//print_r($op);die;
 		}else{
 			return redirect()->back()->withInput()->with(Toastr::error('Please try again!', 'Fail', ["positionClass" => "toast-top-right"]));
-		}
+		}*/
             $voucher_no = $this->create_voucher_no();
             if(!empty($voucher_no)){
                 $jv=new DebitVoucher;
@@ -460,7 +460,7 @@ class DebitVoucherController extends Controller
 			$dv->slip=$imageName;
 		}
         $dv->save();
-        return redirect()->route(currentUser().'.debit.index')->with($this->resMessageHtml(true,null,'Successfully Updated'));
+        return redirect()->route('debit.index')->with($this->resMessageHtml(true,null,'Successfully Updated'));
     }
 
     /**

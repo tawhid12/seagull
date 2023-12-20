@@ -26,7 +26,7 @@ class AddNewRequest extends FormRequest
         return [
             'product_name'=>'required|unique:products,product_name',
             'category_id'=>'required',
-			'qty'=>'required',
+            'pro_type_id'=>'required',
         ];
     }
     public function messages(){

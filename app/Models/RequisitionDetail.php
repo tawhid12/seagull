@@ -5,7 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class PurchaseOrder extends Model
+class RequisitionDetail extends Model
 {
     use HasFactory;
+    public function user(){
+        return $this->belongsTo(User::class,'created_by','id');
+    }
 }

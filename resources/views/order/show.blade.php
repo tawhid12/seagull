@@ -19,9 +19,9 @@
                                     <th scope="col">{{ __('Company') }}</th>
                                     <th scope="col">{{ __('Client') }}</th>
                                     <th scope="col">{{ __('Vessel') }}</th>
-                                    <th scope="col">{{ __('Invoice Amount') }}</th>
-                                    <th scope="col">{{ __('Receive Amount') }}</th>
-                                    <th scope="col">{{ __('Due Amount') }}</th>
+                                    <th scope="col">{{ __('Invoice') }}</th>
+                                    <th scope="col">{{ __('Receive') }}</th>
+                                    <th scope="col">{{ __('Due') }}</th>
                                     <th scope="col">{{ __('Posted On') }}</th>
                                 </tr>
                             </thead>
@@ -39,6 +39,7 @@
                                 </tr>
                             </tbody>
                         </table>
+                        @if($or->service_report->count() > 0)
                         <div class="row">
                             <h5 class="text-center my-2">Service Report (Attachments)</h5>
                             @forelse ($or->service_report as $sr)
@@ -47,6 +48,8 @@
                                 <div class="col-md-12">No File Uploaded</div>
                             @endforelse
                         </div>
+                        @endif
+                        @if($or->delivery_report->count() > 0)
                         <div class="row">
                             <h5 class="text-center my-2">Delivery Report (Attachments)</h5>
                             @forelse ($or->delivery_report as $dr)
@@ -55,6 +58,8 @@
                                 <div class="col-md-12">No File Uploaded</div>
                             @endforelse
                         </div>
+                        @endif
+                        @if($or->invoice_report->count() > 0)
                         <div class="row">
                             <h5 class="text-center my-2">Invoice Report (Attachments)</h5>
                             @forelse ($or->invoice_report as $ir)
@@ -63,6 +68,8 @@
                                 <div class="col-md-12">No File Uploaded</div>
                             @endforelse
                         </div>
+                        @endif
+                        @if($or->work_done_report->count() > 0)
                         <div class="row">
                             <h5 class="text-center my-2">Work Done (Certificates)</h5>
                             @forelse ($or->work_done_report as $sr)
@@ -71,6 +78,7 @@
                                 <div class="col-md-12">No File Uploaded</div>
                             @endforelse
                         </div>
+                        @endif
                     </div>
                 </div>
             </div>

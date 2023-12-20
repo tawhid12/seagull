@@ -45,7 +45,7 @@ class ClientController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(AddNewRequest $request)
     {
         /*echo '<pre>';
         print_r($request->toArray());die;*/
@@ -130,23 +130,45 @@ class ClientController extends Controller
      * @param  \App\Models\Client  $client
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateRequest $request, $id)
     {
         try {
+            DB::beginTransaction();
             $c = Client::findOrFail(encryptor('decrypt', $id));
             $c->client_name = $request->client_name;
-            //$c->vessel_id = $request->vessel_id;
+            $c->client_short_name = $request->client_short_name;
+            $c->phone = $request->phone;
+            $c->mobile = $request->mobile;
             $c->email = $request->email;
-            $c->contact_no = $request->contact_no;
-            $c->company_id=/*$request->company_id/*/company()['company_id'];
-            $c->created_by=currentUserId();
+            //$c->vessel_id = $request->vessel_id;
+            $c->fax = $request->fax;
+            $c->web = $request->web;
+            $c->address = $request->address;
+            $c->address = $request->address;
+            $c->tin = $request->tin;
+            $c->tin_name = $request->tin_name;
+            $c->bin = $request->bin;
+            $c->bin_name = $request->bin_name;
+            $c->contact_person_name = $request->contact_person_name;
+            $c->contact_person_phone = $request->contact_person_phone;
+            $c->contact_person_email = $request->contact_person_email;
+            $c->company_id=/*$request->company_id*/company()['company_id'];
+            $c->updated_by=currentUserId();
             if($c->save()){
-                \LogActivity::addToLog('Update Client',$request->getContent(),'Client');
-                return redirect()->route('client.index')->with(Toastr::success('Data Saved!', 'Success', ["positionClass" => "toast-top-right"]));
+                $child_two = Child_two::where('head_code','1130'.$c->id)->first();
+                //print_r($child_two);die;
+                $child_two->head_name = $request->client_name;
+                if($child_two->save()) {
+                    DB::commit();
+                    \LogActivity::addToLog('Update Client',$request->getContent(),'Client');
+                    return redirect()->route('client.index')->with(Toastr::success('Data Saved!', 'Success', ["positionClass" => "toast-top-right"]));
+                }else
+                return redirect()->back()->withInput()->with(Toastr::error('Please try again!', 'Fail', ["positionClass" => "toast-top-right"]));
             }else{
                 return redirect()->back()->withInput()->with(Toastr::error('Please try again!', 'Fail', ["positionClass" => "toast-top-right"]));
             }
         } catch (Exception $e) {
+            DB::rollback();
             //dd($e);
             return redirect()->back()->withInput()->with(Toastr::error('Please try again!', 'Fail', ["positionClass" => "toast-top-right"]));
         }

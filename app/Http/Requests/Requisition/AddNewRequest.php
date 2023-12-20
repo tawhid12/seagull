@@ -25,11 +25,7 @@ class AddNewRequest extends FormRequest
     {
         return [
             'postingDate'=>'required',
-            'client_id'=>'required',
-			'vessel_id'=>'required',
-			'product_id'=>'required',
-			'qty'=>'required',
-			//'amount'=>'required',
+            'order_id'=>'required',
         ];
     }
     public function messages(){

@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('requisitons', function (Blueprint $table) {
+        Schema::create('requisitions', function (Blueprint $table) {
             $table->id();
             $table->string('req_slip_no')->unique();
             $table->string('title')->nullable();
@@ -24,12 +24,9 @@ return new class extends Migration
             $table->unsignedBigInteger('product_id')->index()->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
             $table->integer('qty');*/
             $table->decimal('order_amount',10,2);
-            $table->decimal('approve_amount',10,2)->default(0.00);
 //            $table->boolean('req_type')->comment('1=>Product  2=> Other');
             $table->text('des')->nullable();
             $table->boolean('status')->default(3)->comment('1=>Full Approved  2=> Partial Approved 3=> Un approved');
-            $table->boolean('v_status')->default(3)->comment('1=>Complete  2=> Running 3=> Pending');
-            $table->boolean('payment_status')->default(2)->comment('1=>Due  2=> Paid');
             $table->unsignedBigInteger('company_id')->index()->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
             $table->string('table_name');
             $table->string('table_id');
@@ -48,6 +45,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('requisitons');
+        Schema::dropIfExists('requisitions');
     }
 };

@@ -352,7 +352,6 @@ class JournalVoucherController extends Controller
                                 $gl->company_id =company()['company_id'];
                                 $gl->journal_title=!empty($acccode)?$acccode:"";
                                 $gl->rec_date=$request->current_date;
-                                $gl->lc_no=$request->lc_no;
                                 $gl->jv_id=$voucher_no;
                                 $gl->journal_voucher_bkdn_id=$jvb->id;
                                 $gl->created_by=currentUserId();
@@ -365,7 +364,7 @@ class JournalVoucherController extends Controller
                     }
                 }
                 DB::commit();
-				return redirect()->route(currentUser().'.journal.index')->with($this->resMessageHtml(true,null,'Successfully created'));
+				return redirect()->route('journal.index')->with($this->resMessageHtml(true,null,'Successfully created'));
 			}else{
 				return redirect()->back()->withInput()->with($this->resMessageHtml(false,'error','Please try again'));
 			}
@@ -424,7 +423,7 @@ class JournalVoucherController extends Controller
 			$journalVoucher->slip=$imageName;
 		}
         $journalVoucher->save();
-        return redirect()->route(currentUser().'.journal.index')->with($this->resMessageHtml(true,null,'Successfully Updated'));
+        return redirect()->route('journal.index')->with($this->resMessageHtml(true,null,'Successfully Updated'));
     }
 
     /**

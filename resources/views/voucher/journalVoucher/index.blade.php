@@ -23,7 +23,6 @@
                             <tr>
                                 <th scope="col">{{__('#SL')}}</th>
                                 <th scope="col">{{__('Voucher No')}}</th>
-                                <th scope="col">{{__('LC No')}}</th>
                                 <th scope="col">{{__('Date')}}</th>
                                 <th scope="col">{{__('Pay Name')}}</th>
                                 <th scope="col">{{__('Purpose')}}</th>
@@ -49,10 +48,10 @@
                                 <td>{{$cr->purpose}}</td>
                                 <td>{{$cr->debit_sum}}</td>
                                 <td class="white-space-nowrap">
-                                    <a href="{{route(currentUser().'.journal.show',encryptor('encrypt',$cr->id))}}">
+                                    <a href="{{route('journal.show',encryptor('encrypt',$cr->id))}}">
                                         <i class="bi bi-eye"></i>
                                     </a>
-                                    <a href="{{route(currentUser().'.journal.edit',encryptor('encrypt',$cr->id))}}">
+                                    <a href="{{route('journal.edit',encryptor('encrypt',$cr->id))}}">
                                         <i class="bi bi-pencil-square"></i>
                                     </a>
                                 </td>

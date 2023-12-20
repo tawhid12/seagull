@@ -20,6 +20,7 @@
                                 <th scope="col">{{__('#SL')}}</th>
                                 <th scope="col">{{__('Vessel Name')}}</th>
                                 <th scope="col">{{__('Vessel Number')}}</th>
+                                <th scope="col">{{__('Vessel Category')}}</th>
                                 <th scope="col">{{__('Company')}}</th>
                                 <th scope="col">{{__('Client')}}</th>
                                 <th class="white-space-nowrap">{{__('ACTION')}}</th>
@@ -31,6 +32,7 @@
                                 <th scope="row">{{ ++$loop->index }}</th>
                                 <td>{{$v->vessel_name}}</td>
                                 <td>{{$v->vessel_number}}</td>
+                                <td>{{$v->vessel_category?->category_name}}</td>
                                 <td>{{$v->company?->company_name}}</td>
                                 <td>{{$v->client?->client_name}}</td>
                                 <td class="white-space-nowrap">

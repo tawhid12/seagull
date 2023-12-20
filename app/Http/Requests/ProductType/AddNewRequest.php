@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Category;
+namespace App\Http\Requests\ProductType;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Request;
 
-class UpdateRequest extends FormRequest
+class AddNewRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,11 +21,10 @@ class UpdateRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
-    public function rules(Request $r)
+    public function rules()
     {
-        $id=encryptor('decrypt',$r->uptoken);
         return [
-            'category_name'=>'required|unique:categories,category_name,'.$id
+            'product_type_name'=>'required|unique:product_types,product_type_name',
         ];
     }
     public function messages(){

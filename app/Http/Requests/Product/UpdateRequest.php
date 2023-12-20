@@ -26,7 +26,9 @@ class UpdateRequest extends FormRequest
     {
         $id=encryptor('decrypt',$r->uptoken);
         return [
-            'designation_name'=>'required|unique:designations,designation_name,'.$id
+            'product_name'=>'required|unique:products,product_name,'.$id,
+            'category_id'=>'required',
+            'pro_type_id'=>'required',
         ];
     }
     public function messages(){

@@ -1,7 +1,7 @@
 @extends('layout.app')
 
-@section('pageTitle','Edit Designation')
-@section('pageSubTitle','Edit Designation')
+@section('pageTitle','Edit Product Type')
+@section('pageSubTitle','Edit Product Type')
 
 @section('content')
 
@@ -11,15 +11,15 @@
             <div class="card">
                 <div class="card-content">
                     <div class="card-body">
-                        <form class="form" method="post" enctype="multipart/form-data" action="{{route('designation.update',encryptor('encrypt',$d->id), ['role' =>currentUser()])}}">
+                        <form class="form" method="post" enctype="multipart/form-data" action="{{route('product-type.update',encryptor('encrypt',$pt->id))}}">
                             @csrf
                             @method('patch')
-                            <input type="hidden" name="uptoken" value="{{encryptor('encrypt',$d->id)}}">
+                            <input type="hidden" name="uptoken" value="{{encryptor('encrypt',$pt->id)}}">
                             <div class="row">
                                 <div class="col-md-4 col-12">
                                     <div class="form-group">
                                         <label for="name">Name</label>
-                                        <input type="text" id="name" value="{{ $d->designation_name }}" class="form-control" placeholder="Designation Name" name="designation_name">
+                                        <input type="text" id="name" value="{{ $pt->product_type_name }}" class="form-control" placeholder="Product Type Name" name="product_type_name">
                                     </div>
                                 </div>
                                 <div class="col-12 d-flex justify-content-end">

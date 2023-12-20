@@ -17,7 +17,6 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('company_id')->index()->foreign()->references('id')->on('companies')->onDelete('cascade');
             $table->string('supplier',500);
-            $table->string('lc_no')->nullable();
             $table->string('voucher_no');
             $table->string('current_date');
             $table->string('pay_name')->nullable();
@@ -27,12 +26,12 @@ return new class extends Migration
             $table->string('cheque_no')->nullable();
             $table->string('cheque_dt')->nullable();
             $table->string('bank')->nullable();
-            $table->string('slip')->nullable();
 
              // default
-             $table->unsignedBigInteger('created_by')->index()->default(2);
-             $table->unsignedBigInteger('updated_by')->index()->nullable();
-             $table->timestamps();
+            $table->unsignedBigInteger('created_by')->index()->default(2);
+            $table->unsignedBigInteger('updated_by')->index()->nullable();
+            $table->timestamps();
+            $table->softDeletes();
         });
     }
 

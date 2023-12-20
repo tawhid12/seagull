@@ -46,6 +46,21 @@
                                     <span class="text-danger"> {{ $errors->first('client_id') }}</span>
                                     @endif
                                 </div>
+                                <div class="col-md-3 col-12" id="company_data">
+                                    <div class="form-group">
+                                        <label for="tax">Select Vessel Categories</label>
+                                        <select name="vessel_cat_id" class="form-control" required>
+                                            <option value="">Select</option>
+                                            @forelse($vessel_cats as $vc)
+                                            <option value="{{$vc->id}}" @if($vc->id == $v->vessel_cat_id) selected @endif>{{$vc->category_name}}</option>
+                                            @empty
+                                            @endforelse
+                                        </select>
+                                    </div>
+                                    @if($errors->has('client_id'))
+                                    <span class="text-danger"> {{ $errors->first('client_id') }}</span>
+                                    @endif
+                                </div>
                                 <div class="col-md-3 col-12">
                                     <div class="form-group">
                                         <label for="name">Name</label>

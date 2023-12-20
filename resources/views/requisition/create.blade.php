@@ -37,15 +37,15 @@
                                         <span class="text-danger"> {{ $errors->first('order_id') }}</span>
                                     @endif
                                 </div>
-                                <div class="col-md-4 col-12">
+                                {{-- <div class="col-md-4 col-12">
                                     <div class="form-group">
                                         <label for="req_slip_no">Requistion Slip No</label>
-                                        <input type="text" id="req_slip_no" class="form-control" placeholder="Requisition Slip No" name="req_slip_no">
+                                        <input type="text" id="req_slip_no" class="form-control" readonly placeholder="Requisition Slip No" name="req_slip_no">
                                     </div>
                                     @if($errors->has('req_slip_no'))
                                     <span class="text-danger"> {{ $errors->first('req_slip_no') }}</span>
                                     @endif
-                                </div>
+                                </div> --}}
                                 <div class="col-md-4 col-12">
                                     <div class="form-group">
                                         <label for="postingDate">Requistion Date</label>
@@ -118,7 +118,7 @@
                                     <span class="text-danger"> {{ $errors->first('amount') }}</span>
                                     @endif
                                 </div>--}}
-{{--                                <div class="col-md-4 col-12">
+                               <div class="col-md-4 col-12">
                                     <div class="form-group">
                                         <label for="Category">{{__('Received Account')}}</label>
                                         <select  class="form-control form-select" name="credit">
@@ -129,7 +129,7 @@
                                             @endif
                                         </select>
                                     </div>
-                                </div>--}}
+                                </div>
                                 <div class="col-md-12 col-12">
                                     <div class="form-group">
                                         <label for="postingDate">Description</label>

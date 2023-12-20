@@ -71,9 +71,10 @@
                                 <td>{{date('d M Y',strtotime($r->postingDate))}}</td>
                                 <td>{{$r->title}}</td>
                                 <td>{{$r->req_slip_no}}</td>
-                                <td>{{$r->client?->client_name}}</td>
-                                <td>{{$r->vessel?->vessel_name}}</td>
+                                <td>{{$r->order?->client?->client_name}}</td>
+                                <td>{{$r->order?->vessel?->vessel_name}}</td>
                                 <td>{{$r->order_amount}}</td>
+                                <td>{{$r->approve_amount}}</td>
                                 <td>@if($r->status == 1) {{__('Approved') }} @else {{__('UnApproved') }} @endif</td>
                                 <td class="white-space-nowrap">
                                     @if($r->status == 1 && $r->v_status == 2 && currentUser() == 'accountant')
@@ -81,13 +82,19 @@
                                         <i class="bi bi-pencil-square"></i>Create Voucher
                                     </a>
                                     @endif
-                                    @if($r->v_status == 2 && currentUser() == 'superadmin')
+                                    <a class="btn btn-sm btn-warning" href="{{route('requisition.edit',encryptor('encrypt',$r->id))}}">
+                                        Edit
+                                    </a>
+                                    <a class="btn btn-sm btn-primary" href="{{route('requisition-detl.create',['id' => encryptor('encrypt',$r->id)])}}">
+                                        Approve
+                                    </a>
+                                    {{-- @if($r->v_status == 3 && currentUser() == 'superadmin')
                                     <form id="approve-form" action="{{route('requisition.update',encryptor('encrypt',$r->id))}}" style="display: inline;" method="post">
                                         @csrf
                                         @method('PUT')
                                         <a href="javascript:void(0)" data-status="{{$r->status}}" data-title="{{$r->title}}" class="approve btn @if($r->status == 1) btn-warning @else btn-success @endif btn-sm" data-toggle="tooltip" title="Approve">@if($r->status == 1) {{__('UnApproved') }} @else {{__('Approved') }} @endif</a>
                                     </form>
-                                    @endif
+                                    @endif --}}
                                 </td>
                             </tr>
                             @empty

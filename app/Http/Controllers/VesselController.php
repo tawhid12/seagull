@@ -86,11 +86,9 @@ class VesselController extends Controller
     public function edit($id)
     {
         $v = Vessel::findOrFail(encryptor('decrypt', $id));
-        $user = User::find(currentUserId()); // $userId is the ID of the user you're interested in
-        $assigned_companies = $user->company;
-        $companyData = company();
-        $clients = Client::where('company_id',$companyData['company_id'])->get();
-        return view('vessel.edit', compact('v', 'assigned_companies','clients'));
+        $clients = Client::where('company_id',company())->get();
+        $vessel_cats = VesselCategory::all();
+        return view('vessel.edit', compact('v','clients','vessel_cats'));
     }
 
     /**
@@ -106,6 +104,7 @@ class VesselController extends Controller
             $v = Vessel::findOrFail(encryptor('decrypt', $id));
             $v->vessel_name = $request->vessel_name;
             $v->vessel_number = $request->vessel_number;
+            $v->vessel_cat_id = $request->vessel_cat_id;
             $v->company_id = /*$request->company_id;*/company()['company_id'];
             $v->client_id = $request->client_id;
             $v->created_by = currentUserId();

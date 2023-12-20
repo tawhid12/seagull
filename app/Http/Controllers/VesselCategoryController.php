@@ -69,9 +69,10 @@ class VesselCategoryController extends Controller
      * @param  \App\Models\ShipCategory  $shipCategory
      * @return \Illuminate\Http\Response
      */
-    public function edit(ShipCategory $shipCategory)
+    public function edit($id)
     {
-        //
+        $v=VesselCategory::findOrFail(encryptor('decrypt',$id));
+        return view('vessel_cat.edit',compact('v'));
     }
 
     /**
@@ -81,9 +82,22 @@ class VesselCategoryController extends Controller
      * @param  \App\Models\ShipCategory  $shipCategory
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, ShipCategory $shipCategory)
+    public function update(Request $request,$id)
     {
-        //
+        try {
+            $d = VesselCategory::findOrFail(encryptor('decrypt',$id));
+            $d->category_name = $request->category_name;
+            $d->updated_by=currentUserId();
+            if($d->save()){
+                \LogActivity::addToLog('Update Vessel Category',$request->getContent(),'Vessel Category');
+                return redirect()->route('vessel-categories.index')->with(Toastr::success('Data Saved!', 'Success', ["positionClass" => "toast-top-right"]));
+            }else{
+                return redirect()->back()->withInput()->with(Toastr::error('Please try again!', 'Fail', ["positionClass" => "toast-top-right"]));
+            }
+        } catch (Exception $e) {
+            //dd($e);
+            return redirect()->back()->withInput()->with(Toastr::error('Please try again!', 'Fail', ["positionClass" => "toast-top-right"]));
+        }
     }
 
     /**

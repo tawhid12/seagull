@@ -26,6 +26,7 @@ class UpdateOrderRequest extends FormRequest
     {
         $id=encryptor('decrypt',$r->uptoken);
         return [
+            'order_subject'=>'required',
             'invoice_no'=>'nullable|unique:orders,invoice_no,'.$id,
             'po_no'=>'nullable|unique:orders,po_no,'.$id,
             'client_id'=>'required',

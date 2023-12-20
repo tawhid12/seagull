@@ -37,7 +37,8 @@ use App\Http\Controllers\ProductTypeController as producttype;
 use App\Http\Controllers\SupplierController as supplier;
 
 
-use App\Http\Controllers\RequisitonController as requisition;
+use App\Http\Controllers\RequisitionController as requisition;
+use App\Http\Controllers\RequisitionDetailController as requisitiondetl;
 use App\Http\Controllers\ProductRequisitonController as prorequisition;
 use App\Http\Controllers\ProductRequisitionDetailsController as prorequisitiondetl;
 
@@ -170,6 +171,7 @@ Route::middleware(['checkrole'])->prefix('admin')->group(function () {
     Route::resource('supplier', supplier::class);
 
     Route::resource('requisition', requisition::class)->middleware('company');
+    Route::resource('requisition-detl', requisitiondetl::class)->middleware('company');
     Route::resource('product-requisition', prorequisition::class)->middleware('company');
     Route::resource('product-requisition-detl', prorequisitiondetl::class)->middleware('company');
     Route::resource('autodebitvoucher', autodebitvoucher::class);
@@ -204,9 +206,9 @@ Route::middleware(['checkrole'])->prefix('admin')->group(function () {
 
 
     //Voucher
-    Route::resource('credit', credit::class);
-    Route::resource('debit', debit::class);
-    Route::resource('journal', journal::class);
+    Route::resource('credit', credit::class)->middleware('company');
+    Route::resource('debit', debit::class)->middleware('company');
+    Route::resource('journal', journal::class)->middleware('company');
 
     //});
 });

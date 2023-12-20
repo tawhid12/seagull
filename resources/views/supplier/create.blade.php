@@ -80,8 +80,8 @@
                                     <div class="col-md-6 col-12">
                                         <div class="form-group">
                                             <label for="description">Description</label>
-                                            <textarea class="form-control" rows="5" id="web" placeholder="Web"
-                                                      name="web"></textarea>
+                                            <textarea class="form-control" rows="5" id="description" placeholder="description"
+                                                      name="description"></textarea>
                                         </div>
                                         @if($errors->has('description'))
                                             <span class="text-danger"> {{ $errors->first('description') }}</span>
