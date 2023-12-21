@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\ProductRequisitionDetails;
 use App\Models\Supplier;
-use App\Models\ORder;
+use App\Models\Order;
 use App\Models\Product;
 use App\Models\ProductRequisiton;
 use Illuminate\Http\Request;
