@@ -22,9 +22,9 @@ return new class extends Migration
             $table->text('des')->nullable();
             $table->boolean('payment_status')->default(2)->comment('1=>Fullpaid  2=> Partial Paid 3=> Due');
             $table->unsignedBigInteger('company_id')->index()->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
-            /*$table->string('table_name');
+            $table->string('table_name');
             $table->string('table_id');
-            $table->string('account_code');*/
+            $table->string('account_code');
             $table->unsignedBigInteger('created_by');
             $table->unsignedBigInteger('updated_by')->nullable();
             $table->timestamps();

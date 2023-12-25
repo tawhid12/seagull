@@ -118,7 +118,7 @@
                                     <span class="text-danger"> {{ $errors->first('amount') }}</span>
                                     @endif
                                 </div>--}}
-                               <div class="col-md-4 col-12">
+                               <div class="col-md-4 col-12" style="display: none">
                                     <div class="form-group">
                                         <label for="Category">{{__('Received Account')}}</label>
                                         <select  class="form-control form-select" name="credit">

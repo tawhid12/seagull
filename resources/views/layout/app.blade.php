@@ -80,8 +80,13 @@
                                     </div>
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end shadow-lg" aria-labelledby="topbarUserDropdown">
-                                    <li><a class="dropdown-item" href="{{route('profile', ['role' =>currentUser()])}}">My Account</a></li>
-                                    <li><a class="dropdown-item" href="{{route('change_password', ['role' =>currentUser()])}}">Change Password</a></li>
+                                    <li><a class="dropdown-item" href="{{route('profile')}}">My Account</a></li>
+                                    @if(company()['company_id']!= '')
+                                    @php $companyData = company(); $company = \DB::table('companies')->where('id',$companyData['company_id'])->first(); @endphp
+                                    <li><a class="dropdown-item" href="{{route('salesExecutiveCompany')}}">Logged Company:  {{$company->company_name}}</a></li>
+                                    <li><a class="dropdown-item" href="{{route('salesExecutiveCompany')}}">Switch Company</a></li>
+                                    @endif
+                                    <li><a class="dropdown-item" href="{{route('change_password')}}">Change Password</a></li>
                                     <li>
                                         <hr class="dropdown-divider">
                                     </li>
@@ -124,11 +129,11 @@
                     </div>
                 </div>
                 <div class="page-content">
-                    @if(company()['company_id']!= '')
+                    {{--@if(company()['company_id']!= '')
                     @php $companyData = company(); $company = \DB::table('companies')->where('id',$companyData['company_id'])->first(); @endphp
                     <h4 class="text-center text-primary">Logged Company:  {{$company->company_name}}</h4>
                     <a class="ml-auto btn btn-sm btn-danger"href="{{route('salesExecutiveCompany')}}">Switch Company</a>
-                    @endif
+                    @endif--}}
                     @yield('content')
                 </div>
 

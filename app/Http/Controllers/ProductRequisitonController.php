@@ -53,7 +53,7 @@ class ProductRequisitonController extends Controller
             /* Product Requisition Can Not Greater Than Order Amount */
             $pr = new ProductRequisiton();
             $pr->title = $request->title;
-            $pr->req_slip_no = $request->req_slip_no;
+            $pr->req_slip_no = $this->req_slip_no();
             $pr->order_id = $request->order_id;
             $pr->postingDate = date('y-m-d', strtotime($request->postingDate));
             $pr->des = $request->des;
@@ -191,5 +191,18 @@ class ProductRequisitonController extends Controller
     public function destroy(ProductRequisiton $productRequisiton)
     {
         //
+    }
+    public function req_slip_no()
+    {
+        $req_slip_no = "";
+        $query = ProductRequisiton::latest()->first();
+        if (!empty($query)) {
+            $req_slip_no = $query->req_slip_no;
+            $req_slip_no += 1;
+            return $req_slip_no;
+        } else {
+            $req_slip_no = 10000001;
+            return $req_slip_no;
+        }
     }
 }

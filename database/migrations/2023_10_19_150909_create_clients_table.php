@@ -33,6 +33,7 @@ return new class extends Migration
             $table->string('contact_person_email')->nullable();
             $table->decimal('opening_balance',10,2)->nullable();
             $table->unsignedBigInteger('account_id')->nullable();
+            $table->string('tax_id')->nullable();
             /*$table->unsignedBigInteger('vessel_id')->index()->foreign('vessel_id')->references('id')->on('vessels')->onDelete('cascade');*/
             $table->unsignedBigInteger('company_id')->index()->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
             $table->unsignedBigInteger('created_by');

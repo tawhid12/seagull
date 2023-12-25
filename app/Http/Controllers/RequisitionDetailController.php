@@ -102,7 +102,7 @@ class RequisitionDetailController extends Controller
      * @param  \App\Models\RequisitionDetail  $requisitionDetail
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, RequisitionDetail $requisitionDetail)
+    public function update(Request $request, $id)
     {
         //
     }

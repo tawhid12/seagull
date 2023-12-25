@@ -15,10 +15,10 @@ return new class extends Migration
     {
         Schema::create('bank_details', function (Blueprint $table) {
             $table->id();
-            $table->string('bank_name')->unique();
-            $table->string('branch')->nullable();
+            $table->string('bank_name');
+            $table->string('branch');
             $table->string('district')->nullable();
-            $table->string('account_name')->unique();
+            $table->string('account_name');
             $table->string('account_no')->unique();
             $table->string('swift_code')->nullable();
             $table->unsignedBigInteger('company_id')->index()->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');

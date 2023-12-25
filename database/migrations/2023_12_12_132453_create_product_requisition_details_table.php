@@ -23,7 +23,7 @@ return new class extends Migration {
             $table->decimal('total_payable', 10, 2)->default(0.00);
             $table->boolean('status')->default(2)->comment('1=>Approved  2=> Un approved');
             $table->decimal('approve_amount',10,2)->default(0.00);
-            $table->boolean('v_status')->default(2)->comment('1=>Posted  2=> Ongoing 3=> Pending');
+            $table->boolean('v_status')->default(3)->comment('1=>Posted  2=> Ongoing 3=> Pending');
             $table->unsignedBigInteger('created_by');
             $table->unsignedBigInteger('updated_by')->nullable();
             $table->timestamps();

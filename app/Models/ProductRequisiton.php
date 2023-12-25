@@ -11,4 +11,7 @@ class ProductRequisiton extends Model
     public function  product_requistion_details(){
         return $this->hasMany(ProductRequisitionDetails::class,'product_requisition_id','id');
     }
+    public function order(){
+        return $this->belongsTo(Order::class);
+    }
 }

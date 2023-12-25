@@ -75,7 +75,12 @@
                                                         <td>{{$rd->user?->name}}</td>
                                                         <td>{{$rd->des}}</td>
                                                         @if($r->table_name && $r->table_id && $r->account_code)
-                                                        <td><a href="{{route('autodebitvoucher.create',['id' => encryptor('encrypt',$rd->requisition_id)])}}" class="btn btn-sm btn-primary">Voucher Paid</a></td>
+                                                        @if($rd->v_status == 2)
+                                                            <td><a href="{{route('autodebitvoucher.create',['id' => encryptor('encrypt',$rd->requisition_id)])}}" class="btn btn-sm btn-primary">Voucher Pending</a></td>
+                                                        @else
+                                                        <td><button type="button" class="btn btn-sm btn-success">Voucher Paid</button></td>
+                                                        @endif
+                                                        
                                                         @endif
                                                     </tr>
                                                     @empty

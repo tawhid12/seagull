@@ -37,6 +37,12 @@
                                     <td>{{ $or->amount - $or->payments->sum('amount') }}</td>
                                     <td>{{ $or->posted_on }}</td>
                                 </tr>
+                                <tr class="text-center">
+                                    <th colspan="8"><h5>Order Details</h5></th>
+                                </tr>
+                                <tr>
+                                    <td colspan="8">{!! $or->order_details !!}</td>
+                                </tr>
                             </tbody>
                         </table>
                         @if($or->service_report->count() > 0)

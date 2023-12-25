@@ -33,8 +33,8 @@
                                 </div>
                                 <div class="col-md-4 col-12">
                                     <div class="form-group">
-                                        <label for="tax">Tax</label>
-                                        <input type="text" id="tax_no" value="{{ $c->tax_no }}" class="form-control" placeholder="Tax" name="tax_no">
+                                        <label for="tax">Tax ID</label>
+                                        <input type="text" id="tax_no" value="{{ $c->tax_no }}" class="form-control" placeholder="Tax Id" name="tax_no">
                                     </div>
                                     @if($errors->has('tax_no'))
                                     <span class="text-danger"> {{ $errors->first('tax_no') }}</span>

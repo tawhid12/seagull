@@ -26,8 +26,8 @@ class UpdateBankDetailRequest extends FormRequest
     {
         $id=encryptor('decrypt',$r->uptoken);
         return [
-            'bank_name'=>'required|unique:bank_details,bank_name,'.$id,
-            'account_name'=>'required|unique:bank_details,account_name,'.$id,
+            //'bank_name'=>'required|unique:bank_details,bank_name,'.$id,
+            //'account_name'=>'required|unique:bank_details,account_name,'.$id,
             'account_no'=>'required|unique:bank_details,account_no,'.$id,
         ];
     }

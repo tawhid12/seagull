@@ -17,6 +17,8 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('company_id')->nullable()->index();
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
+            $table->unsignedBigInteger('order_id')->nullable()->index();
+            $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
             $table->string('journal_title')->nullable();
             $table->string('dr')->default(0);
             $table->string('cr')->default(0);

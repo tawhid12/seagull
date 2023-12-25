@@ -13,7 +13,7 @@
                         <form class="form" method="post" enctype="multipart/form-data" action="{{route('vessel.store', ['role' =>currentUser()])}}">
                             @csrf
                             <div class="row">
-                                {{--<div class="col-md-3 col-12" id="company_data">
+                                {{--<div class="col-md-4 col-12" id="company_data">
                                     <div class="form-group">
                                         <label for="tax">Select Company</label>
                                         <select name="company_id" class="form-control" required>
@@ -28,7 +28,7 @@
                                     <span class="text-danger"> {{ $errors->first('company_id') }}</span>
                                     @endif
                                 </div>--}}
-                                <div class="col-md-3 col-12" id="company_data">
+                                <div class="col-md-4 col-12" id="company_data">
                                     <div class="form-group">
                                         <label for="tax">Select Client</label>
                                         <select name="client_id" class="form-control" required>
@@ -43,7 +43,7 @@
                                     <span class="text-danger"> {{ $errors->first('client_id') }}</span>
                                     @endif
                                 </div>
-                                <div class="col-md-3 col-12" id="company_data">
+                                <div class="col-md-4 col-12" id="company_data">
                                     <div class="form-group">
                                         <label for="tax">Select Vessel Categories</label>
                                         <select name="vessel_cat_id" class="form-control" required>
@@ -58,7 +58,7 @@
                                     <span class="text-danger"> {{ $errors->first('client_id') }}</span>
                                     @endif
                                 </div>
-                                <div class="col-md-3 col-12">
+                                <div class="col-md-4 col-12">
                                     <div class="form-group">
                                         <label for="name">Name</label>
                                         <input type="text" id="vessel_name" class="form-control" placeholder="Vessel Name" name="vessel_name">
@@ -67,7 +67,70 @@
                                     <span class="text-danger"> {{ $errors->first('vessel_name') }}</span>
                                     @endif
                                 </div>
-                                <div class="col-md-3 col-12">
+                                <div class="col-md-4 col-12">
+                                    <div class="form-group">
+                                        <label for="mmsi">MMSI</label>
+                                        <input type="text" id="mmsi" class="form-control" placeholder="MMSI" name="mmsi">
+                                    </div>
+                                    @if($errors->has('mmsi'))
+                                    <span class="text-danger"> {{ $errors->first('mmsi') }}</span>
+                                    @endif
+                                </div>
+                                <div class="col-md-4 col-12">
+                                    <div class="form-group">
+                                        <label for="imo">IMO</label>
+                                        <input type="text" id="imo" class="form-control" placeholder="IMO" name="imo">
+                                    </div>
+                                    @if($errors->has('imo'))
+                                    <span class="text-danger"> {{ $errors->first('imo') }}</span>
+                                    @endif
+                                </div>
+                                <div class="col-md-4 col-12">
+                                    <div class="form-group">
+                                        <label for="flag">Flag</label>
+                                        <input type="text" id="flag" class="form-control" placeholder="flag" name="flag">
+                                    </div>
+                                    @if($errors->has('flag'))
+                                    <span class="text-danger"> {{ $errors->first('flag') }}</span>
+                                    @endif
+                                </div>
+                                <div class="col-md-4 col-12">
+                                    <div class="form-group">
+                                        <label for="flag">Build</label>
+                                        <input type="text" id="build" class="form-control" placeholder="Build" name="build">
+                                    </div>
+                                    @if($errors->has('build'))
+                                    <span class="text-danger"> {{ $errors->first('build') }}</span>
+                                    @endif
+                                </div>
+                                <div class="col-md-4 col-12">
+                                    <div class="form-group">
+                                        <label for="type">Type</label>
+                                        <input type="text" id="type" class="form-control" placeholder="Type" name="type">
+                                    </div>
+                                    @if($errors->has('type'))
+                                    <span class="text-danger"> {{ $errors->first('type') }}</span>
+                                    @endif
+                                </div>
+                                <div class="col-md-4 col-12">
+                                    <div class="form-group">
+                                        <label for="call_sign">Call Sign</label>
+                                        <input type="text" id="call_sign" class="form-control" placeholder="CallSign" name="call_sign">
+                                    </div>
+                                    @if($errors->has('call_sign'))
+                                    <span class="text-danger"> {{ $errors->first('call_sign') }}</span>
+                                    @endif
+                                </div>
+                                <div class="col-md-4 col-12">
+                                    <div class="form-group">
+                                        <label for="type">Type</label>
+                                        <input type="text" id="type" class="form-control" placeholder="Type" name="type">
+                                    </div>
+                                    @if($errors->has('type'))
+                                    <span class="text-danger"> {{ $errors->first('type') }}</span>
+                                    @endif
+                                </div>
+                                <div class="col-md-4 col-12">
                                     <div class="form-group">
                                         <label for="tax">Vessel Number</label>
                                         <input type="text" id="vessel_number" class="form-control" placeholder="Vessel Number" name="vessel_number">

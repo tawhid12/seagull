@@ -13,8 +13,9 @@
                     <!-- table bordered -->
                     <div class="table-responsive">
                         <table class="table table-bordered mb-0">
-                            <a class="btn btn-sm btn-primary float-end" href="{{route('company.create')}}"><i
-                                    class="bi bi-pencil-square"></i></a>
+                            <div class="d-flex justify-content-end my-2">
+                                <a class="fs-4 btn btn-primary" href="{{route('company.create')}}"><i class="bi bi-plus"></i> Add</a>
+                            </div>
                             <thead>
                             <tr>
                                 <th scope="col">{{__('#SL')}}</th>

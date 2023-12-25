@@ -33,7 +33,7 @@
                                             <span class="text-danger"> {{ $errors->first('title') }}</span>
                                         @endif
                                     </div>
-                                    <div class="col-md-3 col-12">
+                                    {{-- <div class="col-md-3 col-12">
                                         <div class="form-group">
                                             <label for="req_slip_no">Requisition slip No</label>
                                             <label for="req_slip_no"></label>
@@ -43,7 +43,7 @@
                                         @if($errors->has('req_slip_no'))
                                             <span class="text-danger"> {{ $errors->first('req_slip_no') }}</span>
                                         @endif
-                                    </div>
+                                    </div> --}}
                                     <div class="col-md-3 col-12">
                                         <div class="form-group">
                                             <label for="postingDate">Requistion Date</label>
@@ -101,8 +101,10 @@
                                         >
                                             <thead>
                                             <tr>
+                                                <th><input type="checkbox" class="approve-all"></th>
                                                 <th>Product</th>
                                                 <th>Supplier</th>
+                                                <th>Is Approved</th>
                                                 <th>Price</th>
                                                 <th>Qty</th>
                                                 <th>Total</th>
@@ -113,6 +115,7 @@
                                             @forelse($prwd->product_requistion_details as $key => $pr)
                                                 <tr class="productlist" id="row_{{$key}}" data-item-id="{{$pr->product_id}}">
                                                     <input type="hidden" name="product_requisition_id[]" value="{{$pr->id}}">
+                                                    <td><input type="checkbox" name="product_detl[]" class="single-pid" value="{{$pr->id}}"></td>
                                                     <td>
                                                         <select class="form-control" name="product_id[]">
                                                             <option>Select</option>
@@ -135,6 +138,7 @@
                                                             @endforelse
                                                         </select>
                                                     </td>
+                                                    <td>@if($pr->status == 1) Yes @else No @endif</td>
                                                     <td><input type="text" class="per-unit-price form-control"
                                                                value="{{$pr->per_unit_price}}"
                                                                placeholder="Product Per Unit Price"
@@ -165,7 +169,7 @@
                                             </tbody>
                                             <tfoot>
                                             <tr>
-                                                <td colspan="4" class="text-end"><strong>Total</strong></td>
+                                                <td colspan="6" class="text-end"><strong>Total</strong></td>
                                                 <td><input type="text" class="form-control grand-total"></td>
                                             </tr>
                                             </tfoot>
@@ -184,7 +188,7 @@
 
 
                                     <div class="col-12 d-flex justify-content-end">
-                                        <button type="submit" class="btn btn-primary me-1 mb-1">Save</button>
+                                        <button type="submit" class="btn btn-primary me-1 mb-1">Update</button>
                                     </div>
                                 </div>
                             </form>

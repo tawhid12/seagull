@@ -46,9 +46,17 @@ class VesselController extends Controller
      */
     public function store(AddNewRequest $request)
     {
+        /*echo '<pre>';
+        print_r($request->toArray());die;*/
         try {
             $v = new Vessel();
             $v->vessel_name = $request->vessel_name;
+            $v->mmsi = $request->mmsi;
+            $v->imo = $request->imo;
+            $v->flag = $request->flag;
+            $v->build = $request->build;
+            $v->type = $request->type;
+            $v->call_sign = $request->call_sign;
             $v->vessel_number = $request->vessel_number;
             $v->vessel_cat_id = $request->vessel_cat_id;
             $v->company_id = /*$request->company_id;*/company()['company_id'];
@@ -103,6 +111,12 @@ class VesselController extends Controller
         try {
             $v = Vessel::findOrFail(encryptor('decrypt', $id));
             $v->vessel_name = $request->vessel_name;
+            $v->mmsi = $request->mmsi;
+            $v->imo = $request->imo;
+            $v->flag = $request->flag;
+            $v->build = $request->build;
+            $v->type = $request->type;
+            $v->call_sign = $request->call_sign;
             $v->vessel_number = $request->vessel_number;
             $v->vessel_cat_id = $request->vessel_cat_id;
             $v->company_id = /*$request->company_id;*/company()['company_id'];

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('requisition_id')->index()->foreign('requisition_id')->references('id')->on('requisitions')->onDelete('cascade');
             $table->decimal('approve_amount',10,2)->default(0.00);
-            $table->boolean('v_status')->default(3)->comment('1=>Complete 2=> Pending');
+            $table->boolean('v_status')->default(3)->comment('1=>Posted  2=> Ongoing 3=> Pending');
             $table->date('postingDate');
             $table->text('des')->nullable();
             $table->unsignedBigInteger('created_by');

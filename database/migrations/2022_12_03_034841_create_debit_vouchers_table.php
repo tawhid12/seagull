@@ -17,6 +17,8 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('company_id')->nullable()->index();
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
+            $table->unsignedBigInteger('order_id')->nullable()->index();
+            $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
             $table->string('voucher_no');
             $table->string('current_date');
             $table->string('pay_name')->nullable();

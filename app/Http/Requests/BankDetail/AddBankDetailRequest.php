@@ -24,8 +24,8 @@ class AddBankDetailRequest extends FormRequest
     public function rules()
     {
         return [
-            'bank_name'=>'required|unique:bank_details,bank_name',
-            'account_name'=>'required|unique:bank_details,account_name',
+            //'bank_name'=>'required|unique:bank_details,bank_name',
+            //'account_name'=>'required|unique:bank_details,account_name',
             'account_no'=>'required|unique:bank_details,account_no',
         ];
     }

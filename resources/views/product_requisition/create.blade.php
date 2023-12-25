@@ -31,7 +31,7 @@
                                             <span class="text-danger"> {{ $errors->first('title') }}</span>
                                         @endif
                                     </div>
-                                    <div class="col-md-3 col-12">
+                                    {{-- <div class="col-md-3 col-12">
                                         <div class="form-group">
                                             <label for="req_slip_no">Requisition slip No</label>
                                             <label for="req_slip_no"></label>
@@ -41,7 +41,7 @@
                                         @if($errors->has('req_slip_no'))
                                             <span class="text-danger"> {{ $errors->first('req_slip_no') }}</span>
                                         @endif
-                                    </div>
+                                    </div> --}}
                                     <div class="col-md-3 col-12">
                                         <div class="form-group">
                                             <label for="postingDate">Requistion Date</label>

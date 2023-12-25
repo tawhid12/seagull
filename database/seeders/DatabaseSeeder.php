@@ -19,10 +19,13 @@ class DatabaseSeeder extends Seeder
         $this->call([
             //PermissionSeeder::class,
             //UserPermissionsTableSeeder::class,
+            SubHeadSeeder::class,
+            ChildOneSeeder::class,
+            ChildTwoSeeder::class,
         ]);
-        DB::table('permissions')->insert([
+        /*DB::table('permissions')->insert([
             'role_id' => 4,
             'name' => 'salesExecutiveCompany',
-        ]);
+        ]);*/
     }
 }

@@ -24,19 +24,24 @@ class AddOrderRequest extends FormRequest
     public function rules()
     {
         return [
-            'order_subject'=>'required',
-            'invoice_no'=>'nullable|unique:orders,invoice_no,',
-            'po_no'=>'nullable|unique:orders,po_no,',
-            'client_id'=>'required',
-            'vessel_id'=>'required',
-            'currency'=>'required',
-            'amount'=>'required|numeric|gt:0',
+            'order_subject' => 'required',
+            'invoice_no' => 'nullable|unique:orders,invoice_no,',
+            'po_no' => 'nullable|unique:orders,po_no,',
+            'client_id' => 'required',
+            'vessel_id' => 'required',
+            'currency' => 'required',
+            'amount' => 'required|numeric|gt:0',
         ];
     }
-    public function messages(){
+    public function messages()
+    {
         return [
             'required' => "The :attribute filed is required",
             'unique' => "The :attribute already used. Please try another",
+            'numeric' => 'The :attribute must be a number.',
+            'gt' => [
+                'numeric' => 'The :attribute must be greater than :value.',
+            ],
         ];
     }
 }

@@ -80,6 +80,10 @@ class RequisitionController extends Controller
      */
     public function store(AddNewRequest $request)
     {
+        /*echo '<pre>';
+        print_r($request->toArray());
+        die;*/
+        $order = Order::where('id', $request->order_id)->first();
         $credit = explode('~', $request->credit);
         $r = new Requisition();
         $r->title = $request->title;
@@ -104,12 +108,6 @@ class RequisitionController extends Controller
         $r->table_name = $credit[0];
         $r->table_id = $credit[1];
         if ($r->save()) {
-            /* hit to account voucher */
-            $vouchersIds = array();
-            /* create due voucher */
-            $voucher_no = $this->create_voucher_no();
-            if (!empty($voucher_no)) {
-            }
             \LogActivity::addToLog('Add Requisition', $request->getContent(), 'Requisition');
             return redirect()->route('requisition.index')->with(Toastr::success('Data Saved!', 'Success', ["positionClass" => "toast-top-right"]));
         } else {
@@ -212,7 +210,7 @@ class RequisitionController extends Controller
         $req_slip_no = "";
         $query = Requisition::latest()->first();
         if (!empty($query)) {
-            $req_slip_no = $query->id;
+            $req_slip_no = $query->req_slip_no;
             $req_slip_no += 1;
             return $req_slip_no;
         } else {

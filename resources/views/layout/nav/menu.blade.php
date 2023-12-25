@@ -5,7 +5,7 @@
 
 
             <li class="menu-item  ">
-                <a href="" class='menu-link'>
+                <a href="{{route('dashboard')}}" class='menu-link'>
                     <i class="bi bi-grid-fill"></i>
                     <span>Dashboard</span>
                 </a>
@@ -76,11 +76,7 @@
             </li>--}}
 
 
-            <li class="submenu-item  ">
-                <a href="{{route('designation.index')}}" class='submenu-link'>Designation</a>
-
-
-            </li>
+          
             <li class="submenu-item  ">
                 <a href="{{route('adminuser.index')}}" class='submenu-link'>Users</a>
 
@@ -197,6 +193,9 @@
             <!-- Wrap to submenu-group-wrapper if you want 3-level submenu. Otherwise remove it. -->
             <div class="submenu-group-wrapper">
                 <ul class="submenu-group">
+                    <li class="submenu-item  ">
+                        <a href="{{route('designation.index')}}" class='submenu-link'>Designation</a>
+                    </li>
                     <li class="submenu-item">
                         <a href="{{route('employee.index')}}" class='submenu-link'>Employee List</a>
                     </li>

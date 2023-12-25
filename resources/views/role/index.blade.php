@@ -1,6 +1,6 @@
 @extends('layout.app')
-@section('title',trans('Role'))
-@section('page',trans('List'))
+@section('pageTitle','Role List')
+@section('pageSubTitle','Role List')
 @section('content')
 
 <!-- Bordered table start -->
@@ -10,8 +10,8 @@
 
             <!-- table bordered -->
             <div class="table-responsive">
-                <div>
-                    <a class="d-flex justify-content-end fs-4" href="{{route('role.create')}}"><i class="bi bi-plus"></i> Add</a>
+                <div class="d-flex justify-content-end my-2">
+                    <a class="fs-4 btn btn-primary" href="{{route('role.create')}}"><i class="bi bi-plus"></i> Add</a>
                 </div>
                 <table class="table table-bordered mb-0">
                     <thead>

@@ -17,6 +17,12 @@ return new class extends Migration
             $table->id();
             $table->string('vessel_name');
             $table->string('vessel_number')->unique();
+            $table->string('mmsi')->nullable;
+            $table->string('imo')->nullable;
+            $table->string('flag')->nullable;
+            $table->string('build')->nullable;
+            $table->string('type')->nullable;
+            $table->string('call_sign')->nullable;
             $table->unsignedBigInteger('company_id')->index()->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
             $table->unsignedBigInteger('client_id')->index()->foreign('client_id')->references('id')->on('clients')->onDelete('cascade');
             $table->unsignedBigInteger('vessel_cat_id')->index()->foreign('vessel_cat_id')->references('id')->on('vessel_categories')->onDelete('cascade');

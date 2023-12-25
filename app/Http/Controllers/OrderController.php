@@ -221,7 +221,6 @@ class OrderController extends Controller
             $order->invoice_date = Carbon::parse($request->invoice_date)->format('Y-m-d');
             $order->po_no = $request->po_no;
             $order->po_date = Carbon::parse($request->po_date)->format('Y-m-d');
-            $order->company_id = company();
             $order->client_id = $request->client_id;
             $order->vessel_id = $request->vessel_id;
             $order->currency = $request->currency;
@@ -230,7 +229,7 @@ class OrderController extends Controller
             $order->created_by = currentUserId();
             $order->remarks = $request->remarks;
             if ($order->save()) {
-                /*===== Update Fund Requisition Amount */
+                /*===== Update Fund Requisition Amount Need to Update Fund Requisition Total and Product Requisition Total*/
                 if ($request->amount > $order->amount) {
                     Requisition::where('order_id', encryptor('decrypt', $id))->update(['order_amount' => $request->amount]);
                 }

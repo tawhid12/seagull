@@ -100,8 +100,8 @@
                                     </div>
                                     <div class="col-md-3 col-12">
                                         <div class="form-group">
-                                            <label for="tin">Tin</label>
-                                            <input type="text" id="tin" class="form-control" placeholder="Tin"
+                                            <label for="tin">TIN</label>
+                                            <input type="text" id="tin" class="form-control" placeholder="TIN"
                                                 name="tin" value="{{ $sup->tin }}">
                                         </div>
                                         @if ($errors->has('tin'))
@@ -110,7 +110,7 @@
                                     </div>
                                     <div class="col-md-3 col-12">
                                         <div class="form-group">
-                                            <label for="tin_name">Tin Name</label>
+                                            <label for="tin_name">TIN Name</label>
                                             <input type="text" id="tin_name" class="form-control"
                                                 placeholder="Tin Name" name="tin_name" value="{{ $sup->tin_name }}">
                                         </div>
@@ -120,7 +120,7 @@
                                     </div>
                                     <div class="col-md-3 col-12">
                                         <div class="form-group">
-                                            <label for="bin">Bin</label>
+                                            <label for="bin">BIN</label>
                                             <input type="text" id="tin" class="form-control" placeholder="Bin"
                                                 name="bin" value="{{ $sup->bin }}">
                                         </div>
@@ -130,7 +130,7 @@
                                     </div>
                                     <div class="col-md-3 col-12">
                                         <div class="form-group">
-                                            <label for="bin_name">Bin Name</label>
+                                            <label for="bin_name">BIN Name</label>
                                             <input type="text" id="bin_name" class="form-control"
                                                 placeholder="Bin Name" name="bin_name" value="{{ $sup->bin_name }}">
                                         </div>
