@@ -33,4 +33,8 @@ class Order extends Model
     public function work_done_report(){
         return $this->hasMany(WorkDoneReport::class);
     }
+    public function product_requisition()
+    {
+        return $this->belongsTo(ProductRequisiton::class);
+    }
 }

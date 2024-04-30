@@ -354,6 +354,12 @@
                     }
                 });
         });
+        $('.approve-all').change(function(){
+            $('.single-pid').prop('checked',this.checked);
+        });
+        $('.single-pid').change(function(){
+            $('.approve-all').prop('checked', false);
+        });
     </script>
 @endpush
 

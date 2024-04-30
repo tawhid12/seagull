@@ -7,6 +7,7 @@ use App\Models\Supplier;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\ProductRequisiton;
+use App\Models\Requisition;
 use Illuminate\Http\Request;
 use Toastr;
 use DB;
@@ -30,7 +31,8 @@ class ProductRequisitonController extends Controller
      */
     public function create()
     {
-        $orders = Order::all();
+        $product_requisiton = ProductRequisiton::pluck('order_id')->toArray();
+        $orders = Order::whereNotIn('id', $product_requisiton)->get();
         $suppliers = Supplier::all();
         $products = Product::all();
         return view('product_requisition.create', compact('orders', 'suppliers', 'products'));
@@ -58,6 +60,7 @@ class ProductRequisitonController extends Controller
             $pr->postingDate = date('y-m-d', strtotime($request->postingDate));
             $pr->des = $request->des;
             $pr->company_id = company()['company_id'];
+            $total = 0;
             if ($pr->save()) {
                 if ($request->product_id) {
                     foreach ($request->product_id as $i => $product_id) {
@@ -68,15 +71,21 @@ class ProductRequisitonController extends Controller
                         $prd->per_unit_price = $request->per_unit_price[$i];
                         $prd->qty = $request->qty[$i];
                         $prd->total_payable = $request->per_unit_price[$i] * $request->qty[$i];
+                        $total += $request->per_unit_price[$i] * $request->qty[$i];
                         $prd->created_by = currentUserId();
                         if ($prd->save()) {
-                            DB::commit();
                         } else
                             return redirect()->back()->withInput()->with(Toastr::error('Please try again!', 'Fail', ["positionClass" => "toast-top-right"]));
                     }
+                    if($total > $order->amount){
+                        return redirect()->back()->withInput()->with(Toastr::error($total'', 'Fail', ["positionClass" => "toast-top-right"]));
+                    }else{
+                        DB::commit();
+                    } 
                     \LogActivity::addToLog('Add Product Requisition', $request->getContent(), 'Product Requisition');
                     return redirect()->route('product-requisition.index')->with(Toastr::success('Data Saved!', 'Success', ["positionClass" => "toast-top-right"]));
                 }
+               
             } else {
                 return redirect()->back()->withInput()->with(Toastr::error('Please try again!', 'Fail', ["positionClass" => "toast-top-right"]));
             }

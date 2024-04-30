@@ -310,7 +310,6 @@ class DebitVoucherController extends Controller
     public function store(Request $request){
 		$model = trim($request->model);
 		$model_id = trim($request->model_id);
-		echo $model;die;
 		if($model && $model_id){
 			$op = Requisition::findOrFail(encryptor('decrypt',$model_id));
 			$op->v_status=1;
@@ -318,8 +317,8 @@ class DebitVoucherController extends Controller
 			$op->save();
 			//print_r($op);die;
 		}else{
-			return redirect()->back()->withInput()->with(Toastr::error('Please try again!', 'Fail', ["positionClass" => "toast-top-right"]));
-		}
+			//return redirect()->back()->withInput()->with(Toastr::error('Please try again!', 'Fail', ["positionClass" => "toast-top-right"]));
+		
             $voucher_no = $this->create_voucher_no();
             if(!empty($voucher_no)){
                 $jv=new DebitVoucher;
@@ -409,6 +408,7 @@ class DebitVoucherController extends Controller
 			}else{
 				return redirect()->back()->withInput()->with($this->resMessageHtml(false,'error','Please try again'));
 			}
+		}
 		
     }
 
