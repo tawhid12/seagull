@@ -138,7 +138,7 @@
             </div>
         </div>
     </li>
-    <li class="menu-item  has-sub">
+    {{-- <li class="menu-item  has-sub">
         <a href="#" class='menu-link'>
             <i class="bi bi-boxes"></i>
             <span>Product</span>
@@ -162,7 +162,7 @@
                 </ul>
             </div>
         </div>
-    </li>
+    </li> --}}
     <li class="menu-item  has-sub">
         <a href="#" class='menu-link'>
             <i class="bi bi-handbag"></i>
@@ -199,7 +199,7 @@
                     <li class="submenu-item">
                         <a href="{{route('employee.index')}}" class='submenu-link'>Employee List</a>
                     </li>
-                    <li class="submenu-item has-sub">
+                    {{-- <li class="submenu-item has-sub">
                         <a href="#" class='submenu-link'>Attendance</a>
                         <ul class="subsubmenu">
                             <li class="subsubmenu-item">
@@ -238,7 +238,7 @@
                                 <a href="{{route('salary-advance-payment.index')}}" class=''>Salary Advance Payment</a>
                             </li>
                         </ul>
-                    </li>
+                    </li> --}}
 
                 </ul>
             </div>
