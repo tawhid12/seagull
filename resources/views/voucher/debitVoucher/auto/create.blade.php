@@ -76,7 +76,7 @@
                                         <tfoot>
                                             <tr>
                                                 <th style="text-align:right;" colspan="2">{{__('Total Amount Tk.')}}</th>
-                                                <th><input type='text' class='form-control' name='debit_sum' id='debit_sum' value='{{$r->amount}}' style='text-align:center; border:none;' readonly autocomplete="off" /></th>
+                                                <th><input type='text' class='form-control' name='debit_sum' id='debit_sum' value='{{$r->approve_amount}}' style='text-align:center; border:none;' readonly autocomplete="off" /></th>
                                                 <th></th>
                                             </tr>
                                         </tfoot>
@@ -91,7 +91,7 @@
                                                         <input type='hidden' class='table_id' name='table_id[]' value='{{$r->table_id}}'>
                                                 </td>
                                                 <td style='text-align:left;'>
-                                                    <input type='text' name='debit[]' class='cls_debit form-control' value='{{$r->amount}}' style='text-align:center; border:none;' maxlength='15'  autocomplete="off"/> 
+                                                    <input type='text' name='debit[]' class='cls_debit form-control' value='{{$r->approve_amount}}' style='text-align:center; border:none;' maxlength='15'  autocomplete="off" readonly/> 
                                                 </td>
                                                 <td style='text-align:left;'><input type='text' class=" form-control" name='remarks[]' value='' maxlength='50' style='text-align:left;border:none;' /></td>
                                             </tr>

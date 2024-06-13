@@ -19,7 +19,7 @@ class CheckRole
      */
     public function handle(Request $request, Closure $next)
     {
-       
+        return $next($request);
         if(!Session::has('userId') || Session::has('userId')==null){
             return redirect()->route('logOut');
         }else{

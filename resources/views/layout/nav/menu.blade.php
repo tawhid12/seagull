@@ -175,9 +175,9 @@
                     <li class="submenu-item">
                         <a href="{{route('requisition.index')}}" class='submenu-link'>Fund Requisition</a>
                     </li>
-                    <li class="submenu-item">
+                    {{-- <li class="submenu-item">
                         <a href="{{route('product-requisition.index')}}" class='submenu-link'>Product Requisition</a>
-                    </li>
+                    </li> --}}
                 </ul>
             </div>
         </div>

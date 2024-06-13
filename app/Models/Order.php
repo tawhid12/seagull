@@ -37,4 +37,8 @@ class Order extends Model
     {
         return $this->belongsTo(ProductRequisiton::class);
     }
+    public function requisitions()
+    {
+        return $this->hasMany(Requisition::class);
+    }
 }

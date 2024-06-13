@@ -171,6 +171,7 @@ Route::middleware(['checkrole'])->prefix('admin')->group(function () {
     Route::resource('supplier', supplier::class);
 
     Route::resource('requisition', requisition::class)->middleware('company');
+    Route::PUT('requisition-approve/{id}', [requisition::class,'approve_toggle'])->name('approve_toggle')->middleware('company');
     Route::resource('requisition-detl', requisitiondetl::class)->middleware('company');
     Route::resource('product-requisition', prorequisition::class)->middleware('company');
     Route::resource('product-requisition-detl', prorequisitiondetl::class)->middleware('company');

@@ -45,6 +45,45 @@
 
                     </div>
                 </div>--}}
+                <div class="row">
+                    <div class="col-md-2 col-12">
+                        <label for="month">Month</label>
+                        <select name="month" class="js-example-basic-single form-control me-3">
+                            <option></option>
+                            @php
+                            $months = array("Jan", "Feb", "Mar", "Apr","May","June","July","August","September","October","November","December");
+                            for($i=0;$i<count($months);$i++){ $monthValue=$i + 1; @endphp <option value="{{$monthValue}}" @if(request()->get('month') == $monthValue) selected @endif>{{$months[$i]}}</option>
+                                @php
+                                }
+                                @endphp
+                        </select>
+                    </div>
+                    <div class="col-md-2 col-12">
+                        <label for="year">Year</label>
+                        <select name="year" class="js-example-basic-single form-control me-3">
+                            <option></option>
+                            @php
+                            for($i=2024;$i<=date('Y');$i++){ @endphp <option value="{{$i}}" @if(request()->get('year') == $i) selected @endif>{{$i}}</option>
+                                @php
+                                }
+                                @endphp
+                        </select>
+                    </div>
+                    <div class="col-md-1 col-12">
+                        <label for="year">Type</label>
+                        <select name="year" class="js-example-basic-single form-control me-3">
+                            <option></option>
+                            <option value="0">UnApprove</option>
+                            <option value="1">Approve</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-1 d-flex justify-content-end my-2">
+                        
+                        <button type="submit" class="btn btn-primary me-1 mt-1">Find</button>
+
+                    </div>
+                </div>
 
                 <!-- table bordered -->
                 <div class="table-responsive">
@@ -53,13 +92,13 @@
                         <thead>
                             <tr>
                                 <th scope="col">{{__('#SL')}}</th>
-                                <th scope="col">{{__('Date')}}</th>
-                                <th scope="col">{{__('Title')}}</th>
-                                <th scope="col">{{__('Fund Requisition #')}}</th>
-                                <th scope="col">{{__('Client Name')}}</th>
-                                <th scope="col">{{__('Vessel Name')}}</th>
+                                <th scope="col">{{__('Fund Requisition Info')}}</th>
+                                <th scope="col">{{__('Company')}}</th>
+                                <th scope="col">{{__('Client')}}</th>
+                                <th scope="col">{{__('Vessel')}}</th>
+                                {{-- <th scope="col">{{__('Order Amount')}}</th> --}}
                                 <th scope="col">{{__('Requisition Amount')}}</th>
-                                <th scope="col">{{__('Approve Amount')}}</th>
+                                <th scope="col">{{__('Account Code')}}</th>
                                 <th scope="col">{{__('Status')}}</th>
                                 <th class="white-space-nowrap">{{__('ACTION')}}</th>
                             </tr>
@@ -68,33 +107,51 @@
                             @forelse($requisitions as $r)
                             <tr>
                                 <th scope="row">{{ ++$loop->index }}</th>
-                                <td>{{date('d M Y',strtotime($r->postingDate))}}</td>
-                                <td>{{$r->title}}</td>
-                                <td>{{$r->req_slip_no}}</td>
+                                <td>
+                                    <p class="m-0"><strong>Title:-</strong>{{$r->title}}</p>
+                                    <p class="m-0"><strong>Fund Requisition:-</strong>{{$r->req_slip_no}}</p>
+                                    <p class="m-0"><strong>Posting Date:-</strong>{{date('d M Y',strtotime($r->postingDate))}}</p>
+                                   <p class="m-0"><strong>Posted By:-</strong>{{$r->posted_by?->name}}</p> 
+                                   <p class="m-0"><strong>@if ($r->status ==0) Unapproved  @else Approved @endif By:-</strong>{{$r->approved?->name}}</p>
+                                </td>
+                                <td>{{$r->company?->company_name}}</td>
                                 <td>{{$r->order?->client?->client_name}}</td>
                                 <td>{{$r->order?->vessel?->vessel_name}}</td>
-                                <td>{{$r->order_amount}}</td>
+                                {{-- <td>{{$r->order_amount}}</td> --}}
                                 <td>{{$r->approve_amount}}</td>
+                                <td>{{$r->account_code}}</td>
                                 <td>@if($r->status == 1) {{__('Approved') }} @else {{__('UnApproved') }} @endif</td>
+                               
                                 <td class="white-space-nowrap">
-                                    @if($r->status == 1 && $r->v_status == 2 && currentUser() == 'accountant')
+                                    <a class="btn btn-sm btn-info" href="">
+                                        Order Details
+                                    </a>
+                                    @if($r->status == 1 && $r->v_status == 0  ){{--&& currentUser() == 'accountant'--}}
                                     <a class="btn btn-sm btn-success" href="{{route('autodebitvoucher.create',['id' => encryptor('encrypt',$r->id),'op' => 'Requisiton'])}}">
-                                        <i class="bi bi-pencil-square"></i>Create Voucher
+                                        <i class="bi bi-pencil-square"></i>Post Voucher
                                     </a>
                                     @endif
                                     <a class="btn btn-sm btn-warning" href="{{route('requisition.edit',encryptor('encrypt',$r->id))}}">
                                         Edit
                                     </a>
-                                    <a class="btn btn-sm btn-primary" href="{{route('requisition-detl.create',['id' => encryptor('encrypt',$r->id)])}}">
-                                        Approve
-                                    </a>
-                                    {{-- @if($r->v_status == 3 && currentUser() == 'superadmin')
-                                    <form id="approve-form" action="{{route('requisition.update',encryptor('encrypt',$r->id))}}" style="display: inline;" method="post">
+                                    {{-- <a class="btn btn-sm btn-primary" href="{{route('requisition-detl.create',['id' => encryptor('encrypt',$r->id)])}}">
+                                        Add Amount
+                                    </a> --}}
+                                    @if($r->status ==0 ){{--&& currentUser() == 'superadmin'--}}
+                                    <form id="approve-form" action="{{route('approve_toggle',encryptor('encrypt',$r->id))}}" style="display: inline;" method="post">
                                         @csrf
                                         @method('PUT')
-                                        <a href="javascript:void(0)" data-status="{{$r->status}}" data-title="{{$r->title}}" class="approve btn @if($r->status == 1) btn-warning @else btn-success @endif btn-sm" data-toggle="tooltip" title="Approve">@if($r->status == 1) {{__('UnApproved') }} @else {{__('Approved') }} @endif</a>
+                                        <a href="javascript:void(0)" data-status="{{$r->status}}" data-title="{{$r->title}}" class="approve btn btn-success btn-sm" data-toggle="tooltip" title="Approve">{{__('Approved') }}</a>
                                     </form>
-                                    @endif --}}
+                                    @endif
+                                    @if($r->status ==1 && $r->v_status == 0)
+                                    <form id="approve-form" action="{{route('approve_toggle',encryptor('encrypt',$r->id))}}" style="display: inline;" method="post">
+                                        @csrf
+                                        @method('PUT')
+                                        <a href="javascript:void(0)" data-status="{{$r->status}}" data-title="{{$r->title}}" class="approve btn btn-warning btn-sm" data-toggle="tooltip" title="UnApprove">{{__('UnApproved') }}</a>
+                                    </form>
+                                    @endif
+                                    <a class="btn btn-sm btn-danger" href=""><i class="bi bi-trash"></i></a>
                                 </td>
                             </tr>
                             @empty

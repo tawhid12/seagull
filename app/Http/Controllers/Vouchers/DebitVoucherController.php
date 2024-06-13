@@ -308,6 +308,7 @@ class DebitVoucherController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request){
+		//dd($request);
 		$model = trim($request->model);
 		$model_id = trim($request->model_id);
 		if($model && $model_id){
@@ -316,14 +317,15 @@ class DebitVoucherController extends Controller
 			$op->updated_by = currentUser();
 			$op->save();
 			//print_r($op);die;
-		}else{
-			//return redirect()->back()->withInput()->with(Toastr::error('Please try again!', 'Fail', ["positionClass" => "toast-top-right"]));
+		// }else{
+		// 	return redirect()->back()->withInput()->with(Toastr::error('Please try again!', 'Fail', ["positionClass" => "toast-top-right"]));
 		
             $voucher_no = $this->create_voucher_no();
             if(!empty($voucher_no)){
                 $jv=new DebitVoucher;
                 $jv->voucher_no=$voucher_no;
                 $jv->company_id =company()['company_id'];
+				$jv->order_id =$op->order_id;
                 $jv->current_date=$request->current_date;
                 $jv->pay_name=$request->pay_name;
                 $jv->purpose=$request->purpose;
@@ -347,7 +349,8 @@ class DebitVoucherController extends Controller
                         foreach($account_codes as $i=>$acccode){
                             $jvb=new DevoucherBkdn;
                             $jvb->debit_voucher_id=$jv->id;
-                            $jvb->company_id =/*company()['company_id']*/1;
+                            $jvb->company_id =company()['company_id'];
+							$jvb->order_id =$op->order_id;
                             $jvb->particulars=!empty($request->remarks[$i])?$request->remarks[$i]:"";
                             $jvb->account_code=!empty($acccode)?$acccode:"";
                             $jvb->table_name=!empty($request->table_name[$i])?$request->table_name[$i]:"";
@@ -361,7 +364,8 @@ class DebitVoucherController extends Controller
     							else if($table_name=="child_twos"){$field_name="child_two_id";}
     							$gl=new GeneralLedger;
                                 $gl->debit_voucher_id=$jv->id;
-                                $gl->company_id =/*company()['company_id']*/1;;
+                                $gl->company_id =company()['company_id'];
+								$gl->order_id =$op->order_id;
                                 $gl->journal_title=!empty($acccode)?$acccode:"";
                                 $gl->rec_date=$request->current_date;
                                 $gl->jv_id=$voucher_no;
@@ -377,7 +381,8 @@ class DebitVoucherController extends Controller
                         $credit=explode('~',$credit);
                         $jvb=new DevoucherBkdn;
                         $jvb->debit_voucher_id=$jv->id;
-                        $jvb->company_id =/*company()['company_id']*/1;;
+                        $jvb->company_id =company()['company_id'];
+						$jvb->order_id =$op->order_id;
                         $jvb->particulars="Payment by";
                         $jvb->account_code=$credit[2];
                         $jvb->table_name=$credit[0];
@@ -391,7 +396,8 @@ class DebitVoucherController extends Controller
 							else if($table_name=="child_twos"){$field_name="child_two_id";}
 							$gl=new GeneralLedger;
                             $gl->debit_voucher_id=$jv->id;
-                            $gl->company_id =/*company()['company_id']*/1;;
+                            $gl->company_id =company()['company_id'];
+							$gl->order_id =$op->order_id;
                             $gl->journal_title=$credit[2];
                             $gl->rec_date=$request->current_date;
                             $gl->jv_id=$voucher_no;

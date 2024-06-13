@@ -13,6 +13,7 @@ use App\Models\Order;
 
 use App\Models\Accounts\Child_one;
 use App\Models\Accounts\Child_two;
+use App\Models\Accounts\Sub_head;
 use Toastr;
 
 class RequisitionController extends Controller
@@ -42,7 +43,8 @@ class RequisitionController extends Controller
         $orders = Order::where(company())->where('order_status', 1)->get();
 
         $paymethod = array();
-        $account_data = Child_one::whereIn('head_code', [4101])/*->where(company())*/->get();
+        $sub_head = Sub_head::where('head_code', [5300])/*->where(company())*/->pluck('id');
+        $account_data = Child_one::whereIn('sub_head_id', $sub_head)/*->where(company())*/->get();
 
 
         if ($account_data) {
@@ -98,8 +100,16 @@ class RequisitionController extends Controller
         if ($order->amount == 0.00) {
             return redirect()->back()->withInput()->with(Toastr::error('Order Amount should Be greater than Zero', 'Fail', ["positionClass" => "toast-top-right"]));
         }
+
+        $totalApprovedAmount = $order->requisitions()->sum('approve_amount');
+        $newApprovedAmount = $request->approve_amount;
+        if (($totalApprovedAmount + $newApprovedAmount) > $order->amount) {
+            return redirect()->back()->withInput()->with(Toastr::error('The total approved amount exceeds the order amount.', 'Fail', ["positionClass" => "toast-top-right"]));
+        }
+        $r->postingDate = date('y-m-d', strtotime($request->postingDate));
         $r->order_id = $request->order_id;
         $r->order_amount = $order->amount;
+        $r->approve_amount = $request->approve_amount;
         $r->des = $request->des;
         //            $r->req_type = 1;
         $r->company_id = $order->company_id; //company()
@@ -139,8 +149,9 @@ class RequisitionController extends Controller
         $r = Requisition::findOrFail(encryptor('decrypt', $id));
         $orders = Order::where(company())->get();
         $paymethod = array();
-        $account_data = Child_one::whereIn('head_code', [4101])/*->where(company())*/->get();
 
+        $sub_head = Sub_head::where('head_code', [5300])/*->where(company())*/->pluck('id');
+        $account_data = Child_one::whereIn('sub_head_id', $sub_head)/*->where(company())*/->get();
 
         if ($account_data) {
             foreach ($account_data as $ad) {
@@ -179,9 +190,10 @@ class RequisitionController extends Controller
     {
         try {
             $r = Requisition::findOrFail(encryptor('decrypt', $id));
-            if (currentUser() == 'superadmin') {
-                $r->status = !$r->status;
-            }
+            //if (currentUser() == 'superadmin') {
+                //$r->status = !$r->status;
+                //$r->approved_by = currentUserId();
+            //}
             $r->updated_by = currentUserId();
             if ($r->save()) {
                 \LogActivity::addToLog('requisition Approved', $request->getContent(), 'Requisition');
@@ -217,5 +229,24 @@ class RequisitionController extends Controller
             $req_slip_no = 10000001;
             return $req_slip_no;
         }
+    }
+    public function approve_toggle(Request $request, $id){
+        try {
+        $r = Requisition::findOrFail(encryptor('decrypt', $id));
+        //if (currentUser() == 'superadmin') {
+            $r->status = !$r->status;
+            $r->approved_by = currentUserId();
+        //}
+        $r->updated_by = currentUserId();
+        if ($r->save()) {
+            \LogActivity::addToLog('requisition Approved', $request->getContent(), 'Requisition');
+            return redirect()->route('requisition.index')->with(Toastr::success('Data Saved!', 'Success', ["positionClass" => "toast-top-right"]));
+        } else {
+            return redirect()->back()->withInput()->with(Toastr::error('Please try again!', 'Fail', ["positionClass" => "toast-top-right"]));
+        }
+    } catch (Exception $e) {
+        //dd($e);
+        return redirect()->back()->withInput()->with(Toastr::error('Please try again!', 'Fail', ["positionClass" => "toast-top-right"]));
+    }
     }
 }

@@ -6,8 +6,11 @@ use App\Models\ORder;
 use App\Models\Requisition;
 use App\Models\RequisitionDetail;
 use Illuminate\Http\Request;
+use App\Models\Accounts\Child_one;
+use App\Models\Accounts\Child_two;
 use Toastr;
 use DB;
+
 class RequisitionDetailController extends Controller
 {
     /**
@@ -27,9 +30,36 @@ class RequisitionDetailController extends Controller
      */
     public function create(Request $request)
     {
-        $r=Requisition::withSum('requisition_detl', 'approve_amount')->findOrFail(encryptor('decrypt',$request->id));
+        $r = Requisition::withSum('requisition_detl', 'approve_amount')->findOrFail(encryptor('decrypt', $request->id));
         $orders = Order::where(company())->get();
-        return view('requisition-detl.create',compact('r','orders'));
+        $paymethod = array();
+        $account_data = Child_one::whereIn('head_code', [4101])/*->where(company())*/->get();
+
+
+        if ($account_data) {
+            foreach ($account_data as $ad) {
+                $shead = Child_two::where('child_one_id', $ad->id);
+                if ($shead->count() > 0) {
+                    $shead = $shead->get();
+                    foreach ($shead as $sh) {
+                        $paymethod[] = array(
+                            'id' => $sh->id,
+                            'head_code' => $sh->head_code,
+                            'head_name' => $sh->head_name,
+                            'table_name' => 'child_twos'
+                        );
+                    }
+                } else {
+                    $paymethod[] = array(
+                        'id' => $ad->id,
+                        'head_code' => $ad->head_code,
+                        'head_name' => $ad->head_name,
+                        'table_name' => 'child_ones'
+                    );
+                }
+            }
+        }
+        return view('requisition-detl.create', compact('r', 'orders','paymethod'));
     }
 
     /**
@@ -40,30 +70,30 @@ class RequisitionDetailController extends Controller
      */
     public function store(Request $request)
     {
-        $r=Requisition::withSum('requisition_detl', 'approve_amount')->findOrFail(encryptor('decrypt',$request->requisition_id));
+        $r = Requisition::withSum('requisition_detl', 'approve_amount')->findOrFail(encryptor('decrypt', $request->requisition_id));
         if ($request->approve_amount == 0) {
             return redirect()->back()->withInput()->with(Toastr::error('Approve Amount should Be greater than Zero', 'Fail', ["positionClass" => "toast-top-right"]));
         }
         DB::beginTransaction();
         try {
-            $rd = New RequisitionDetail();
-            $rd->requisition_id = encryptor('decrypt',$request->requisition_id);
+            $rd = new RequisitionDetail();
+            $rd->requisition_id = encryptor('decrypt', $request->requisition_id);
             $rd->approve_amount = $request->approve_amount;
             $rd->postingDate = date('y-m-d', strtotime($request->postingDate));
             $rd->des = $request->des;
-            $rd->created_by=currentUserId();
-            if($rd->save()){
-                if($request->approve_amount < ($r->order_amount-$r->requisition_detl_sum_approve_amount))
-                $status = 2;
-                elseif($request->approve_amount == ($r->order_amount-$r->requisition_detl_sum_approve_amount)){
+            $rd->created_by = currentUserId();
+            if ($rd->save()) {
+                if ($request->approve_amount < ($r->order_amount - $r->requisition_detl_sum_approve_amount))
+                    $status = 2;
+                elseif ($request->approve_amount == ($r->order_amount - $r->requisition_detl_sum_approve_amount)) {
                     $status = 1;
                 }
-                Requisition::where('id',encryptor('decrypt',$request->requisition_id))->update(['status'=> $status,'updated_by' => currentUserId()]);
-                
+                Requisition::where('id', encryptor('decrypt', $request->requisition_id))->update(['status' => $status, 'updated_by' => currentUserId()]);
+
                 DB::commit();
-                \LogActivity::addToLog('Add Rquisition Detail',$request->getContent(),'Requisition Detail');
+                \LogActivity::addToLog('Add Rquisition Detail', $request->getContent(), 'Requisition Detail');
                 return redirect()->route('requisition.index')->with(Toastr::success('Data Saved!', 'Success', ["positionClass" => "toast-top-right"]));
-            }else{
+            } else {
                 return redirect()->back()->withInput()->with(Toastr::error('Please try again!', 'Fail', ["positionClass" => "toast-top-right"]));
             }
         } catch (Exception $e) {
@@ -90,9 +120,8 @@ class RequisitionDetailController extends Controller
      * @param  \App\Models\RequisitionDetail  $requisitionDetail
      * @return \Illuminate\Http\Response
      */
-    public function edit(RequisitionDetail $requisitionDetail)
+    public function edit($id)
     {
-        //
     }
 
     /**
@@ -104,7 +133,22 @@ class RequisitionDetailController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        try {
+            $rd = RequisitionDetail::findOrFail($id);
+            if ($request->approve == 1) {
+                $rd->status = 1;
+                $rd->approved_by = currentUserId();
+            }
+            if ($rd->save()) {
+                \LogActivity::addToLog('Requisition Approved', $request->getContent(), 'Requisition');
+                return redirect()->back()->with(Toastr::success('Data Saved!', 'Success', ["positionClass" => "toast-top-right"]));
+            } else {
+                return redirect()->back()->withInput()->with(Toastr::error('Please try again!', 'Fail', ["positionClass" => "toast-top-right"]));
+            }
+        } catch (Exception $e) {
+            //dd($e);
+            return redirect()->back()->withInput()->with(Toastr::error('Please try again!', 'Fail', ["positionClass" => "toast-top-right"]));
+        }
     }
 
     /**

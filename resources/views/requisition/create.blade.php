@@ -49,7 +49,7 @@
                                 <div class="col-md-4 col-12">
                                     <div class="form-group">
                                         <label for="postingDate">Requistion Date</label>
-                                        <input type="date" id="postingDate" class="form-control" name="postingDate">
+                                        <input type="date" id="postingDate" class="form-control" name="postingDate" required>
                                     </div>
                                     @if($errors->has('postingDate'))
                                     <span class="text-danger"> {{ $errors->first('postingDate') }}</span>
@@ -118,7 +118,18 @@
                                     <span class="text-danger"> {{ $errors->first('amount') }}</span>
                                     @endif
                                 </div>--}}
-                               <div class="col-md-4 col-12" style="display: none">
+                                <div class="col-md-4 col-12">
+                                    <div class="form-group">
+                                        <label for="title">Requisition Amount</label>
+                                        <input type="text" id="title" class="form-control"
+                                            placeholder="Requisition Amount" name="approve_amount">
+                                    </div>
+                                    @if ($errors->has('approve_amount'))
+                                        <span class="text-danger">
+                                            {{ $errors->first('approve_amount') }}</span>
+                                    @endif
+                                </div>
+                               <div class="col-md-4 col-12">
                                     <div class="form-group">
                                         <label for="Category">{{__('Received Account')}}</label>
                                         <select  class="form-control form-select" name="credit">

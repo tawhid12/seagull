@@ -104,7 +104,7 @@
                 @include('layout.nav.menu')
             </header>
 
-            <div class="content-wrapper container">
+            <div class="content-wrapper container-fluid">
 
             <div class="page-heading">
                     <div class="page-title">
