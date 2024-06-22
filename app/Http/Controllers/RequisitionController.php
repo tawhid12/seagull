@@ -43,8 +43,7 @@ class RequisitionController extends Controller
         $orders = Order::where(company())->where('order_status', 1)->get();
 
         $paymethod = array();
-        $sub_head = Sub_head::where('head_code', [5300])/*->where(company())*/->pluck('id');
-        $account_data = Child_one::whereIn('sub_head_id', $sub_head)/*->where(company())*/->get();
+        $account_data = Child_one::where('head_code', 1150)/*->where(company())*/->get();
 
 
         if ($account_data) {
@@ -150,8 +149,8 @@ class RequisitionController extends Controller
         $orders = Order::where(company())->get();
         $paymethod = array();
 
-        $sub_head = Sub_head::where('head_code', [5300])/*->where(company())*/->pluck('id');
-        $account_data = Child_one::whereIn('sub_head_id', $sub_head)/*->where(company())*/->get();
+        
+        $account_data = Child_one::where('head_code', 1150)/*->where(company())*/->get();
 
         if ($account_data) {
             foreach ($account_data as $ad) {

@@ -13,8 +13,11 @@ use Illuminate\Support\Facades\Hash;
 use App\Http\Traits\ImageHandleTraits;
 use App\Models\Permission;
 use App\Models\Company;
+use App\Models\Accounts\Child_one;
+use App\Models\Accounts\Child_two;
 use Exception;
 use Toastr;
+use DB;
 
 class AdminUserController extends Controller
 {
@@ -50,6 +53,7 @@ class AdminUserController extends Controller
     public function store(AddNewRequest $request)
     {
         try {
+            DB::beginTransaction();
             $user = new User;
             $user->name = $request->userName;
             $user->contact_no = $request->contactNumber;
@@ -61,25 +65,38 @@ class AdminUserController extends Controller
             }
 
             $user->password = Hash::make($request->password);
-            $user->all_company_access = $request->all_company_access;
+            //$user->all_company_access = $request->all_company_access;
             $user->full_access = $request->full_access == 1 ? $request->full_access : 0;
            
             $user->created_by = currentUserId();
-            if(Permission::where(['role_id'=> 4,'route_name' => 'assignCompany'])->doesntExist()){
+            /*if(Permission::where(['role_id'=> 4,'route_name' => 'assignCompany'])->doesntExist()){
                 $p = new Permission();
                 $p->role_id = 4;
                 $p->route_name = 'assignCompany';
                 $p->save();
                 
-            }
+            }*/
            
             if ($request->has('image')) $user->image = $this->uploadImage($request->file('image'), 'uploads/admin');
 
             if ($user->save())
-                return redirect()->route(currentUser() . '.admin.index')->with(Toastr::success('Data Saved!', 'Success', ["positionClass" => "toast-top-right"]));
-            else
-                return redirect()->back()->withInput()->with(Toastr::error('Please try again!', 'Fail', ["positionClass" => "toast-top-right"]));
+                $child_one = Child_one::where('head_code','1150')->first();
+                $ach = new Child_two;
+                $ach->child_one_id= $child_one->id;
+                $ach->head_name=$request->userName;
+                $ach->head_code = '1150'.$user->id;
+                $ach->opening_balance =$request->openingAmount ?? 0;
+                $ach->created_by=currentUserId();
+                if($ach->save()) {
+                    //$c->account_id = $ach->id;
+                    //$c->save();
+                    DB::commit();
+                    \LogActivity::addToLog('Add User', $request->getContent(), 'User');
+                    return redirect()->route('adminuser.index')->with(Toastr::success('Data Saved!', 'Success', ["positionClass" => "toast-top-right"]));
+                }else
+                    return redirect()->back()->withInput()->with(Toastr::error('Please try again!', 'Fail', ["positionClass" => "toast-top-right"]));
         } catch (Exception $e) {
+            DB::rollback();
             dd($e);
             return redirect()->back()->withInput()->with(Toastr::error('Please try again!', 'Fail', ["positionClass" => "toast-top-right"]));
         }

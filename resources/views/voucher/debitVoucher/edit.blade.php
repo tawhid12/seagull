@@ -58,6 +58,21 @@
                                             </label>
                                         </div>
                                     </div>
+                                    <div class="col-md-6 col-12">
+                                        <div class="form-group">
+                                            <label for="tax">Select Order</label>
+                                            <select name="order_id" class="form-control">
+                                                <option value="">Select</option>
+                                                @forelse($orders as $or)
+                                                    <option value="{{$or->id}}" @if($dvoucher->order_id == $or->id) selected @endif>{{$or->order_subject}}</option>
+                                                @empty
+                                                @endforelse
+                                            </select>
+                                        </div>
+                                        @if($errors->has('order_id'))
+                                            <span class="text-danger"> {{ $errors->first('order_id') }}</span>
+                                        @endif
+                                    </div>
                                 </div>
 
 
