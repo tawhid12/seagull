@@ -13,7 +13,7 @@ use App\Models\Accounts\Child_one;
 use App\Models\Accounts\Child_two;
 use Illuminate\Http\Request;
 use App\Http\Traits\ResponseTrait;
-
+use App\Models\Order;
 use DB;
 use Session;
 use Exception;
@@ -41,7 +41,8 @@ class CreditVoucherController extends Controller
     {
         $paymethod=array();
         $account_data=Child_one::whereIn('head_code',[1110,1120])/*->where(company())*/->get();
-        
+        $orders = Order::where(company())->get();
+
         if($account_data){
             foreach($account_data as $ad){
                 $shead=Child_two::where('child_one_id',$ad->id);
@@ -67,7 +68,7 @@ class CreditVoucherController extends Controller
             }
         }
 
-        return view('voucher.creditVoucher.create',compact('paymethod'));
+        return view('voucher.creditVoucher.create',compact('paymethod','orders'));
     }
     public function get_head(Request $request){
         
@@ -314,6 +315,7 @@ class CreditVoucherController extends Controller
                 $jv=new CreditVoucher;
                 $jv->voucher_no=$voucher_no;
                 $jv->company_id =company()['company_id'];
+				$jv->order_id = $request->order_id;
                 $jv->current_date=$request->current_date;
                 $jv->pay_name=$request->pay_name;
                 $jv->purpose=$request->purpose;
@@ -339,6 +341,7 @@ class CreditVoucherController extends Controller
                         $jvb=new CreVoucherBkdn;
                         $jvb->credit_voucher_id=$jv->id;
                         $jvb->company_id =company()['company_id'];
+						$jvb->order_id = $request->order_id;
                         $jvb->particulars="Received from";
                         $jvb->account_code=$credit[2];
                         $jvb->table_name=$credit[0];
@@ -353,6 +356,7 @@ class CreditVoucherController extends Controller
 							$gl=new GeneralLedger;
                             $gl->credit_voucher_id=$jv->id;
                             $gl->company_id =company()['company_id'];
+							$gl->order_id = $request->order_id;
                             $gl->journal_title=$credit[2];
                             $gl->rec_date=$request->current_date;
                             $gl->jv_id=$voucher_no;
@@ -368,6 +372,7 @@ class CreditVoucherController extends Controller
                             $jvb=new CreVoucherBkdn;
                             $jvb->credit_voucher_id=$jv->id;
                             $jvb->company_id =company()['company_id'];
+							$jvb->order_id = $request->order_id;
                             $jvb->particulars=!empty($request->remarks[$i])?$request->remarks[$i]:"";
                             $jvb->account_code=!empty($acccode)?$acccode:"";
                             $jvb->table_name=!empty($request->table_name[$i])?$request->table_name[$i]:"";
@@ -382,6 +387,7 @@ class CreditVoucherController extends Controller
     							$gl=new GeneralLedger;
                                 $gl->credit_voucher_id=$jv->id;
                                 $gl->company_id =company()['company_id'];
+								$gl->order_id = $request->order_id;
                                 $gl->journal_title=!empty($acccode)?$acccode:"";
                                 $gl->rec_date=$request->current_date;
                                 $gl->jv_id=$voucher_no;
