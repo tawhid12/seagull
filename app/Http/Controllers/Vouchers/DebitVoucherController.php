@@ -30,7 +30,7 @@ class DebitVoucherController extends Controller
 	 */
 	public function index()
 	{
-		$debitVoucher = DebitVoucher::orderBy('id','desc')/*where(company())->*->/paginate(15);
+		$debitVoucher = DebitVoucher::orderBy('id','desc')/*where(company())->*/->paginate(15);
 		return view('voucher.debitVoucher.index', compact('debitVoucher'));
 	}
 
