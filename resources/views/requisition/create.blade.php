@@ -166,3 +166,19 @@
 <!-- // Basic multiple Column Form section end -->
 </div>
 @endsection
+@push('scripts')
+<script>
+      $(document).ready(function () {
+            $("#postingDate").daterangepicker({
+                singleDatePicker: true,
+                startDate: new Date(),
+                showDropdowns: true,
+                autoUpdateInput: true,
+                format: 'dd/mm/yyyy',
+            }).on('changeDate', function (e) {
+                var date = moment(e.date).format('YYYY/MM/DD');
+                $(this).val(date);
+            });
+        });
+</script>
+@endpush

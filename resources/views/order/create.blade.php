@@ -21,7 +21,7 @@
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label for="name">Order Subject</label>
-                                            <textarea class="form-control" rows="3" name="order_subject"></textarea>
+                                            <textarea class="form-control" rows="3" name="order_subject">{{old('order_subject')}}</textarea>
                                         </div>
                                         @if($errors->has('order_subject'))
                                             <span class="text-danger"> {{ $errors->first('order_subject') }}</span>
@@ -31,7 +31,7 @@
                                         <div class="form-group">
                                             <label for="name">Order Details</label>
                                             <textarea id="summernote" name="order_details">
-
+                                                {{old('order_details')}}
                                             </textarea>
                                         </div>
                                         @if($errors->has('order_title'))
@@ -58,7 +58,7 @@
                                         <div class="form-group">
                                             <label for="invoice_no">Invoice No</label>
                                             <input type="text" id="invoice_no" class="form-control"
-                                                   placeholder="Invoice No" name="invoice_no">
+                                                   placeholder="Invoice No" name="invoice_no"  value="{{old('invoice_no')}}">
                                         </div>
                                         @if($errors->has('invoice_no'))
                                             <span class="text-danger"> {{ $errors->first('invoice_no') }}</span>
@@ -78,10 +78,10 @@
                                         <div class="form-group">
                                             <label for="po_no">Po No</label>
                                             <input type="text" id="po_no" class="form-control"
-                                                   placeholder="PO No" name="po_no">
+                                                   placeholder="PO No" name="po_no" value="{{old('po_no')}}">
                                         </div>
-                                        @if($errors->has('invoice_no'))
-                                            <span class="text-danger"> {{ $errors->first('invoice_no') }}</span>
+                                        @if($errors->has('po_no'))
+                                            <span class="text-danger"> {{ $errors->first('po_no') }}</span>
                                         @endif
                                     </div>
                                     <div class="col-md-3 col-12">
@@ -100,7 +100,7 @@
                                             <select name="client_id" class="form-control">
                                                 <option value="">Select</option>
                                                 @forelse($clients as $c)
-                                                    <option value="{{$c->id}}">{{$c->client_name}}</option>
+                                                    <option value="{{$c->id}}" {{ old('client_id') == $c->id ? 'selected' : '' }}>{{$c->client_name}}</option>
                                                 @empty
                                                 @endforelse
                                             </select>
@@ -115,7 +115,7 @@
                                             <select name="vessel_id" class="form-control">
                                                 <option value="">Select</option>
                                                 @forelse($vessels as $v)
-                                                    <option value="{{$v->id}}">{{$v->vessel_name}}</option>
+                                                    <option value="{{$v->id}}"  {{ old('vessel_id') == $v->id ? 'selected' : '' }}>{{$v->vessel_name}}</option>
                                                 @empty
                                                 @endforelse
                                             </select>
@@ -141,7 +141,7 @@
                                         <div class="form-group">
                                             <label for="amount">Amount</label>
                                             <input type="text" id="amount" class="form-control" placeholder="Amount"
-                                                   name="amount">
+                                                   name="amount" value="{{old('amount')}}">
                                         </div>
                                         @if($errors->has('amount'))
                                             <span class="text-danger"> {{ $errors->first('amount') }}</span>
@@ -160,7 +160,7 @@
                                     <div class="col-md-12 col-12">
                                         <div class="form-group">
                                             <label for="remarks">Remarks</label>
-                                            <textarea rows="5" id="remarks" name="remarks" class="form-control"></textarea>
+                                            <textarea rows="5" id="remarks" name="remarks" class="form-control">{{old('remarks')}}</textarea>
                                         </div>
                                         @if($errors->has('remarks'))
                                             <span class="text-danger"> {{ $errors->first('remarks') }}</span>

@@ -123,7 +123,7 @@
                                 <td>@if($r->status == 1) {{__('Approved') }} @else {{__('UnApproved') }} @endif</td>
                                
                                 <td class="white-space-nowrap">
-                                    <a class="btn btn-sm btn-info" href="">
+                                    <a class="btn btn-sm btn-info" href="{{route('order.show',encryptor('encrypt',$r->order_id))}}" target="_blank">
                                         Order Details
                                     </a>
                                     @if($r->status == 1 && $r->v_status == 0  ){{--&& currentUser() == 'accountant'--}}
@@ -151,6 +151,7 @@
                                         <a href="javascript:void(0)" data-status="{{$r->status}}" data-title="{{$r->title}}" class="approve btn btn-warning btn-sm" data-toggle="tooltip" title="UnApprove">{{__('UnApproved') }}</a>
                                     </form>
                                     @endif
+                                    <a class="btn btn-sm btn-info" href="{{route('requisition.show',encryptor('encrypt',$r->id))}}"><i class="bi bi-eye"></i></a>
                                     <a class="btn btn-sm btn-danger" href=""><i class="bi bi-trash"></i></a>
                                 </td>
                             </tr>

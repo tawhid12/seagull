@@ -133,8 +133,8 @@ class RequisitionController extends Controller
     public function show($id)
     {
         $r = Requisition::findOrFail(encryptor('decrypt', $id));
-        $orders = Order::where(company())->get();
-        return view('requisition.show', compact('r', 'orders'));
+        $or = Order::find($r->order_id);
+        return view('requisition.show', compact('r', 'or'));
     }
 
     /**
