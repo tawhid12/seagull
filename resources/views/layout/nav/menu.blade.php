@@ -254,10 +254,10 @@
             <!-- Wrap to submenu-group-wrapper if you want 3-level submenu. Otherwise remove it. -->
             <div class="submenu-group-wrapper">
                 <ul class="submenu-group">
-                    <li class="submenu-item"><a class='submenu-link' href="{{route('master.index')}}">{{__('Master Head')}}</a></li>
-                    <li class="submenu-item"><a class='submenu-link' href="{{route('sub_head.index')}}">{{__('Sub Head')}}</a></li>
+                    {{-- <li class="submenu-item"><a class='submenu-link' href="{{route('master.index')}}">{{__('Master Head')}}</a></li>
+                    <li class="submenu-item"><a class='submenu-link' href="{{route('sub_head.index')}}">{{__('Sub Head')}}</a></li> --}}
                     <li class="submenu-item"><a class='submenu-link' href="{{route('child_one.index')}}">{{__('Child One')}}</a></li>
-                    <li class="submenu-item"><a class='submenu-link' href="{{route('child_two.index')}}">{{__('Child Two')}}</a></li>
+                    {{-- <li class="submenu-item"><a class='submenu-link' href="{{route('child_two.index')}}">{{__('Child Two')}}</a></li> --}}
                     <li class="submenu-item"><a class='submenu-link' href="{{route('navigate.index')}}">{{__('Navigate View')}}</a></li>
                     <li class="submenu-item"><a class='submenu-link' href="{{route('incomeStatement')}}">{{__('Income Statement')}}</a></li>
                     <li class="submenu-item"><a class='submenu-link' href="{{route('headreport')}}">{{__('Account Head Report')}}</a></li>

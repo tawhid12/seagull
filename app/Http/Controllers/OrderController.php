@@ -55,7 +55,7 @@ class OrderController extends Controller
     public function store(AddOrderRequest $request)
     {
         try {
-            //DB::beginTransaction();
+            DB::beginTransaction();
             $voucher_no = $this->create_voucher_no();
             $client_name = Client::where('id', $request->client_id)->first()->client_name;
             $order = new Order();
@@ -75,13 +75,13 @@ class OrderController extends Controller
             $order->created_by = currentUserId();
             $order->remarks = $request->remarks;
             if ($order->save()) {
-                /*if (!empty($voucher_no)) {
+                if (!empty($voucher_no)) {
                     $jv = new JournalVoucher;
                     $jv->voucher_no = $voucher_no;
                     $jv->company_id = company()['company_id'];
                     $jv->current_date = Carbon::parse($request->posted_on)->format('Y-m-d');
                     $jv->pay_name = $client_name;
-                    $jv->purpose = $request->purpose;
+                    $jv->purpose = "Order Generated #".$order->id;
                     $jv->credit_sum = $request->amount;
                     $jv->debit_sum = $request->amount;
                     $jv->cheque_no = $request->cheque_no;
@@ -91,10 +91,10 @@ class OrderController extends Controller
                     if ($jv->save()) {
                         $child_one = Child_one::where('head_code', '4101')->first();
                         $child_two = Child_two::where('head_code', '1130' . $order->client_id)->first();
-                        $account_codes = [$child_two->head_code, '4101'];
-                        $account_head = [$child_two->head_name, $child_one->head_name];
-                        $table_name = ['child_twos', 'child_ones'];
-                        $table_id = [$child_two->id, $child_one->id];
+                        $account_codes = ['4101', $child_two->head_code];
+                        $account_head = [ $child_one->head_name,$child_two->head_name];
+                        $tables_name = ['child_ones','child_twos'];
+                        $table_id = [$child_one->id,$child_two->id];
                         $credit = [0,$request->amount];
                         $debit = [$request->amount, 0];
                         if (sizeof($account_codes) > 0) {
@@ -104,12 +104,15 @@ class OrderController extends Controller
                                 $jvb->company_id = company()['company_id'];
                                 $jvb->particulars = !empty($request->remarks[$i]) ? $request->remarks[$i] : "";
                                 $jvb->account_code = !empty($acccode) ? $acccode : "";
-                                $jvb->table_name = !empty($table_name[$i]) ? $table_name[$i] : "";
+                                $jvb->table_name = !empty($tables_name[$i]) ? $tables_name[$i] : "";
                                 $jvb->table_id = !empty($table_id[$i]) ? $table_id[$i] : "";
-                                $jvb->debit = !empty($debit[$i]) ? $debit[$i] : 0;
-                                $jvb->credit = !empty($credit[$i]) ? $credit[$i] : 0;
+                                //$jvb->debit = !empty($debit[$i]) ? $debit[$i] : 0;
+                                //$jvb->credit = !empty($credit[$i]) ? $credit[$i] : 0;
+                                $jvb->debit = !empty($request->amount) ? $request->amount : 0;
+                                $jvb->credit = !empty($request->amount) ? $request->amount : 0;
+                                
                                 if ($jvb->save()) {
-                                    $table_name = $table_name[$i];
+                                    $table_name = $tables_name[$i];
                                     if ($table_name == "master_accounts") {
                                         $field_name = "master_account_id";
                                     } else if ($table_name == "sub_heads") {
@@ -127,16 +130,17 @@ class OrderController extends Controller
                                     $gl->jv_id = $voucher_no;
                                     $gl->journal_voucher_bkdn_id = $jvb->id;
                                     $gl->created_by = currentUserId();
-                                    $gl->dr = !empty($debit[$i]) ? $debit[$i] : 0;
-                                    $gl->cr = !empty($credit[$i]) ? $credit[$i] : 0;
+                                    $gl->dr = !empty($request->amount) ? $request->amount : 0;
+                                    $gl->cr = !empty($request->amount) ? $request->amount: 0;
                                     $gl->{$field_name} = !empty($table_id[$i]) ? $table_id[$i] : "";
                                     $gl->save();
+                                    
                                 }
                             }
                         }
                     }
                 }
-                DB::commit();*/
+                DB::commit();
                 \LogActivity::addToLog('Add Order', $request->getContent(), 'Order');
                 return redirect()->route('order.index')->with(Toastr::success('Data Saved!', 'Success', ["positionClass" => "toast-top-right"]));
             } else {
@@ -144,7 +148,7 @@ class OrderController extends Controller
             }
         } catch (Exception $e) {
             // dd($e);
-            //DB::rollBack();
+            DB::rollBack();
             return redirect()->back()->withInput()->with($this->resMessageHtml(false, 'error', 'Please try again'));
         }
     }
@@ -254,4 +258,6 @@ class OrderController extends Controller
     {
         //
     }
+
+    
 }
