@@ -12,7 +12,7 @@
                  <h3>Income Statement</h3>
                 </div>
                 <div class="row ps-2">
-                    <div class="col-sm-4">
+                    <div class="col-sm-3">
                         <div class="form-group">
                             <label class="form-label">Month</label>
                             <select id="month" class="form-control">
@@ -32,7 +32,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-sm-4">
+                    <div class="col-sm-3">
                         <div class="form-group">
                             <label class="form-label">Year</label>
                             <select id="year" class="form-control">
@@ -43,7 +43,19 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-sm-4 pt-3 mt-2">
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <label class="form-label">Company</label>
+                            <select id="company_id" class="form-control">
+                                <option value="">Select Company</option>
+                                @forelse ( $companies as $c)
+                                <option value="{{$c->id}}">{{$c->company_name}}</option>
+                                @empty
+                                @endforelse
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-sm-3 pt-3 mt-2">
                         <button class="btn btn-primary btn-block" type="button" onclick="get_details_report()">Get Report</button>
                     </div>
                 </div>
@@ -73,12 +85,14 @@
 	function get_details_report() {
 		var month = $('#month').val();
 		var year = $('#year').val();
-		if (year) {
+        var company_id = $('#company_id option:selected').val();
+		if (year && company_id) {
 			$.ajax({
 				url: "{{route('incomeStatement.details')}}",
 				data: {
 					'month': month,
-					'year': year
+					'year': year,
+                    'company_id' : company_id,
 				},
 				dataType: 'json',
 				success: function(data) {
@@ -96,7 +110,7 @@
 				}
 			});
 		} else {
-			alert("Please select any Year");
+			alert("Please select any Year and Company");
 			$('#year').focus();
 		}
 		return false; // keeps the page from not refreshing     

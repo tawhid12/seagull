@@ -8,6 +8,7 @@ use App\Models\Vouchers\GeneralLedger;
 use App\Models\Accounts\Master_account;
 use Illuminate\Http\Request;
 use App\Http\Traits\ResponseTrait;
+use App\Models\Company;
 use Illuminate\Support\Carbon;
 use Exception;
 use DB;
@@ -22,13 +23,15 @@ class IncomeStatementController extends Controller
      */
     public function index()
     {
-        return view('accounts.incomeStatement.index');
+        $companies = Company::all();
+        return view('accounts.incomeStatement.index',compact('companies'));
     }
 
     public function details(Request $r){
         $month=$r->month;
         $year=$r->year;
-        $acc_head=Master_account::where(company())->get();
+        $company_id=$r->company_id;
+        $acc_head=Master_account::where('company_id',$company_id)->get();
         /* operating income */
         $incomeheadop=array();
         $incomeheadopone=array();
@@ -200,8 +203,7 @@ class IncomeStatementController extends Controller
                 });
             })
             ->get();
-            $companyData = company(); 
-            $company = DB::table('companies')->where('id',$companyData['company_id'])->first();
+            $company = DB::table('companies')->where('id',$company_id)->first();
         $data='<div class="col-lg-12 stretch-card">
                 
                 <div class="card mt-3">
