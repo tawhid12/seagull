@@ -120,7 +120,7 @@ Route::middleware(['checkauth'])->group(function () {
     Route::get('incomeStatement_details', [statement::class, 'details'])->name('incomeStatement.details');
     Route::get('journal_get_head', [journal::class, 'get_head'])->name('journal_get_head');
     Route::get('get_head', [credit::class, 'get_head'])->name('get_head');
-    Route::get('incomeStatement', [statement::class, 'index'])->name('incomeStatement');
+    Route::get('incomeStatement', [statement::class, 'index'])->name('incomeStatement')->middleware('company');
     Route::get('/headreport', [headreport::class, 'index'])->name('headreport');
 
     /*== Secret Login ==*/
