@@ -3,7 +3,6 @@
 @section('pageSubTitle',trans('Statement'))
 
 @section('content')
-
 <!-- Bordered table start -->
 <section class="section">
     <div class="row" id="table-bordered">

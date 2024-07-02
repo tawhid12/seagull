@@ -8,6 +8,7 @@ use App\Models\Vouchers\GeneralLedger;
 use App\Models\Accounts\Master_account;
 use Illuminate\Http\Request;
 use App\Http\Traits\ResponseTrait;
+use Illuminate\Support\Carbon;
 use Exception;
 use DB;
 
@@ -199,18 +200,22 @@ class IncomeStatementController extends Controller
                 });
             })
             ->get();
-        
+            $companyData = company(); 
+            $company = DB::table('companies')->where('id',$companyData['company_id'])->first();
         $data='<div class="col-lg-12 stretch-card">
                 
-                <div class="card">
-                    <h4 class="card-title">Income Statement</h4>
-                    </p>
+                <div class="card mt-3">
+                    <h4 class="text-center card-title m-0">Company Name :- '.$company->company_name.'</h4>
+                    <p class="text-center m-0">Address :- '.$company->address.'</p>
+                    <h5 class="text-center card-title m-0">Income Statement</h5>
+                    <p class="text-center m-0">For the Month of '. \Carbon\Carbon::create()->month($month)->format('F').' '.$year.'</p>
                     <table class="table table-bordered">
                     <thead>
                         <tr>
                         <th>#</th>
                         <th> Particulars </th>
-                        <th> Amount </th>
+                        <th> Taka </th>
+                        <th> Taka </th>
                         </tr>
                     </thead>
                     <tbody>';
@@ -220,61 +225,72 @@ class IncomeStatementController extends Controller
                     $opexp=0;
                     $nonopexp=0;
                     $tax=0;
+
+                    $data.='<tr>
+                    <th> </th>
+                    <th class="" colspan="1">Revenue</th>
+                    <td></td>
+                    <td></td>
+                    </tr>';
                     /* operating income */
                     if($opincome){
                         foreach($opincome as $opi){
                             $opinc+=$opi->cr;
                             $data.='<tr class="table-info">';
                             $data.='<td>'.$i++.'</td>';
-                            $data.='<td> '.$opi->journal_title.' </td>';
+                            $data.='<td><b class="ms-3">'.$opi->journal_title.'</b> </td>';
+                            $data.='<td>-</td>';
                             $data.='<td class="text-right"> '.$opi->cr.' </td>';
                             $data.='</tr>';
                         }
                     }
                     $data.='<tr>
-                            <th> </th>
-                            <th class="text-right"> Gross Operating Income </th>
-                            <th class="text-right"> '.$opinc.' </th>
-                            </tr>';
-                    /* operating Expense */
-                    if($opexpense){
-                        foreach($opexpense as $opi){
-                            $opexp+=$opi->dr;
-                            $data.='<tr class="table-info">';
-                            $data.='<td>'.$i++.'</td>';
-                            $data.='<td> '.$opi->journal_title.' </td>';
-                            $data.='<td class="text-right"> '.$opi->dr.' </td>';
-                            $data.='</tr>';
-                        }
-                    }
-                    $data.='<tr>
-                            <th> </th>
-                            <th class="text-right"> Total Operating Expense </th>
-                            <th class="text-right"> '.$opexp.' </th>
-                            </tr>';
-                    $data.='<tr>
-                            <th> </th>
-                            <th class="text-right"> Net Operating Income </th>
-                            <th class="text-right"> '.($opinc - $opexp).' </th>
-                            </tr>';
+                    <th> </th>
+                    <th style="text-align:right"> Net Operating Income </th>
+                    <th>-</th>
+                    <th> '.($opinc - $opexp).' </th>
+                    </tr>';
+                   
+                   
+
                     /* nonoperating income */
                     if($nonopincome){
                         foreach($nonopincome as $opi){
                             $nonopinc+=$opi->cr;
                             $data.='<tr class="table-info">';
                             $data.='<td>'.$i++.'</td>';
-                            $data.='<td> '.$opi->journal_title.' </td>';
+                            $data.='<td><b> '.$opi->journal_title.' </b></td>';
                             $data.='<td class="text-right"> '.$opi->cr.' </td>';
                             $data.='</tr>';
                             
                         }
                     }
-                    $data.='<tr>
+                    /*$data.='<tr>
                             <th> </th>
                             <th class="text-right"> Gross Nonoperating Income Total </th>
+                            <th>-</th>
                             <th class="text-right"> '.$nonopinc.' </th>
-                            </tr>';
+                            </tr>';*/
+
+                    $data.='<tr>
+                    <th></th>
+                    <th class="" colspan="1">Operating Expense</th>
+                    <td></td>
+                    <td></td>
+                    </tr>';
+                    $data.='<tr>
+                    <th> </th>
+                    <th style="text-align:right"> Total Operating Expense </th>
+                    <th>-</th>
+                    <th class="text-right"> '.$opexp.' </th>
+                    </tr>';
                     
+                    $data.='<tr>
+                    <th> </th>
+                    <th class="" colspan="1">Administration Expense</th>
+                    <td></td>
+                    <td></td>
+                    </tr>';
                     
                     /* nonoperating Expense */
                     if($nonopexpense){
@@ -282,22 +298,27 @@ class IncomeStatementController extends Controller
                             $nonopexp+=$opi->dr;
                             $data.='<tr class="table-info">';
                             $data.='<td>'.$i++.'</td>';
-                            $data.='<td> '.$opi->journal_title.' </td>';
+                            $data.='<td><b class="ms-3"> '.$opi->journal_title.' </b></td>';
                             $data.='<td class="text-right"> '.$opi->dr.' </td>';
+                            $data.='<td class="text-right">-</td>';
                             $data.='</tr>';
                             
                         }
                     }
-                    $data.='<tr>
+
+
+
+                    /*$data.='<tr>
                             <th> </th>
                             <th class="text-right"> Total Nonoperating Expense </th>
+                            <th>-</th>
                             <th class="text-right"> '.$nonopexp.' </th>
                             </tr>';
                     $data.='<tr>
                             <th> </th>
                             <th class="text-right"> Net Nonoperating Income </th>
                             <th class="text-right"> '.($nonopinc - $nonopexp).' </th>
-                            </tr>';
+                            </tr>';*/
                     $data.='<tr>
                             <th> </th>
                             <th class="text-right"> Net Income Before Tax</th>
