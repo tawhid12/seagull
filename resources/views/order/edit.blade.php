@@ -70,6 +70,16 @@
                                     </div>
                                     <div class="col-md-3 col-12">
                                         <div class="form-group">
+                                            <label for="voyage_no">Voyage No</label>
+                                            <input type="text" id="voyage_no" class="form-control"
+                                                   placeholder="Voyage No" name="voyage_no"  value="{{ $or->voyage_no}}">
+                                        </div>
+                                        @if($errors->has('voyage_no'))
+                                            <span class="text-danger"> {{ $errors->first('voyage_no') }}</span>
+                                        @endif
+                                    </div>
+                                    <div class="col-md-3 col-12">
+                                        <div class="form-group">
                                             <label for="invoice_date">Invoice Date</label>
                                             <input type="text" id="invoice_date" name="invoice_date"
                                                    class="form-control"

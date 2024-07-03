@@ -22,7 +22,7 @@ class ChildOneController extends Controller
      */
     public function index()
     {
-        $data= Child_one::whereIn('sub_head_id',[10,11,12])->paginate(10);
+        $data= Child_one::whereIn('sub_head_id',[10,11,12])->orderBy('id','desc')->paginate(10);
         //$data= Child_one::where(company())->paginate(10);
         return view('accounts.child_one.index',compact('data'));
     }

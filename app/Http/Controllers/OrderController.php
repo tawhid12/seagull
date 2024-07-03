@@ -63,6 +63,7 @@ class OrderController extends Controller
             $order->order_details = $request->order_details;
             $order->order_subject = $request->order_subject;
             $order->invoice_no = $request->invoice_no;
+            $order->voyage_no = $request->voyage_no;
             $order->invoice_date = Carbon::parse($request->invoice_date)->format('Y-m-d');
             $order->po_no = $request->po_no;
             $order->po_date = Carbon::parse($request->po_date)->format('Y-m-d');
@@ -222,6 +223,7 @@ class OrderController extends Controller
             $order->order_details = $request->order_details;
             $order->order_subject = $request->order_subject;
             $order->invoice_no = $request->invoice_no;
+            $order->voyage_no = $request->voyage_no;
             $order->invoice_date = Carbon::parse($request->invoice_date)->format('Y-m-d');
             $order->po_no = $request->po_no;
             $order->po_date = Carbon::parse($request->po_date)->format('Y-m-d');
