@@ -53,7 +53,7 @@ class ChildOneController extends Controller
             $mac->sub_head_id= $request->sub_head;
             $mac->head_name= $request->head_name;
             $mac->head_code= $request->head_code;
-            $mac->opening_balance= $request->opening_balance;
+            $mac->opening_balance= $request->opening_balance?$request->opening_balance:0;
 
         if($mac->save())
                 return redirect()->route('child_one.index')->with($this->resMessageHtml(true,null,'Successfully created'));
@@ -104,7 +104,7 @@ class ChildOneController extends Controller
             $mac->sub_head_id= $request->sub_head;
             $mac->head_name= $request->head_name;
             $mac->head_code= $request->head_code;
-            $mac->opening_balance= $request->opening_balance;
+            $mac->opening_balance= $request->opening_balance?$request->opening_balance:0;
 
         if($mac->save())
                 return redirect()->route(currentUser().'.child_one.index')->with($this->resMessageHtml(true,null,'Successfully Updated'));

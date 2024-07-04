@@ -55,7 +55,7 @@
                                     <div class="form-group">
                                         <label for="opening_balance">{{__('Opening Balance')}}</label>
                                         <input type="text" id="opening_balance" class="form-control"
-                                            placeholder="Opening Balance" value="{{ old('opening_balance')}}" name="opening_balance" required>
+                                            placeholder="Opening Balance" value="{{ old('opening_balance')}}" name="opening_balance">
                                     </div>
                                 </div>
 

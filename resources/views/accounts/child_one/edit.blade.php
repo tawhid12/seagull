@@ -21,7 +21,7 @@
                                 <div class="col-md-6 col-12">
                                     <div class="form-group">
                                         <label for="sub_head">{{__('Sub Head')}}</label>
-                                        <select class="form-control form-select" name="sub_head" id="sub_head">
+                                        <select class="form-control form-select" name="sub_head" id="sub_head" disabled>
                                             <option value="">Select Sub Head</option>
                                             @forelse($data as $d)
                                                 <option value="{{$d->id}}" {{ old('sub_head',$child->sub_head_id)==$d->id?"selected":""}}> {{ $d->head_name}}-{{ $d->head_code}}</option>
@@ -48,7 +48,7 @@
                                     <div class="form-group">
                                         <label for="head_code">{{__('Head Code')}}</label>
                                         <input type="text" id="head_code" class="form-control"
-                                            placeholder="Head Code" value="{{ old('head_code',$child->head_code)}}" name="head_code">
+                                            placeholder="Head Code" value="{{ old('head_code',$child->head_code)}}" name="head_code" readonly>
                                     </div>
                                     @if($errors->has('head_code'))
                                     <span class="text-danger"> {{ $errors->first('head_code') }}</span>
