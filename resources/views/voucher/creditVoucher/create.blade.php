@@ -29,7 +29,7 @@
                                 <div class="col-md-6 col-12">
                                     <div class="form-group">
                                         <label for="date">{{__('Date')}}</label>
-                                        <input type="date" id="current_date" class="form-control" value="{{ old('current_date')}}" name="current_date" required>
+                                        <input type="text" id="current_date" class="form-control" value="{{ old('current_date')}}" name="current_date" required>
                                         @if($errors->has('current_date'))
                                             <span class="text-danger"> {{ $errors->first('current_date') }}</span>
                                         @endif
