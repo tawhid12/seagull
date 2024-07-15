@@ -30,7 +30,7 @@
                                                     <div class="col-12 col-sm-6">
                                                         <div class="form-group">
                                                             <label>Date</label>
-                                                            <input type="date" class="form-control" name="current_date" value="{{old('current_date')}}" required>
+                                                            <input type="text" class="form-control" name="current_date" value="{{old('current_date')}}" required>
                                                             @if($errors->has('current_date')) 
                                                                 <div class="help-block col-sm-reset">
                                                             {{ $errors->first('current_date') }}
