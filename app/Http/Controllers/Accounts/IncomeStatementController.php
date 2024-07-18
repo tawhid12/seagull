@@ -310,7 +310,7 @@ class IncomeStatementController extends Controller
 
 
 
-                    /*$data.='<tr>
+                    $data.='<tr>
                             <th> </th>
                             <th class="text-right"> Total Nonoperating Expense </th>
                             <th>-</th>
@@ -320,7 +320,7 @@ class IncomeStatementController extends Controller
                             <th> </th>
                             <th class="text-right"> Net Nonoperating Income </th>
                             <th class="text-right"> '.($nonopinc - $nonopexp).' </th>
-                            </tr>';*/
+                            </tr>';
                     $data.='<tr>
                             <th> </th>
                             <th class="text-right"> Net Income Before Tax</th>
