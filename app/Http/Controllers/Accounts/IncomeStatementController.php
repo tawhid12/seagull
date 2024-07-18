@@ -125,7 +125,19 @@ class IncomeStatementController extends Controller
                 }
             }
         }
-print_r($expenseheadnoptwo);die;
+
+          /* operating expense */
+          print_r($expenseheadop);
+          echo '<br>'; 
+          print_r($expenseheadopone);
+          echo '<br>'; 
+          print_r($expenseheadoptwo);
+          /* nonoperating expense */
+          print_r($expenseheadnop);
+          print_r($expenseheadnopone);
+          print_r($expenseheadnoptwo);
+          die;
+          
         if($month){
             $datas=$year."-".$month."-01";
             $datae=$year."-".$month."-31";
