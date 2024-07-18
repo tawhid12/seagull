@@ -32,115 +32,68 @@ class IncomeStatementController extends Controller
         $year=$r->year;
         $company_id=$r->company_id;
         $acc_head=Master_account::where('company_id',$company_id)->get();
-        /* operating income */
-        $incomeheadop=array();
-        $incomeheadopone=array();
-        $incomeheadoptwo=array();
-        /* nonoperating income */
-        $incomeheadnop=array();
-        $incomeheadnopone=array();
-        $incomeheadnoptwo=array();
-
-        /* operating expense */
-        $expenseheadop=array();
-        $expenseheadopone=array();
-        $expenseheadoptwo=array();
-        /* nonoperating expense */
-        $expenseheadnop=array();
-        $expenseheadnopone=array();
-        $expenseheadnoptwo=array();
+       
+        $allaccheadsinc=array();
+        $allaccheadsexp=array();
         $tax_data=array();
 
         foreach($acc_head as $ah){
             if($ah->head_code=="4000"){
                 if($ah->sub_head){
-                    foreach($ah->sub_head as $sub_head){
-                        if($sub_head->head_code=="4100"){/* operating income */
+                    foreach($ah->sub_head as $sub_head){/* operating income */
+                        ${$sub_head->head_code."two"} = [];
+                        ${$sub_head->head_code."one"} = [];
+                        ${$sub_head->head_code."main"} = [];
+
+                        $allaccheadsinc[$sub_head->head_code]=$sub_head;
+
                             if($sub_head->child_one->count() > 0){
                                 foreach($sub_head->child_one as $child_one){
                                     if($child_one->child_two->count() > 0){
                                         foreach($child_one->child_two as $child_two){
+                                            ${$sub_head->head_code."two"}[]=$child_two->id;
                                             $incomeheadoptwo[]=$child_two->id;
                                         }
                                     }else{
+                                        ${$sub_head->head_code."one"}[]=$child_one->id;
                                         $incomeheadopone[]=$child_one->id;
                                     }
                                 }
                             }else{
+                                ${$sub_head->head_code."main"}[]=$sub_head->id;
                                 $incomeheadop[]=$sub_head->id;
                             }
-                        }else if ($sub_head->head_code=="4200"){ /* nonoperating income */
-                            if($sub_head->child_one->count() > 0){
-                                foreach($sub_head->child_one as $child_one){
-                                    if($child_one->child_two->count() > 0){
-                                        foreach($child_one->child_two as $child_two){
-                                            $incomeheadnoptwo[]=$child_two->id;
-                                        }
-                                    }else{
-                                        $incomeheadnopone[]=$child_one->id;
-                                    }
-                                }
-                            }else{
-                                $incomeheadnop[]=$sub_head->id;
-                            }
-                        }
+                      
                     }
                 }
             }else if($ah->head_code=="5000"){
                 if($ah->sub_head){
                     foreach($ah->sub_head as $sub_head){
-                        if($sub_head->head_code=="5200"){/* operating income */
-                            if($sub_head->child_one->count() > 0){
-                                foreach($sub_head->child_one as $child_one){
-                                    if($child_one->child_two->count() > 0){
-                                        foreach($child_one->child_two as $child_two){
-                                            $expenseheadoptwo[]=$child_two->id;
-                                        }
-                                    }else{
-                                        $expenseheadopone[]=$child_one->id;
+                        ${$sub_head->head_code."two"} = [];
+                        ${$sub_head->head_code."one"} = [];
+                        ${$sub_head->head_code."main"} = [];
+
+                        $allaccheadsexp[$sub_head->head_code]=$sub_head;
+
+                        if($sub_head->child_one->count() > 0){
+                            foreach($sub_head->child_one as $child_one){
+                                if($child_one->child_two->count() > 0){
+                                    foreach($child_one->child_two as $child_two){
+                                        ${$sub_head->head_code."two"}[]=$child_two->id;
                                     }
+                                }else{
+                                    ${$sub_head->head_code."one"}[]=$child_one->id;
                                 }
-                            }else{
-                                $expenseheadop[]=$sub_head->id;
                             }
-                        }else if ($sub_head->head_code=="5300"){ /* nonoperating expense */
-                            if($sub_head->child_one->count() > 0){
-                                foreach($sub_head->child_one as $child_one){
-                                    if($child_one->child_two->count() > 0){
-                                        foreach($child_one->child_two as $child_two){
-                                            $expenseheadnoptwo[]=$child_two->id;
-                                        }
-                                    }else{
-                                        if($child_one->head_code!="53001")
-                                            $expenseheadnopone[]=$child_one->id;
-                                        else
-                                            $tax_data[]=$child_one->id;
-                                    }
-                                }
-                            }else{
-                                $expenseheadnop[]=$sub_head->id;
-                            }
+                        }else{
+                            ${$sub_head->head_code."main"}[]=$sub_head->id;
                         }
                     }
                 }
             }
         }
 
-          /* operating expense */
-          print_r($expenseheadop);
-          echo 'expenseheadop-<br>'; 
-          print_r($expenseheadopone);
-          echo 'expenseheadopone-<br>'; 
-          print_r($expenseheadoptwo);
-          echo '<hr>';
-          /* nonoperating expense */
-          print_r($expenseheadnop);
-          echo 'expenseheadnop-<br>'; 
-          print_r($expenseheadnopone);
-          echo 'expenseheadnopone-<br>'; 
-          print_r($expenseheadnoptwo);
-          echo 'expenseheadnoptwo-<br>'; 
-          die;
+        // print_r($allaccheadsexp);die;
 
         if($month){
             $datas=$year."-".$month."-01";
@@ -151,66 +104,53 @@ class IncomeStatementController extends Controller
         }
             //\DB::connection()->enableQueryLog();
             /* operating income */
-            $opincome=GeneralLedger::whereBetween('rec_date',[$datas,$datae])
-            ->where(function($query) use ($incomeheadop,$incomeheadopone,$incomeheadoptwo){
-                $query->orWhere(function($query) use ($incomeheadop){
-                     $query->whereIn('sub_head_id',$incomeheadop);
-                });
-                $query->orWhere(function($query) use ($incomeheadopone){
-                     $query->whereIn('child_one_id',$incomeheadopone);
-                });
-                $query->orWhere(function($query) use ($incomeheadoptwo){
-                     $query->whereIn('child_two_id',$incomeheadoptwo);
-                });
-            })
-            ->get();
+            foreach($allaccheadsexp as $head=>$name){
 
-            //$queries = \DB::getQueryLog();
-            //dd($queries);
+                $main=${$head."main"};
+                $one=${$head."one"};
+                $two=${$head."two"};
+
+                ${"exp".$head}=GeneralLedger::whereBetween('rec_date',[$datas,$datae])
+                ->where(function($query) use ($main,$one,$two){
+                    $query->orWhere(function($query) use ($main){
+                        $query->whereIn('sub_head_id',$main);
+                    });
+                    $query->orWhere(function($query) use ($one){
+                        $query->whereIn('child_one_id',$one);
+                    });
+                    $query->orWhere(function($query) use ($two){
+                        $query->whereIn('child_two_id',$two);
+                    });
+                })
+                ->get();
+                //$queries = \DB::getQueryLog();
+            }
+            foreach($allaccheadsinc as $head=>$name){
+
+                $main=${$head."main"};
+                $one=${$head."one"};
+                $two=${$head."two"};
+
+                ${"inc".$head}=GeneralLedger::whereBetween('rec_date',[$datas,$datae])
+                ->where(function($query) use ($main,$one,$two){
+                    $query->orWhere(function($query) use ($main){
+                        $query->whereIn('sub_head_id',$main);
+                    });
+                    $query->orWhere(function($query) use ($one){
+                        $query->whereIn('child_one_id',$one);
+                    });
+                    $query->orWhere(function($query) use ($two){
+                        $query->whereIn('child_two_id',$two);
+                    });
+                })
+                ->get();
+                //$queries = \DB::getQueryLog();
+            }
+           
+            // $queries = \DB::getQueryLog();
+            // dd($queries);
             /* nonoperating income */
-            $nonopincome=GeneralLedger::whereBetween('rec_date',[$datas,$datae])
-            ->where(function($query) use ($incomeheadnop,$incomeheadnopone,$incomeheadnoptwo){
-                $query->orWhere(function($query) use ($incomeheadnop){
-                     $query->whereIn('sub_head_id',$incomeheadnop);
-                });
-                $query->orWhere(function($query) use ($incomeheadnopone){
-                     $query->whereIn('child_one_id',$incomeheadnopone);
-                });
-                $query->orWhere(function($query) use ($incomeheadnoptwo){
-                     $query->whereIn('child_two_id',$incomeheadnoptwo);
-                });
-            })
-            ->get();
-            
-            /* operating expense */
-            $opexpense=GeneralLedger::whereBetween('rec_date',[$datas,$datae])
-            ->where(function($query) use ($expenseheadop,$expenseheadopone,$expenseheadoptwo){
-                $query->orWhere(function($query) use ($expenseheadop){
-                     $query->whereIn('sub_head_id',$expenseheadop);
-                });
-                $query->orWhere(function($query) use ($expenseheadopone){
-                     $query->whereIn('child_one_id',$expenseheadopone);
-                });
-                $query->orWhere(function($query) use ($expenseheadoptwo){
-                     $query->whereIn('child_two_id',$expenseheadoptwo);
-                });
-            })
-            ->get();
-            
-            /* nonoperating expense */
-            $nonopexpense=GeneralLedger::whereBetween('rec_date',[$datas,$datae])
-            ->where(function($query) use ($expenseheadnop,$expenseheadnopone,$expenseheadnoptwo){
-                $query->orWhere(function($query) use ($expenseheadnop){
-                     $query->whereIn('sub_head_id',$expenseheadnop);
-                });
-                $query->orWhere(function($query) use ($expenseheadnopone){
-                     $query->whereIn('child_one_id',$expenseheadnopone);
-                });
-                $query->orWhere(function($query) use ($expenseheadnoptwo){
-                     $query->whereIn('child_two_id',$expenseheadnoptwo);
-                });
-            })
-            ->get();
+           
             /* tax expense */
             $taxamount=GeneralLedger::whereBetween('rec_date',[$datas,$datae])
             ->where(function($query) use ($tax_data){
@@ -239,109 +179,74 @@ class IncomeStatementController extends Controller
                     <tbody>';
                     $i=1;
                     $opinc=0;
-                    $nonopinc=0;
+                    $totalinc=0;
                     $opexp=0;
-                    $nonopexp=0;
+                    $totalexp=0;
                     $tax=0;
-
-                    $data.='<tr>
-                    <th> </th>
-                    <th class="" colspan="1">Revenue</th>
-                    <td></td>
-                    <td></td>
-                    </tr>';
-                    /* operating income */
-                    if($opincome){
-                        foreach($opincome as $opi){
-                            $opinc+=$opi->cr;
-                            $data.='<tr class="table-info">';
-                            $data.='<td>'.$i++.'</td>';
-                            $data.='<td><b class="ms-3">'.$opi->journal_title.'</b> </td>';
-                            $data.='<td>-</td>';
-                            $data.='<td class="text-right"> '.$opi->cr.' </td>';
-                            $data.='</tr>';
-                        }
-                    }
-                    $data.='<tr>
-                    <th> </th>
-                    <th style="text-align:right"> Net Operating Income </th>
-                    <th>-</th>
-                    <th> '.($opinc - $opexp).' </th>
-                    </tr>';
-                   
-                   
-
-                    /* nonoperating income */
-                    if($nonopincome){
-                        foreach($nonopincome as $opi){
-                            $nonopinc+=$opi->cr;
-                            $data.='<tr class="table-info">';
-                            $data.='<td>'.$i++.'</td>';
-                            $data.='<td><b> '.$opi->journal_title.' </b></td>';
-                            $data.='<td class="text-right"> '.$opi->cr.' </td>';
-                            $data.='</tr>';
-                            
-                        }
-                    }
-                    /*$data.='<tr>
+                    if($allaccheadsinc){
+                        foreach($allaccheadsinc as $head=>$name){
+                            $opinc=0;
+                            $data.='<tr>
                             <th> </th>
-                            <th class="text-right"> Gross Nonoperating Income Total </th>
-                            <th>-</th>
-                            <th class="text-right"> '.$nonopinc.' </th>
-                            </tr>';*/
-
-                    $data.='<tr>
-                    <th></th>
-                    <th class="" colspan="1">Operating Expense</th>
-                    <td></td>
-                    <td></td>
-                    </tr>';
-                    $data.='<tr>
-                    <th> </th>
-                    <th style="text-align:right"> Total Operating Expense </th>
-                    <th>-</th>
-                    <th class="text-right"> '.$opexp.' </th>
-                    </tr>';
-                    
-                    $data.='<tr>
-                    <th> </th>
-                    <th class="" colspan="1">Administration Expense</th>
-                    <td></td>
-                    <td></td>
-                    </tr>';
-                    
-                    /* nonoperating Expense */
-                    if($nonopexpense){
-                        foreach($nonopexpense as $opi){
-                            $nonopexp+=$opi->dr;
-                            $data.='<tr class="table-info">';
-                            $data.='<td>'.$i++.'</td>';
-                            $data.='<td><b class="ms-3"> '.$opi->journal_title.' </b></td>';
-                            $data.='<td class="text-right"> '.$opi->dr.' </td>';
-                            $data.='<td class="text-right">-</td>';
-                            $data.='</tr>';
-                            
-                        }
-                    }
-
-
-
-                    /*$data.='<tr>
-                            <th> </th>
-                            <th class="text-right"> Total Nonoperating Expense </th>
-                            <th>-</th>
-                            <th class="text-right"> '.$nonopexp.' </th>
+                            <th class="" colspan="1">'.$name->head_name.'</th>
+                            <td></td>
+                            <td></td>
                             </tr>';
-                    $data.='<tr>
+                            /* income */
+                            if(${"inc".$head}){
+                                foreach(${"inc".$head} as $opi){
+                                    $opinc+=$opi->cr;
+                                    $data.='<tr class="table-info">';
+                                    $data.='<td>'.$i++.'</td>';
+                                    $data.='<td><b class="ms-3">'.$opi->journal_title.'</b> </td>';
+                                    $data.='<td>-</td>';
+                                    $data.='<td class="text-right"> '.$opi->cr.' </td>';
+                                    $data.='</tr>';
+                                }
+                            }
+                            $data.='<tr>
                             <th> </th>
-                            <th class="text-right"> Net Nonoperating Income </th>
-                            <th class="text-right"> '.($nonopinc - $nonopexp).' </th>
-                            </tr>';*/
-                    $data.='<tr>
-                            <th> </th>
-                            <th class="text-right"> Net Income Before Tax</th>
-                            <th class="text-right"> '.(($nonopinc + $opinc)  - ($opexp + $nonopexp)).' </th>
+                            <th style="text-align:right"> Total '.$name->head_name.' </th>
+                            <th>-</th>
+                            <th> '.$opinc.' </th>
                             </tr>';
+                            $totalinc+=$opinc;
+                        }
+                    }
+                    if($allaccheadsexp){
+                        foreach($allaccheadsexp as $head=>$name){
+                            $opexp=0;
+                            $data.='<tr>
+                            <th> </th>
+                            <th class="" colspan="1">'.$name->head_name.'</th>
+                            <td></td>
+                            <td></td>
+                            </tr>';
+                            /* income */
+                            if(${"exp".$head}){
+                                foreach(${"exp".$head} as $opi){
+                                    $opexp+=$opi->dr;
+                                    $data.='<tr class="table-info">';
+                                    $data.='<td>'.$i++.'</td>';
+                                    $data.='<td><b class="ms-3">'.$opi->journal_title.'</b> </td>';
+                                    $data.='<td>-</td>';
+                                    $data.='<td class="text-right"> '.$opi->dr.' </td>';
+                                    $data.='</tr>';
+                                }
+                            }
+                            $data.='<tr>
+                            <th> </th>
+                            <th style="text-align:right"> Net '.$name->head_name.' </th>
+                            <th>-</th>
+                            <th> '.$opexp.' </th>
+                            </tr>';
+                            $totalexp+=$opexp;
+                        }
+                    }
+                   
+
+                    
+                   
                     if($taxamount){
                         foreach($taxamount as $t){
                             $tax+=$t->dr;
@@ -356,7 +261,7 @@ class IncomeStatementController extends Controller
                     $data.='<tr>
                             <th> </th>
                             <th class="text-right"> Net Income</th>
-                            <th class="text-right"> '.(($nonopinc + $opinc)  - ($opexp + $nonopexp + $tax)).' </th>
+                            <th class="text-right"> '.($totalinc  - ($totalexp + $tax)).' </th>
                             </tr>';
 
             $data.='</tbody>

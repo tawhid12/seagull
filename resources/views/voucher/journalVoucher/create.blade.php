@@ -30,7 +30,7 @@
                                                     <div class="col-12 col-sm-6">
                                                         <div class="form-group">
                                                             <label>Date</label>
-                                                            <input type="text" class="form-control" name="current_date" value="{{old('current_date')}}" required>
+                                                            <input type="text" class="form-control" id="current_date" name="current_date" value="{{old('current_date')}}" required>
                                                             @if($errors->has('current_date')) 
                                                                 <div class="help-block col-sm-reset">
                                                             {{ $errors->first('current_date') }}
@@ -319,5 +319,13 @@
     		$(inc).parents('tr').find('.cls_account_code').focus();
     	}
     }
+
+    $("#current_date").daterangepicker({
+        singleDatePicker: true,
+        startDate: new Date(),
+        showDropdowns: true,
+        autoUpdateInput: true,
+        format: 'dd/mm/yyyy',
+    });
 </script>
 @endpush

@@ -19,6 +19,7 @@ use Session;
 use Exception;
 use Toastr;
 use App\Models\Requisition;
+use Illuminate\Support\Carbon;
 
 class DebitVoucherController extends Controller
 {
@@ -340,7 +341,7 @@ class DebitVoucherController extends Controller
 				$jv->order_id = $op->order_id;
 			else
 				$jv->order_id = $request->order_id;
-			$jv->current_date = $request->current_date;
+			$jv->current_date = $request->current_date ? Carbon::createFromFormat('m/d/Y', $request->current_date)->format('Y-m-d') : null;
 			$jv->pay_name = $request->pay_name;
 			$jv->purpose = $request->purpose;
 			$jv->credit_sum = $request->debit_sum;
@@ -392,7 +393,7 @@ class DebitVoucherController extends Controller
 							else
 								$gl->order_id = $request->order_id;
 							$gl->journal_title = !empty($acccode) ? $acccode : "";
-							$gl->rec_date = $request->current_date;
+							$gl->rec_date = $request->current_date ? Carbon::createFromFormat('m/d/Y', $request->current_date)->format('Y-m-d') : null;
 							$gl->jv_id = $voucher_no;
 							$gl->devoucher_bkdn_id = $jvb->id;
 							$gl->created_by = currentUserId();
@@ -435,7 +436,7 @@ class DebitVoucherController extends Controller
 						else
 							$gl->order_id = $request->order_id;
 						$gl->journal_title = $credit[2];
-						$gl->rec_date = $request->current_date;
+						$gl->rec_date = $request->current_date ? Carbon::createFromFormat('m/d/Y', $request->current_date)->format('Y-m-d') : null;
 						$gl->jv_id = $voucher_no;
 						$gl->devoucher_bkdn_id = $jvb->id;
 						$gl->created_by = currentUserId();
@@ -489,7 +490,7 @@ class DebitVoucherController extends Controller
 	public function update(Request $request, $id)
 	{
 		$dv = DebitVoucher::findOrFail(encryptor('decrypt', $id));
-		$dv->current_date = $request->current_date;
+		$dv->current_date =$request->current_date ? Carbon::createFromFormat('m/d/Y', $request->current_date)->format('Y-m-d') : null;
 		$dv->pay_name = $request->pay_name;
 		$dv->purpose = $request->purpose;
 		$dv->cheque_no = $request->cheque_no;

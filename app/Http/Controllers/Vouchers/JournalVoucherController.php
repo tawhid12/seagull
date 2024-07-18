@@ -15,7 +15,7 @@ use App\Http\Traits\ResponseTrait;
 use DB;
 use Session;
 use Exception;
-
+use Illuminate\Support\Carbon;
 class JournalVoucherController extends Controller
 {
     use ResponseTrait;
@@ -311,7 +311,7 @@ class JournalVoucherController extends Controller
                 $jv=new JournalVoucher;
                 $jv->voucher_no=$voucher_no;
                 $jv->company_id =company()['company_id'];
-                $jv->current_date=$request->current_date;
+                $jv->current_date=$request->current_date ? Carbon::createFromFormat('m/d/Y', $request->current_date)->format('Y-m-d') : null;
                 $jv->pay_name=$request->pay_name;
                 $jv->purpose=$request->purpose;
                 $jv->credit_sum=$request->debit_sum;
@@ -351,7 +351,7 @@ class JournalVoucherController extends Controller
                                 $gl->journal_voucher_id=$jv->id;
                                 $gl->company_id =company()['company_id'];
                                 $gl->journal_title=!empty($acccode)?$acccode:"";
-                                $gl->rec_date=$request->current_date;
+                                $gl->rec_date=$request->current_date ? Carbon::createFromFormat('m/d/Y', $request->current_date)->format('Y-m-d') : null;
                                 $gl->jv_id=$voucher_no;
                                 $gl->journal_voucher_bkdn_id=$jvb->id;
                                 $gl->created_by=currentUserId();
@@ -411,7 +411,7 @@ class JournalVoucherController extends Controller
     public function update(Request $request, $id)
     {
 		$journalVoucher= JournalVoucher::findOrFail(encryptor('decrypt',$id));
-		$journalVoucher->current_date = $request->current_date;
+		$journalVoucher->current_date = $request->current_date ? Carbon::createFromFormat('m/d/Y', $request->current_date)->format('Y-m-d') : null;
 		$journalVoucher->pay_name = $request->pay_name;
 		$journalVoucher->purpose = $request->purpose;
 		$journalVoucher->cheque_no = $request->cheque_no;

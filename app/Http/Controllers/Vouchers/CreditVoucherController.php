@@ -17,7 +17,7 @@ use App\Models\Order;
 use DB;
 use Session;
 use Exception;
-
+use Illuminate\Support\Carbon;
 class CreditVoucherController extends Controller
 {
     use ResponseTrait;
@@ -316,7 +316,7 @@ class CreditVoucherController extends Controller
                 $jv->voucher_no=$voucher_no;
                 $jv->company_id =company()['company_id'];
 				$jv->order_id = $request->order_id;
-                $jv->current_date=$request->current_date;
+                $jv->current_date=$request->current_date ? Carbon::createFromFormat('m/d/Y', $request->current_date)->format('Y-m-d') : null;
                 $jv->pay_name=$request->pay_name;
                 $jv->purpose=$request->purpose;
                 $jv->credit_sum=$request->debit_sum;
@@ -358,7 +358,7 @@ class CreditVoucherController extends Controller
                             $gl->company_id =company()['company_id'];
 							$gl->order_id = $request->order_id;
                             $gl->journal_title=$credit[2];
-                            $gl->rec_date=$request->current_date;
+                            $gl->rec_date=$request->current_date ? Carbon::createFromFormat('m/d/Y', $request->current_date)->format('Y-m-d') : null;
                             $gl->jv_id=$voucher_no;
                             $gl->crvoucher_bkdn_id=$jvb->id;
                             $gl->created_by=currentUserId();
@@ -389,7 +389,7 @@ class CreditVoucherController extends Controller
                                 $gl->company_id =company()['company_id'];
 								$gl->order_id = $request->order_id;
                                 $gl->journal_title=!empty($acccode)?$acccode:"";
-                                $gl->rec_date=$request->current_date;
+                                $gl->rec_date=$request->current_date ? Carbon::createFromFormat('m/d/Y', $request->current_date)->format('Y-m-d') : null;
                                 $gl->jv_id=$voucher_no;
                                 $gl->crvoucher_bkdn_id=$jvb->id;
                                 $gl->created_by=currentUserId();
@@ -448,7 +448,7 @@ class CreditVoucherController extends Controller
     public function update(Request $request, $id)
     {
         $cv= CreditVoucher::findOrFail(encryptor('decrypt',$id));
-		$cv->current_date = $request->current_date;
+		$cv->current_date = $request->current_date ? Carbon::createFromFormat('m/d/Y', $request->current_date)->format('Y-m-d') : null;
 		$cv->pay_name = $request->pay_name;
 		$cv->purpose = $request->purpose;
 		$cv->cheque_no = $request->cheque_no;
