@@ -128,16 +128,20 @@ class IncomeStatementController extends Controller
 
           /* operating expense */
           print_r($expenseheadop);
-          echo '<br>'; 
+          echo 'expenseheadop-<br>'; 
           print_r($expenseheadopone);
-          echo '<br>'; 
+          echo 'expenseheadopone-<br>'; 
           print_r($expenseheadoptwo);
+          echo '<hr>';
           /* nonoperating expense */
           print_r($expenseheadnop);
+          echo 'expenseheadnop-<br>'; 
           print_r($expenseheadnopone);
+          echo 'expenseheadnopone-<br>'; 
           print_r($expenseheadnoptwo);
+          echo 'expenseheadnoptwo-<br>'; 
           die;
-          
+
         if($month){
             $datas=$year."-".$month."-01";
             $datae=$year."-".$month."-31";
