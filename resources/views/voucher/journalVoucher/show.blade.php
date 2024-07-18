@@ -56,7 +56,8 @@
                                         <tr>
                                             <th>{{__('SN#')}}</th>
                                             <th>{{__('A/C Head')}}</th>
-                                            <th>{{__('Amount')}}</th>
+                                            <th>{{__('Dr')}}</th>
+                                            <th>{{__('Cr')}}</th>
                                             <th>{{__('Remarks')}}</th>
                                         </tr>
                                     </thead>
@@ -75,6 +76,7 @@
                                                     <td style='text-align:center;'>1</td>
                                                     <td style='text-align:left;'>{{$bk->account_code}}</td>
                                                     <td style='text-align:left;'>{{$bk->debit}}</td>
+                                                    <td style='text-align:left;'>{{$bk->credit}}</td>
                                                     <td style='text-align:left;'>{{$bk->particulars}}</td>
                                                 </tr>
                                                 @endif
