@@ -103,7 +103,7 @@ class IncomeStatementController extends Controller
                             }else{
                                 $expenseheadop[]=$sub_head->id;
                             }
-                        }else if ($sub_head->head_code=="5300"){ /* nonoperating income */
+                        }else if ($sub_head->head_code=="5300"){ /* nonoperating expense */
                             if($sub_head->child_one->count() > 0){
                                 foreach($sub_head->child_one as $child_one){
                                     if($child_one->child_two->count() > 0){
@@ -125,7 +125,7 @@ class IncomeStatementController extends Controller
                 }
             }
         }
-
+print_r($expenseheadnoptwo);die;
         if($month){
             $datas=$year."-".$month."-01";
             $datae=$year."-".$month."-31";
@@ -310,7 +310,7 @@ class IncomeStatementController extends Controller
 
 
 
-                    $data.='<tr>
+                    /*$data.='<tr>
                             <th> </th>
                             <th class="text-right"> Total Nonoperating Expense </th>
                             <th>-</th>
@@ -320,7 +320,7 @@ class IncomeStatementController extends Controller
                             <th> </th>
                             <th class="text-right"> Net Nonoperating Income </th>
                             <th class="text-right"> '.($nonopinc - $nonopexp).' </th>
-                            </tr>';
+                            </tr>';*/
                     $data.='<tr>
                             <th> </th>
                             <th class="text-right"> Net Income Before Tax</th>
