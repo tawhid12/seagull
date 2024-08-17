@@ -490,7 +490,7 @@ class DebitVoucherController extends Controller
 	public function update(Request $request, $id)
 	{
 		$dv = DebitVoucher::findOrFail(encryptor('decrypt', $id));
-		$dv->current_date =$request->current_date ? Carbon::createFromFormat('m/d/Y', $request->current_date)->format('Y-m-d') : null;
+		$dv->current_date =$request->current_date ? Carbon::createFromFormat('Y-m-d', $request->current_date)->format('Y-m-d') : null;
 		$dv->pay_name = $request->pay_name;
 		$dv->purpose = $request->purpose;
 		$dv->cheque_no = $request->cheque_no;
