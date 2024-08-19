@@ -75,6 +75,8 @@ use App\Http\Controllers\Vouchers\CreditVoucherController as credit;
 use App\Http\Controllers\Vouchers\DebitVoucherController as debit;
 use App\Http\Controllers\Vouchers\JournalVoucherController as journal;
 
+
+use App\Http\Controllers\ReportController as report;
 /* Middleware */
 use App\Http\Middleware\isAdmin;
 use App\Http\Middleware\isSuperadmin;
@@ -212,4 +214,7 @@ Route::middleware(['checkrole'])->prefix('admin')->group(function () {
     Route::resource('journal', journal::class)->middleware('company');
 
     //});
+    //ReportController
+    Route::get('/vessel-report', [report::class, 'vessel_report'])->name('vessel_report')->middleware('company');
+    Route::get('vesselReport_details', [report::class, 'details'])->name('vessel_report.details');
 });

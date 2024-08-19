@@ -12,6 +12,7 @@ use App\Models\Vouchers\GeneralLedger;
 use App\Models\Accounts\Child_one;
 use App\Models\Accounts\Child_two;
 use App\Models\Order;
+use App\Models\Vessel;
 use Illuminate\Http\Request;
 use App\Http\Traits\ResponseTrait;
 use DB;
@@ -45,6 +46,7 @@ class DebitVoucherController extends Controller
 		$paymethod = array();
 		$account_data = Child_one::whereIn('head_code', [1110, 1120, 1150])/*->where(company())*/->get();
 		$orders = Order::where(company())->get();
+		$vessels = Vessel::where(company())->get();
 
 		if ($account_data) {
 			foreach ($account_data as $ad) {
@@ -70,7 +72,7 @@ class DebitVoucherController extends Controller
 			}
 		}
 
-		return view('voucher.debitVoucher.create', compact('paymethod', 'orders'));
+		return view('voucher.debitVoucher.create', compact('paymethod', 'orders','vessels'));
 	}
 
 	public function get_head(Request $request)
@@ -337,10 +339,15 @@ class DebitVoucherController extends Controller
 			$jv = new DebitVoucher;
 			$jv->voucher_no = $voucher_no;
 			$jv->company_id = company()['company_id'];
-			if ($model && $model_id)
+			if ($model && $model_id){
 				$jv->order_id = $op->order_id;
+				$jv->vessel_id = $request->vessel_id;
+				$jv->voyage_no = $request->voyage_no;
+			}	
 			else
 				$jv->order_id = $request->order_id;
+				$jv->vessel_id = $request->vessel_id;
+				$jv->voyage_no = $request->voyage_no;
 			$jv->current_date = $request->current_date ? Carbon::createFromFormat('m/d/Y', $request->current_date)->format('Y-m-d') : null;
 			$jv->pay_name = $request->pay_name;
 			$jv->purpose = $request->purpose;
@@ -365,10 +372,15 @@ class DebitVoucherController extends Controller
 						$jvb = new DevoucherBkdn;
 						$jvb->debit_voucher_id = $jv->id;
 						$jvb->company_id = company()['company_id'];
-						if ($model && $model_id)
+						if ($model && $model_id){
 							$jvb->order_id = $op->order_id;
+							$jvb->vessel_id = $request->vessel_id;
+							$jvb->voyage_no = $request->voyage_no;
+						}
 						else
 							$jvb->order_id = $request->order_id;
+							$jvb->vessel_id = $request->vessel_id;
+							$jvb->voyage_no = $request->voyage_no;
 						$jvb->particulars = !empty($request->remarks[$i]) ? $request->remarks[$i] : "";
 						$jvb->account_code = !empty($acccode) ? $acccode : "";
 						$jvb->table_name = !empty($request->table_name[$i]) ? $request->table_name[$i] : "";
@@ -388,10 +400,15 @@ class DebitVoucherController extends Controller
 							$gl = new GeneralLedger;
 							$gl->debit_voucher_id = $jv->id;
 							$gl->company_id = company()['company_id'];
-							if ($model && $model_id)
+							if ($model && $model_id){
 								$gl->order_id = $op->order_id;
+								$gl->vessel_id = $request->vessel_id;
+								$gl->voyage_no = $request->voyage_no;
+							}
 							else
 								$gl->order_id = $request->order_id;
+								$gl->vessel_id = $request->vessel_id;
+								$gl->voyage_no = $request->voyage_no;
 							$gl->journal_title = !empty($acccode) ? $acccode : "";
 							$gl->rec_date = $request->current_date ? Carbon::createFromFormat('m/d/Y', $request->current_date)->format('Y-m-d') : null;
 							$gl->jv_id = $voucher_no;
@@ -408,10 +425,15 @@ class DebitVoucherController extends Controller
 					$jvb = new DevoucherBkdn;
 					$jvb->debit_voucher_id = $jv->id;
 					$jvb->company_id = company()['company_id'];
-					if ($model && $model_id)
+					if ($model && $model_id){
 						$jvb->order_id = $op->order_id;
+						$jvb->vessel_id = $request->vessel_id;
+						$jvb->voyage_no = $request->voyage_no;
+					}
 					else
 						$jvb->order_id = $request->order_id;
+						$jvb->vessel_id = $request->vessel_id;
+						$jvb->voyage_no = $request->voyage_no;
 					$jvb->particulars = "Payment by";
 					$jvb->account_code = $credit[2];
 					$jvb->table_name = $credit[0];
@@ -431,10 +453,14 @@ class DebitVoucherController extends Controller
 						$gl = new GeneralLedger;
 						$gl->debit_voucher_id = $jv->id;
 						$gl->company_id = company()['company_id'];
-						if ($model && $model_id)
+						if ($model && $model_id){
 							$gl->order_id = $op->order_id;
-						else
+							$gl->vessel_id = $request->vessel_id;
+							$gl->voyage_no = $request->voyage_no;
+						}else
 							$gl->order_id = $request->order_id;
+							$gl->vessel_id = $request->vessel_id;
+							$gl->voyage_no = $request->voyage_no;
 						$gl->journal_title = $credit[2];
 						$gl->rec_date = $request->current_date ? Carbon::createFromFormat('m/d/Y', $request->current_date)->format('Y-m-d') : null;
 						$gl->jv_id = $voucher_no;

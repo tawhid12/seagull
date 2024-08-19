@@ -90,3 +90,6 @@ function currentUser(){
 function company(){
     return ['company_id' => encryptor('decrypt', Session::get('companyId'))];
 }
+function companyId(){
+    return encryptor('decrypt', Session::get('companyId'));
+}

@@ -15,7 +15,7 @@
                             <form class="form" enctype="multipart/form-data" method="post"
                                 action="{{ route('debit.store') }}">
                                 @csrf
-                                <div class="row">
+                                <div class="row mb-3">
 
                                     <div class="col-md-6 col-12">
                                         <div class="form-group">
@@ -52,7 +52,7 @@
                                                 value="{{ old('purpose') }}" name="purpose">
                                         </div>
                                     </div>
-                                    <div class="col-md-6 col-12">
+                                    <div class="col-md-3 col-12">
                                         <div class="form-group">
                                             <label for="Category">{{ __('Received Account') }}</label>
                                             <select class="form-control form-select" name="credit">
@@ -66,7 +66,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-md-6 col-12">
+                                    <div class="col-md-3 col-12">
                                         <div class="form-group">
                                             <label for="tax">Select Order</label>
                                             <select name="order_id" class="form-control">
@@ -81,7 +81,29 @@
                                             <span class="text-danger"> {{ $errors->first('order_id') }}</span>
                                         @endif
                                     </div>
+                                    <div class="col-md-3 col-12">
+                                        <div class="form-group">
+                                            <label for="tax">Select Vessel</label>
+                                            <select name="vessel_id" class="form-control">
+                                                <option value="">Select</option>
+                                                @forelse($vessels as $v)
+                                                    <option value="{{ $v->id }}">{{ $v->vessel_name }}</option>
+                                                @empty
+                                                @endforelse
+                                            </select>
+                                        </div>
+                                        @if ($errors->has('vessel_id'))
+                                            <span class="text-danger"> {{ $errors->first('vessel_id') }}</span>
+                                        @endif
+                                    </div>
+                                    <div class="col-md-3 col-12">
+                                        <div class="form-group">
+                                            <label for="tax">Voyage No</label>
+                                            <input type="text" name="voyage_no" class="form-control">
+                                        </div>
+                                    </div>
                                 </div>
+                                
 
 
 

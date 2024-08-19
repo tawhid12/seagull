@@ -246,7 +246,18 @@
     </li>
 
 
-
+    <li class="menu-item has-sub">
+        <a href="#" class='menu-link'><i class="bi bi-calculator"></i><span>{{__('Reports')}}</span>
+        </a>
+        <div class="submenu">
+            <!-- Wrap to submenu-group-wrapper if you want 3-level submenu. Otherwise remove it. -->
+            <div class="submenu-group-wrapper">
+                <ul class="submenu-group">
+                    <li class="submenu-item"><a class='submenu-link' href="{{route('vessel_report')}}">{{__('Vessel Expense Report')}}</a></li>
+                </ul>
+            </div>
+        </div>
+    </li>
     <li class="menu-item has-sub">
         <a href="#" class='menu-link'><i class="bi bi-calculator"></i><span>{{__('Accounts')}}</span>
         </a>

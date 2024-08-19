@@ -5,20 +5,71 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use DB;
 
-
-use App\Models\User;
-
 use DateTime;
 use DateInterval;
 use App\Http\Traits\ResponseTrait;
-use App\Models\Attendance;
-
+use App\Models\Company;
+use App\Models\Vessel;
+use App\Models\Vouchers\GeneralLedger;
 use Illuminate\Support\Carbon;
 
 class ReportController extends Controller
 {
     use ResponseTrait;
-
+    public function vessel_report(){
+        $vessels = Vessel::where(company())->get();
+        $company = Company::where('id',companyId())->first();
+        return view ('report.vessel',compact('vessels','company'));
+    }
+    public function details(Request $r){
+        $company = Company::where('id',companyId())->first();
+        $vessel = Vessel::where('id',$r->vessel_id)->first();
+        $general_leagder = GeneralLedger::where('dr', '>',0)->where('vessel_id',$r->vessel_id);
+        if($r->voyage_no){
+            $general_leagder = $general_leagder->Where('voyage_no', $r->voyage_no);
+        }
+        $general_leagder = $general_leagder->get();
+        $data=
+        '<div class="col-lg-12 stretch-card">
+            <div class="card mt-3">
+                <h4 class="text-center card-title m-0">Company Name :- '.$company->company_name.'</h4>
+                <p class="text-center m-0">Address :- '.$company->address.'</p>
+                <h5 class="text-center card-title m-0">'.$vessel->vessel_name.'</h5>
+                <p class="text-center m-0">'.$r->voyage_no.'</p>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Particulars</th>
+                            <th>Voyage No</th>
+                            <th>Taka</th>
+                        </tr>
+                    </thead>
+                    <tbody>';
+                    $i=1;
+                    $total=0;
+                    if($general_leagder){
+                        foreach($general_leagder as $g){
+                            $total=0;
+                            $data.='<tr>
+                            <th>'.$i.'</th>
+                            <th>'.$g->journal_title.'</th>
+                            <th>'.$g->voyage_no.'</th>
+                            <td>'.$g->dr.'</td>
+                            </tr>';
+                            $total+=$g->dr;
+                        }
+                    }
+                $data.='<tr>
+                <th style="text-align:right" colspan="3"> Net Expense</th>
+                <th class="text-right"> '.$total.' </th>
+                </tr>';
+                $data.='</tbody>
+                </table>
+            </div>
+        </div>';
+    echo  json_encode($data);
+    }
     public function batchwiseAttendanceReport(Request $request)
     {
         $batch_data = Batch::find($request->batch_id);
